@@ -243,6 +243,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryPrefab: {fileID: 656363075270232250, guid: 256904f8b9fb86d4d8fadbea98b5caa5, type: 3}
+  hudPrefab: {fileID: 195571802147272189, guid: 2b981f34df0c7da4094f998e333f98e4, type: 3}
 --- !u!1001 &370802181
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -414,8 +415,8 @@ MonoBehaviour:
   AlphaMode: 0
   OutlineColor: {r: 1, g: 0.55, b: 0, a: 1}
   OccludedColor: {r: 0.5, g: 0.9, b: 0.3, a: 1}
-  OutlineWidth: 0.2
-  OutlineHardness: 0.85
+  OutlineWidth: 0.1
+  OutlineHardness: 1
   LayerMask:
     serializedVersion: 2
     m_Bits: 536870912
