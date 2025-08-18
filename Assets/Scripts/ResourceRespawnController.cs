@@ -55,7 +55,8 @@ public class ResourceRespawnController : MonoBehaviour
                 else if(hit.collider.TryGetComponent(out IInteractable interactable)) // 얻을 수 있는 자원이라면
                 {
                     Debug.Log("자원 획득");
-                    interactable.OnInteractTest(testInventory);
+                    //interactable.OnInteractTest(testInventory);
+                    interactable.OnInteract();
                 }
             }
         }

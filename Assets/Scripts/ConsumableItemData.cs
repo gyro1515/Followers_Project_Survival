@@ -13,7 +13,7 @@ public class ItemDataConsumable
     public float value;
 }
 [CreateAssetMenu(fileName = "ConsumableItem", menuName = "New ConsumableItem")]
-public class ConsumableItemData : ItemData
+public class ConsumableItemData : StackableItemData
 {
     [Header("소비 아이템 정보")]
     [SerializeField] ItemDataConsumable[] consumables; 

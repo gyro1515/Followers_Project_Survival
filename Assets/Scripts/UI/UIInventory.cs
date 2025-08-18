@@ -88,10 +88,10 @@ public class UIInventory : MonoBehaviour
     public void AddItem(ItemData data)
     {
         // 여러개 가질 수 있는 아이템이라면
-        MiningItemData miningData = data as MiningItemData;
-        if (miningData != null)
+        StackableItemData stackableData = data as StackableItemData;
+        if (stackableData != null)
         {
-            ItemSlot slot = GetItemStack(miningData);
+            ItemSlot slot = GetItemStack(stackableData);
             if (slot != null)
             {
                 slot.quantity++;
@@ -134,7 +134,7 @@ public class UIInventory : MonoBehaviour
     }
 
     // 여러개 가질 수 있는 아이템의 정보 찾아서 return
-    ItemSlot GetItemStack(MiningItemData data)
+    ItemSlot GetItemStack(StackableItemData data)
     {
         for (int i = 0; i < slots.Length; i++)
         {
