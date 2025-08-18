@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 52eeab1f0ce4d934591972b6df5d179b
-timeCreated: 1559922156
+guid: af5390e2a0373984db3740f21c0ec034
+timeCreated: 1559922159
 licenseType: Store
 ModelImporter:
   serializedVersion: 19
@@ -9,7 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: rpgpp_lt_building_03
+    4300000: rpgpp_lt_building_01
   materials:
     importMaterials: 0
     materialName: 0
@@ -85,5 +85,5 @@ AssetOrigin:
   productId: 148410
   packageName: RPG Poly Pack - Lite
   packageVersion: 1.0
-  assetPath: Assets/RPGPP_LT/Models/Structures/rpgpp_lt_building_03.fbx
+  assetPath: Assets/RPGPP_LT/Models/Structures/rpgpp_lt_building_01.fbx
   uploadId: 316754
