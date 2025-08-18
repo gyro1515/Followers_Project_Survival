@@ -779,6 +779,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 5
+  jumpForce: 5
 --- !u!95 &1759622824
 Animator:
   serializedVersion: 5

@@ -47,6 +47,7 @@ public class PlayerController : ControllerBase
         playerInputActions.Player.Move.canceled += OnMove;
         playerInputActions.Player.Look.performed += OnLook;
         playerInputActions.Player.Look.canceled += OnLook;
+        playerInputActions.Player.Jump.performed += OnJump;
 
     }
 
@@ -56,8 +57,13 @@ public class PlayerController : ControllerBase
         playerInputActions.Player.Move.canceled -= OnMove;
         playerInputActions.Player.Look.performed -= OnLook;
         playerInputActions.Player.Look.canceled -= OnLook;
+        playerInputActions.Player.Jump.performed -= OnJump;
 
         playerInputActions.Player.Disable();
+    }
+    private void OnJump(InputAction.CallbackContext context)
+    {
+        player.TryJump();
     }
 
     private void OnMove(InputAction.CallbackContext context)

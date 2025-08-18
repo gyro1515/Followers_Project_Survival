@@ -20,8 +20,7 @@ public class PlayerCharacter : CharacterBase
     {
         base.Update();
 
-        animator.SetFloat(AnimParam.Forward, playerController.MoveInput.y);
-        animator.SetFloat(AnimParam.Right, playerController.MoveInput.x);
+        
 
 
     }
@@ -30,7 +29,16 @@ public class PlayerCharacter : CharacterBase
     {
         base.FixedUpdate();
 
-        
+    }
+
+    private void LateUpdate()
+    {
+        animator.SetBool(AnimParam.IsMoving, playerController.MoveInput != Vector2.zero);
+        animator.SetFloat(AnimParam.Forward, playerController.MoveInput.y);
+        animator.SetFloat(AnimParam.Right, playerController.MoveInput.x);
+        animator.SetBool(AnimParam.IsJumping, characterMovement.IsJumping);
+        animator.SetBool(AnimParam.IsFalling, characterMovement.IsFalling);
+        animator.SetBool(AnimParam.IsGrounded, characterMovement.IsGrounded);
     }
 
     public override ControllerBase GetController()
@@ -38,4 +46,8 @@ public class PlayerCharacter : CharacterBase
         return playerController;
     }
 
+    public void TryJump()
+    {
+        characterMovement.Jump();
+    }
 }
