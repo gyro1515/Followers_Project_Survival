@@ -52,7 +52,7 @@ MonoBehaviour:
   red: {fileID: 2100000, guid: 52edc1824b3cbef4cb22cbd7712d3ce5, type: 2}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 32768
 --- !u!65 &2738470915164040004
 BoxCollider:
   m_ObjectHideFlags: 0

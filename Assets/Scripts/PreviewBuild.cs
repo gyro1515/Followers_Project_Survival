@@ -9,13 +9,15 @@ public class PreviewBuild : MonoBehaviour
 
     [SerializeField] private LayerMask groundLayer; // 지형 레이어
 
-    private List<Collider> colliders;
+    private List<Collider> colliders = new List<Collider>();
 
-    private Material[] materials;
+    // 테스트 용도로 public 설정, 이후 private로 변경
+    public Material[] materials;
 
     private void Awake()
     {
         materials = GetComponentInChildren<Renderer>().materials;
+        Debug.Log(materials[0]);
     }
 
     private void Update()
@@ -25,7 +27,7 @@ public class PreviewBuild : MonoBehaviour
 
     void ChangeColor()  // 건축 가능하면 초록색, 아니면 빨간색
     {
-        if (canBuild())
+        if (CanBuild())
         {
             SetColor(green);
         }
@@ -37,15 +39,29 @@ public class PreviewBuild : MonoBehaviour
 
     void SetColor(Material material)    // 매개변수로 주어진 material로 변경
     {
-        for(int i = 0; i < materials.Length; i++)
+        foreach(Transform child in this.transform)
         {
-            materials[i] = material;
+            Material[] materials = new Material[child.GetComponent<Renderer>().materials.Length];
+
+            for (int i = 0; i < materials.Length; i++)
+            {
+                materials[i] = material;
+            }
+
+            child.GetComponent<Renderer>().materials = materials;
         }
     }
 
-    public bool canBuild()  // Build 가능한지 bool값 반환
+    public bool CanBuild()  // Build 가능한지 bool값 반환
     {
-        return colliders.Count == 0;
+        if(colliders.Count == 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     private void OnTriggerEnter(Collider other)

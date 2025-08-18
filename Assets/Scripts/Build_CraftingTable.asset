@@ -22,5 +22,5 @@ MonoBehaviour:
   materials:
   - materialName: 
     materialIcon: {fileID: 0}
-    requiredQuantity: 5
+    requiredQuantity: 0
   hasAllMaterials: 0

@@ -8,7 +8,8 @@ using UnityEngine.UI;
 
 public class BuildUI : MonoBehaviour
 {
-    Build build;
+    // 테스트 용도로 public으로 설정, 끝나면 private
+    public Build build;
     // 인벤토리 있어야 됨.
     // 인벤토리의 모든 슬롯을 순회하면서 해당 아이템이 총 몇 개 있는지 확인해야함
     // 그 과정을 BuildData에 있는 materials 수 만큼 반복해야함
@@ -29,7 +30,13 @@ public class BuildUI : MonoBehaviour
     //[SerializeField] Image buildImage;   // 건축물 이미지
     //[SerializeField] Image nullImage;   // 건축물 선택 안 했을 시 이미지
 
-    BuildData selectedBuild;
+    // 테스트 용도로 public으로 설정, 끝나면 private
+    public BuildData selectedBuild;
+
+    private void Awake()
+    {
+        build = FindObjectOfType<Build>();
+    }
 
     private void Start()
     {
@@ -71,6 +78,10 @@ public class BuildUI : MonoBehaviour
 
     public void OpenBuildUI()
     {
+        if(build.previewGameObject != null)
+        {
+            Destroy(build.previewGameObject);
+        }
         gameObject.SetActive(true);
         UpdateUI();
     }
@@ -86,6 +97,7 @@ public class BuildUI : MonoBehaviour
         build.InitPreview(selectedBuild.previewPrefab);
         // 비활성화 투명으로 만들든 setactive를 이용하든 안 보이게 하기
         gameObject.SetActive(false);
+        build.isBuildMode = true;
     }
 
     public void OnClickExit()
