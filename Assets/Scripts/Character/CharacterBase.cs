@@ -7,6 +7,7 @@ public class CharacterBase : MonoBehaviour
 {
     protected CharacterMovementComponent characterMovement;
     protected ControllerBase controller;
+    protected Animator animator;
 
     protected virtual void Awake()
     {
@@ -23,7 +24,19 @@ public class CharacterBase : MonoBehaviour
         {
             controller = GetComponent<ControllerBase>();
         }
+
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
+        }
+
     }
+
+    protected virtual void Update()
+    {
+        
+    }
+
     protected virtual void FixedUpdate()
     {
         characterMovement.Move(controller.MoveInput);

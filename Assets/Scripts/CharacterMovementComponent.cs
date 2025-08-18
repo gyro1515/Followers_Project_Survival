@@ -19,7 +19,7 @@ public class CharacterMovementComponent : MonoBehaviour
 
     public void Move(Vector2 inputVector)
     {
-        if (inputVector == Vector2.zero)
+        if (inputVector.magnitude < 0.1f)
         {
             return;
         }
@@ -27,5 +27,6 @@ public class CharacterMovementComponent : MonoBehaviour
         Vector3 moveVector = dir * walkSpeed * Time.fixedDeltaTime;
         rb.MovePosition(rb.position + moveVector);
     }
+    
 
 }

@@ -8,7 +8,16 @@ using Constants;
 public class PlayerController : ControllerBase
 {
     PlayerCharacter player;
-    PlayerInput playerInput;
+    PlayerInputActions playerInputActions;
+
+    [Header("Camera")]
+    Vector2 lookInput;
+    public Transform cameraTarget;
+    public float HorizontalSensitivity = 1f;
+    public float VerticalSensitivity = 0.01f;
+    public float MaxCameraPitch = 40f;
+    public float MinCameraPitch = -40f;
+    float cameraPitch = 0f;
 
 
     protected override void Awake()
@@ -20,12 +29,7 @@ public class PlayerController : ControllerBase
             player = GetComponent<PlayerCharacter>();
         }
 
-        if (playerInput == null)
-        {
-            playerInput = GetComponent<PlayerInput>();
-        }
-
-        
+        playerInputActions = new PlayerInputActions();
 
     }
 
@@ -35,17 +39,25 @@ public class PlayerController : ControllerBase
 
     }
 
-    private void HandleInputActionTriggered(InputAction.CallbackContext context)
+    private void OnEnable()
     {
-        switch (context.action.name)
-        {
-            case PlayerInputAction.Move:
-                OnMove(context);
-                break;
-            case PlayerInputAction.Look:
-                OnLook(context);
-                break;
-        }
+        playerInputActions.Player.Enable();
+
+        playerInputActions.Player.Move.performed += OnMove;
+        playerInputActions.Player.Move.canceled += OnMove;
+        playerInputActions.Player.Look.performed += OnLook;
+        playerInputActions.Player.Look.canceled += OnLook;
+
+    }
+
+    private void OnDisable()
+    {
+        playerInputActions.Player.Move.performed -= OnMove;
+        playerInputActions.Player.Move.canceled -= OnMove;
+        playerInputActions.Player.Look.performed -= OnLook;
+        playerInputActions.Player.Look.canceled -= OnLook;
+
+        playerInputActions.Player.Disable();
     }
 
     private void OnMove(InputAction.CallbackContext context)
@@ -55,16 +67,14 @@ public class PlayerController : ControllerBase
 
     private void OnLook(InputAction.CallbackContext context)
     {
+        lookInput = context.ReadValue<Vector2>();
 
-    }
+        transform.Rotate(Vector3.up * lookInput.x * HorizontalSensitivity);
 
-    private void OnEnable()
-    {
-        playerInput.onActionTriggered += HandleInputActionTriggered;
-    }
+        cameraPitch -= lookInput.y * VerticalSensitivity;
+        cameraPitch = Mathf.Clamp(cameraPitch, MinCameraPitch, MaxCameraPitch);
 
-    private void OnDisable()
-    {
-        playerInput.onActionTriggered -= HandleInputActionTriggered;
+        cameraTarget.localEulerAngles = new Vector3(cameraPitch, 0, 0);
+
     }
 }
