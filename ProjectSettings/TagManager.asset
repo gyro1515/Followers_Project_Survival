@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Rock
+  - Tree
   layers:
   - Default
   - TransparentFX
@@ -34,9 +36,9 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
+  - Interacterble
+  - Resource
+  - Terrain
   m_SortingLayers:
   - name: Default
     uniqueID: 0
