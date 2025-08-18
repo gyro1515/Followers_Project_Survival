@@ -18,7 +18,9 @@ MonoBehaviour:
   type: 1
   buildPrefab: {fileID: 0}
   previewPrefab: {fileID: 7520180972306349701, guid: 260876c706d47c848b730c83b38b666c, type: 3}
+  buildImage: {fileID: 0}
   materials:
   - materialName: 
     materialIcon: {fileID: 0}
-    requiredQuantity: 0
+    requiredQuantity: 5
+  hasAllMaterials: 0

@@ -14,7 +14,7 @@ public class BuildUI : MonoBehaviour
     // 그 과정을 BuildData에 있는 materials 수 만큼 반복해야함
 
     [SerializeField] BuildData[] buildDatas;    // 건축물 데이터들
-    Button buildButton;
+    [SerializeField] Button buildButton;
 
     [Header("List")]
     [SerializeField] GameObject listPrefab; // 건축물 리스트 프리팹
@@ -26,8 +26,8 @@ public class BuildUI : MonoBehaviour
     [SerializeField] GameObject materialListPrefab; // 재료 리스트 프리팹
     [SerializeField] GameObject materialListContent;    // 재료 리스트 스크롤 뷰 Content
 
-    [SerializeField] Image buildImage;   // 건축물 이미지
-    [SerializeField] Image nullImage;   // 건축물 선택 안 했을 시 이미지
+    //[SerializeField] Image buildImage;   // 건축물 이미지
+    //[SerializeField] Image nullImage;   // 건축물 선택 안 했을 시 이미지
 
     BuildData selectedBuild;
 
@@ -38,7 +38,8 @@ public class BuildUI : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    void UpdateUI() // 처음에 UI 열때도 실행하기
+    // 테스트를 위해 public으로 변경, 이후에 private로 변경해야함
+    public void UpdateUI() // 처음에 UI 열때도 실행하기
     {
         if (selectedBuild == null)  // selectedBuild에 데이터가 없을 시 설정
         {
@@ -51,7 +52,7 @@ public class BuildUI : MonoBehaviour
             // 건물 이름, 설명, 이미지
             buildName.text = string.Empty;
             buildDescription.text = string.Empty;
-            buildImage = nullImage;
+            //buildImage = nullImage;
         }
         else
         {
@@ -61,11 +62,17 @@ public class BuildUI : MonoBehaviour
             // 건물 이름, 설명, 이미지
             buildName.text = selectedBuild.buildName;
             buildDescription.text = selectedBuild.description;
-            buildImage = selectedBuild.buildImage;
+            //buildImage = selectedBuild.buildImage;
 
             // 재료 리스트 갱신
             UpdateBuildMaterial();
         }
+    }
+
+    public void OpenBuildUI()
+    {
+        gameObject.SetActive(true);
+        UpdateUI();
     }
 
     public void OnClickBuildSlot(BuildData data)
@@ -84,6 +91,7 @@ public class BuildUI : MonoBehaviour
     public void OnClickExit()
     {
         selectedBuild = null;
+        gameObject.SetActive(false);
     }
 
     void InitBuildList()
