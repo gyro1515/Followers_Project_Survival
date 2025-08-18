@@ -633,15 +633,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7595457489818111977, guid: 8c251f7bb57fef042b9c92c82c2b8948, type: 3}
       propertyPath: maxRockCnt
-      value: 20
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 7595457489818111977, guid: 8c251f7bb57fef042b9c92c82c2b8948, type: 3}
       propertyPath: maxTreeCnt
-      value: 20
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 7595457489818111977, guid: 8c251f7bb57fef042b9c92c82c2b8948, type: 3}
       propertyPath: respownTime
-      value: 0.3
+      value: 0.01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
