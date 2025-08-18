@@ -4,5 +4,13 @@ using UnityEngine;
 
 public class PlayerStatComponent : StatComponentBase
 {
-    
+    protected override void Initialize()
+    {
+        base.Initialize();
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+    }
 }

@@ -8,6 +8,7 @@ public class CharacterBase : MonoBehaviour
     protected CharacterMovementComponent characterMovement;
     protected ControllerBase controller;
     protected Animator animator;
+    protected StatComponentBase stat;
 
     protected virtual void Awake()
     {
@@ -45,5 +46,10 @@ public class CharacterBase : MonoBehaviour
     public virtual ControllerBase GetController()
     {
         return controller;
+    }
+
+    public virtual StatComponentBase GetStatComponent()
+    {
+        return stat;
     }
 }

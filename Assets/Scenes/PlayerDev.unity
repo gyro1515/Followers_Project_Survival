@@ -183,7 +183,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 60.000004
+  field of view: 60
   orthographic: 0
   orthographic size: 10
   m_Depth: -1
@@ -483,7 +483,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 1170995403}
   m_Lens:
-    FieldOfView: 60.000004
+    FieldOfView: 60
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -663,6 +663,7 @@ GameObject:
   - component: {fileID: 1759622822}
   - component: {fileID: 1759622823}
   - component: {fileID: 1759622824}
+  - component: {fileID: 1759622825}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -801,6 +802,26 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1759622825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1759622816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f41bbf40caa401f438264e505ab42808, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statDefinitions:
+  - {fileID: 11400000, guid: 7f47ed1cdfd8b0b43baf323c28aa34cf, type: 2}
+  - {fileID: 11400000, guid: 858d2b17a82331f4e884d15a9c427b50, type: 2}
+  - {fileID: 11400000, guid: 2c42110e0f7f0c94289348662413d94b, type: 2}
+  - {fileID: 11400000, guid: d52bbfc7119dc8740903d4d7ef1d7e20, type: 2}
+  - {fileID: 11400000, guid: d5d647e880d7c2c4fb5bd8b656406669, type: 2}
+  - {fileID: 11400000, guid: 0d242c105a7c95249a228ccdedca44a7, type: 2}
+  - {fileID: 11400000, guid: 8d63ff0c0c8d60044bde9f8ea7b9288b, type: 2}
 --- !u!1 &1774799897
 GameObject:
   m_ObjectHideFlags: 0

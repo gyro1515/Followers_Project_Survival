@@ -48,7 +48,6 @@ public class PlayerController : ControllerBase
         playerInputActions.Player.Look.performed += OnLook;
         playerInputActions.Player.Look.canceled += OnLook;
         playerInputActions.Player.Jump.performed += OnJump;
-
     }
 
     private void OnDisable()
@@ -83,4 +82,6 @@ public class PlayerController : ControllerBase
         cameraTarget.localEulerAngles = new Vector3(cameraPitch, 0, 0);
 
     }
+
+    
 }
