@@ -1,9 +1,10 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 // 인벤토리 UI에 네모 한칸을 개별 클래스로 작성
-public class ItemSlot : MonoBehaviour
+public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     UIInventory inventory;
     [SerializeField] ItemData item;   // 아이템 데이터, 외부에서 볼 수 있도록
@@ -17,6 +18,8 @@ public class ItemSlot : MonoBehaviour
     public bool equipped;         // 장착여부
     int quantity;                 // 수량데이터
     public int Quantity {  get { return quantity; }  set { quantity = value; } }
+
+    
 
     private void Awake()
     {
@@ -60,5 +63,15 @@ public class ItemSlot : MonoBehaviour
     {
         // 인벤토리의 SelectItem 호출, 현재 슬롯의 인덱스만 전달.
         inventory.SelectItem(index);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        Debug.Log("마우스 나감");
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        Debug.Log("마우스 올라옴");
     }
 }

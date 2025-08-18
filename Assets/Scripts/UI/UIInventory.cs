@@ -8,7 +8,6 @@ using UnityEngine.UI;
 public class UIInventory : MonoBehaviour
 {
     [SerializeField] ItemSlot[] slots;
-
     [SerializeField] GameObject inventoryWindow;
     [SerializeField] Transform slotPanel;
     Transform dropPosition;      // item 버릴 때 필요한 위치
@@ -22,11 +21,16 @@ public class UIInventory : MonoBehaviour
     [SerializeField] GameObject equipButton;
     [SerializeField] GameObject unEquipButton;
     [SerializeField] GameObject dropButton;
+    [Header("오디오 클립")]
+    [SerializeField] AudioClip clickClip;
+    [SerializeField] AudioClip openCloseClip;
 
     private ItemSlot selectedItem;
     private int selectedItemIndex;
 
     private int curEquipIndex;
+
+    AudioSource audioSource;
 
     private void Awake()
     {
@@ -49,6 +53,8 @@ public class UIInventory : MonoBehaviour
         dropButton.GetComponent<Button>().onClick.AddListener(OnDropButton);
         equipButton.GetComponent<Button>().onClick.AddListener(OnEquipButton);
         unEquipButton.GetComponent<Button>().onClick.AddListener(OnUnEquipButton);
+
+        audioSource = gameObject.GetComponent<AudioSource>();
 
         // ***********플레이어 기준 버리는 위치를 가져와야 하지만 현재는 플레이어가 없으므로 카메라로 대체
         dropPosition = Camera.main.transform;
@@ -80,6 +86,7 @@ public class UIInventory : MonoBehaviour
     {
         if (IsOpen()) inventoryWindow.SetActive(false);
         else inventoryWindow.SetActive(true);
+        if (openCloseClip) audioSource.PlayOneShot(openCloseClip);
     }
     public bool IsOpen()
     {
@@ -163,7 +170,6 @@ public class UIInventory : MonoBehaviour
         return null;
     }
 
-    // Player 스크립트 먼저 수정
     // 아이템 버리기 (실제론 매개변수로 들어온 데이터에 해당하는 아이템 생성)
     public void ThrowItem(ItemData data)
     {
@@ -171,7 +177,6 @@ public class UIInventory : MonoBehaviour
     }
 
 
-    // ItemSlot 스크립트 먼저 수정
     // 선택한 아이템 정보창에 업데이트 해주는 함수
     public void SelectItem(int index)
     {
@@ -212,6 +217,8 @@ public class UIInventory : MonoBehaviour
             
             RemoveSelctedItem();
         }
+        if (clickClip) audioSource.PlayOneShot(clickClip);
+
     }
 
     public void OnDropButton()
@@ -219,6 +226,7 @@ public class UIInventory : MonoBehaviour
         if (selectedItem.equipped) return; // 장착된 아이템은 버리지 못하도록
         ThrowItem(selectedItem.Item);
         RemoveSelctedItem();
+        if (clickClip) audioSource.PlayOneShot(clickClip);
     }
 
     void RemoveSelctedItem()
@@ -255,6 +263,7 @@ public class UIInventory : MonoBehaviour
         UpdateUI();
 
         SelectItem(selectedItemIndex);
+        if (clickClip) audioSource.PlayOneShot(clickClip);
     }
 
     void UnEquip(int index)
@@ -272,7 +281,8 @@ public class UIInventory : MonoBehaviour
     public void OnUnEquipButton()
     {
         UnEquip(selectedItemIndex);
+        if (clickClip) audioSource.PlayOneShot(clickClip);
     }
 
-    
+
 }
