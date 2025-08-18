@@ -1,3 +1,4 @@
+using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -30,13 +31,14 @@ public class UIInventory : MonoBehaviour
     private void Awake()
     {
         // Inventory UI 초기화 로직들
+        // 원하는 개수만큼 소환하는 방식으로 바꿔도 됨
+
         slots = new ItemSlot[slotPanel.childCount]; // 자식 개수 가져오기
 
         for (int i = 0; i < slots.Length; i++)
         {
             slots[i] = slotPanel.GetChild(i).GetComponent<ItemSlot>();
-            slots[i].index = i;
-            slots[i].inventory = this;
+            slots[i].Init(this, i);
             slots[i].Clear();
         }
 
@@ -47,13 +49,15 @@ public class UIInventory : MonoBehaviour
         dropButton.GetComponent<Button>().onClick.AddListener(OnDropButton);
         equipButton.GetComponent<Button>().onClick.AddListener(OnEquipButton);
         unEquipButton.GetComponent<Button>().onClick.AddListener(OnUnEquipButton);
+
+        // ***********플레이어 기준 버리는 위치를 가져와야 하지만 현재는 플레이어가 없으므로 카메라로 대체
+        dropPosition = Camera.main.transform;
     }
     private void Start()
     {
         
         Toggle(); // 시작 시 Inventory 창 닫기
     }
-
     // 선택한 아이템 표시할 정보창 Clear 함수
     void ClearSelectedItemWindow()
     {
@@ -77,24 +81,24 @@ public class UIInventory : MonoBehaviour
         if (IsOpen()) inventoryWindow.SetActive(false);
         else inventoryWindow.SetActive(true);
     }
-
     public bool IsOpen()
     {
-        //return inventoryWindow.activeInHierarchy;
         return inventoryWindow.activeSelf;
     }
-
-
     public void AddItem(ItemData data)
     {
         // 여러개 가질 수 있는 아이템이라면
+
+        // enum을 사용하는게 더 좋지 않나...
+        // if(data.Type == EItemType.Resource)
+        // 어차피 형변환을 한 번 해야 한다면 이렇게 해도...?
         StackableItemData stackableData = data as StackableItemData;
         if (stackableData != null)
         {
             ItemSlot slot = GetItemStack(stackableData);
             if (slot != null)
             {
-                slot.quantity++;
+                slot.Quantity++;
                 UpdateUI();
                 return;
             }
@@ -106,8 +110,8 @@ public class UIInventory : MonoBehaviour
         // 빈 슬롯이 있다면
         if (emptySlot != null)
         {
-            emptySlot.item = data;
-            emptySlot.quantity = 1;
+            emptySlot.Item = data;
+            emptySlot.Quantity = 1;
             UpdateUI();
             return;
         }
@@ -122,7 +126,7 @@ public class UIInventory : MonoBehaviour
         for (int i = 0; i < slots.Length; i++)
         {
             // 슬롯에 아이템 정보가 있다면
-            if (slots[i].item != null)
+            if (slots[i].Item != null)
             {
                 slots[i].Set();
             }
@@ -138,7 +142,7 @@ public class UIInventory : MonoBehaviour
     {
         for (int i = 0; i < slots.Length; i++)
         {
-            if (slots[i].item == data && slots[i].quantity < data.MaxStackAmount)
+            if (slots[i].Item == data && slots[i].Quantity < data.MaxStackAmount)
             {
                 return slots[i];
             }
@@ -151,7 +155,7 @@ public class UIInventory : MonoBehaviour
     {
         for (int i = 0; i < slots.Length; i++)
         {
-            if (slots[i].item == null)
+            if (slots[i].Item == null)
             {
                 return slots[i];
             }
@@ -171,19 +175,19 @@ public class UIInventory : MonoBehaviour
     // 선택한 아이템 정보창에 업데이트 해주는 함수
     public void SelectItem(int index)
     {
-        if (slots[index].item == null) return;
+        if (slots[index].Item == null) return;
 
         selectedItem = slots[index];
         selectedItemIndex = index;
 
-        selectedItemName.text = selectedItem.item.DisplayName;
-        selectedItemDescription.text = selectedItem.item.Description;
+        selectedItemName.text = selectedItem.Item.DisplayName;
+        selectedItemDescription.text = selectedItem.Item.Description;
 
         selectedItemStatName.text = string.Empty;
         selectedItemStatValue.text = string.Empty;
 
         // 소비 아이템 이라면
-        ConsumableItemData consumableItemData = selectedItem.item as ConsumableItemData;
+        ConsumableItemData consumableItemData = selectedItem.Item as ConsumableItemData;
         if (consumableItemData != null)
         {
             for (int i = 0; i < consumableItemData.Consumables.Length; i++)
@@ -194,7 +198,7 @@ public class UIInventory : MonoBehaviour
         }
         
 
-        useButton.SetActive(selectedItem.item.Type == ItemType.Consumable);
+        useButton.SetActive(selectedItem.Item.ItemType == EItemType.Consumable);
         //equipButton.SetActive(selectedItem.item.type == ItemType.Equipable && !slots[index].equipped);
         //unEquipButton.SetActive(selectedItem.item.type == ItemType.Equipable && slots[index].equipped);
         dropButton.SetActive(!slots[index].equipped); // 장착되면 버리지 못하도록
@@ -202,7 +206,7 @@ public class UIInventory : MonoBehaviour
 
     public void OnUseButton()
     {
-        if (selectedItem.item.Type == ItemType.Consumable)
+        if (selectedItem.Item.ItemType == EItemType.Consumable)
         {
             //stateController.ApplyConsumable(selectedItem.item);
             
@@ -213,22 +217,22 @@ public class UIInventory : MonoBehaviour
     public void OnDropButton()
     {
         if (selectedItem.equipped) return; // 장착된 아이템은 버리지 못하도록
-        ThrowItem(selectedItem.item);
+        ThrowItem(selectedItem.Item);
         RemoveSelctedItem();
     }
 
     void RemoveSelctedItem()
     {
-        selectedItem.quantity--;
+        selectedItem.Quantity--;
 
-        if (selectedItem.quantity <= 0)
+        if (selectedItem.Quantity <= 0)
         {
             if (slots[selectedItemIndex].equipped)
             {
                 //UnEquip(selectedItemIndex);
             }
 
-            selectedItem.item = null;
+            selectedItem.Item = null;
             ClearSelectedItemWindow();
         }
 

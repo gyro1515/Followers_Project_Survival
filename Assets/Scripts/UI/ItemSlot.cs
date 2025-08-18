@@ -5,17 +5,18 @@ using UnityEngine.UI;
 // 인벤토리 UI에 네모 한칸을 개별 클래스로 작성
 public class ItemSlot : MonoBehaviour
 {
-    public ItemData item;   // 아이템 데이터
+    UIInventory inventory;
+    [SerializeField] ItemData item;   // 아이템 데이터, 외부에서 볼 수 있도록
+    [SerializeField] Button button;
+    [SerializeField] Image icon;
+    [SerializeField] TextMeshProUGUI quatityText;  // 수량표시 Text
+    private Outline outline;  // 장비 장착시 Outline 표시위한 컴포넌트
 
-    public UIInventory inventory;
-    public Button button;
-    public Image icon;
-    public TextMeshProUGUI quatityText;  // 수량표시 Text
-    private Outline outline;             // 선택시 Outline 표시위한 컴포넌트
-
-    public int index;                    // 몇 번째 Slot인지 index 할당
-    public bool equipped;                // 장착여부
-    public int quantity;                 // 수량데이터
+    public ItemData Item {  get { return item; } set { item = value; } }
+    int index;                    // 몇 번째 Slot인지 index 할당
+    public bool equipped;         // 장착여부
+    int quantity;                 // 수량데이터
+    public int Quantity {  get { return quantity; }  set { quantity = value; } }
 
     private void Awake()
     {
@@ -27,7 +28,11 @@ public class ItemSlot : MonoBehaviour
     {
         outline.enabled = equipped;
     }
-
+    public void Init(UIInventory _inventory, int idx)
+    {
+        inventory = _inventory;
+        index = idx;
+    }
     // UI(슬롯 한 칸) 업데이트를 위한 함수
     // 아이템데이터에서 필요한 정보를 각 UI에 표시
     public void Set()

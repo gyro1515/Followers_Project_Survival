@@ -8,4 +8,5 @@ public class EquipItemData : ItemData
 {
     [Header("장비 정보 세팅")]
     [SerializeField] GameObject equipPrefab; 
+    
 }
