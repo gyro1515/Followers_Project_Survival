@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1344bbfdfa2331448c959baea33079b, type: 3}
+  m_Name: Build_WoodenHouse
+  m_EditorClassIdentifier: 
+  buildName: "\uB098\uBB34 \uC9D1"
+  description: "\uB098\uBB34\uB85C \uC774\uB8E8\uC5B4\uC9C4 \uC9D1\uC774\uB2E4."
+  type: 0
+  buildPrefab: {fileID: 0}
+  previewPrefab: {fileID: 8492575580090097697, guid: f37a7c55901f6b1469f2d748dfda363c, type: 3}
+  materials:
+  - materialName: 
+    materialIcon: {fileID: 0}
+    requiredQuantity: 0
