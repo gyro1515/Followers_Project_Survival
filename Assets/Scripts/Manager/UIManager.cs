@@ -17,13 +17,14 @@ public class UIManager : SingletonMono<UIManager>
     {
         base.Awake();
         uiInventory = Instantiate(inventoryPrefab, uiCanvas).GetComponent<UIInventory>();
-        // 헤드업디스플레이 세팅
-        hudUI = Instantiate(hudPrefab, uiCanvas).GetComponent<HUD>();
-        hudUI.SetHpBar(1f); // 실제론 플레이어 체력에 따라 초기 세팅하기
-        hudUI.SetSteminaBar(1f);
-        hudUI.SetHungerBar(1f);
-        hudUI.SetThirstBar(1f);
+        if (hudUI == null)
+        {
+            hudUI = Instantiate(hudPrefab, uiCanvas).GetComponent<HUD>();
+
+        }
     }
+
+
     private void Update()
     {
         // 테스트

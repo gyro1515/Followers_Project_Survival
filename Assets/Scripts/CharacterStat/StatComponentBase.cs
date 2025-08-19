@@ -2,13 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StatComponentBase : MonoBehaviour
+public abstract class StatComponentBase : MonoBehaviour
 {
     public List<SO_StatDefinition> statDefinitions = new List<SO_StatDefinition>();
     public Dictionary<StatType, StatValue> statValues = new Dictionary<StatType, StatValue>();
 
-
-    private void Awake()
+    protected virtual void Awake()
     {
         Initialize();
     }
@@ -34,6 +33,7 @@ public class StatComponentBase : MonoBehaviour
 
     public void Test()
     {
+        statValues[StatType.Health].SetBaseValue(statValues[StatType.Health].BaseValue - 10);
         Debug.Log(statValues[StatType.Health].FinalValue);
     }
 

@@ -1,11 +1,27 @@
 using System;
 using UnityEngine;
 
+public class StatChangedEventArgs : EventArgs
+{
+    public StatType Type { get; }
+    public float Current { get; }
+    public float Min { get; }
+    public float Max { get; }
+
+    public StatChangedEventArgs(StatType type, float current, float min, float max)
+    {
+        Type = type;
+        Current = current;
+        Min = min;
+        Max = max;
+    }
+}
 
 [System.Serializable]
 public class StatValue
 {
     public SO_StatDefinition StatDefinition;
+    public StatType statType;
     public float BaseValue;
     public float MinValue;
     public float MaxValue;
@@ -14,11 +30,11 @@ public class StatValue
     public float PercentModifier;
     public float FinalValue;
 
-
-    public event Action<float> OnValueChanged;
+    public event Action<StatChangedEventArgs> OnValueChanged;
 
     public void Initialize()
     {
+        statType = StatDefinition.type;
         BaseValue = StatDefinition.baseValue;
         MinValue = StatDefinition.minValue;
         MaxValue = StatDefinition.maxValue;
@@ -37,7 +53,7 @@ public class StatValue
         FinalValue = value;
         Mathf.Clamp(FinalValue, MinValue, MaxValue);
 
-        OnValueChanged?.Invoke(FinalValue);
+        OnValueChanged?.Invoke(new StatChangedEventArgs(statType, FinalValue, MinValue, MaxValue));
     }
 
     public void SetBaseValue(float value)
