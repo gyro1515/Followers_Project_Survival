@@ -6734,7 +6734,6 @@ MonoBehaviour:
   groundDetectLayerMask:
     serializedVersion: 2
     m_Bits: 5888
-  spherePos: {x: 0, y: 0, z: 0}
 --- !u!114 &2002491465
 MonoBehaviour:
   m_ObjectHideFlags: 0
