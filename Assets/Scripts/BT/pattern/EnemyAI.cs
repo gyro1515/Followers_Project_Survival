@@ -71,19 +71,19 @@ class EnemyAI : MonoBehaviour
                 new SequenceNode( // ChaseSeq
                     new List<INode>
                     {
-                        new ActionNode(EndChase),
+                        //new ActionNode(EndChase),
                         new SelectorNode( // DetectSel
                             new List<INode>
                             {
                                 new ActionNode(RangeDetect),
-                                new ActionNode(DamageDetect)
+                                //new ActionNode(DamageDetect)
                             }
                             ),
                         new SequenceNode( // moveseq
                             new List<INode>
                             {
-                                new ActionNode(MoveToPlayer),
-                                new ActionNode(CoolDownChase)
+                                //new ActionNode(MoveToPlayer),
+                                //new ActionNode(CoolDownChase)
                             }
                             )
                     }
@@ -91,19 +91,19 @@ class EnemyAI : MonoBehaviour
                 new SequenceNode( //ReturnSeq
                     new List<INode>
                     {
-                        new ActionNode(isChaseActive),
+                        //new ActionNode(isChaseActive),
                         new SelectorNode( // ReturnSel
                             new List<INode>
                             {
-                                new ActionNode(DistanceCheck),
-                                new ActionNode(DPSCheck)
+                                //new ActionNode(DistanceCheck),
+                                //new ActionNode(DPSCheck)
                             }
                             ),
-                        new ActionNode(MoveToOrigin),
-                        new ActionNode(RecoverHealth)
+                        //new ActionNode(MoveToOrigin),
+                        //new ActionNode(RecoverHealth)
                     }
                     ),
-                new ActionNode(Idle) // IdleAction
+                //new ActionNode(Idle) // IdleAction
             
             
             }

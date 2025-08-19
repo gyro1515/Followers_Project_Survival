@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2649420351483650786}
   - component: {fileID: 433137748427593030}
   - component: {fileID: 4620005131769277539}
-  m_Layer: 29
+  m_Layer: 9
   m_Name: Steak
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: -8865186401249204144}
   - component: {fileID: 4203093518935621669}
   - component: {fileID: 3926817637701537337}
-  m_Layer: 29
+  m_Layer: 9
   m_Name: IteamMeat
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1519406792435334965}
   - component: {fileID: 6401682622473879729}
   - component: {fileID: 5821068663939846112}
-  m_Layer: 29
+  m_Layer: 9
   m_Name: pickaxe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 4228528041609837378}
   - component: {fileID: 1306241293737739653}
   - component: {fileID: 1061515311004492440}
-  m_Layer: 29
+  m_Layer: 9
   m_Name: ItemPickaxe
   m_TagString: Untagged
   m_Icon: {fileID: 0}

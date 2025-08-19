@@ -31,6 +31,7 @@ public class ResourceRespawnController : MonoBehaviour
         // 테스트 용, 추후 플레이어 컨트롤로 이동
         if(Input.GetMouseButtonDown(0))
         {
+            Debug.Log("자원 캐기");
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if(Physics.Raycast(ray, out RaycastHit hit, 100f, LayerMask.GetMask("Interacterble", "Resource"))) // 리소스와 상호작용 가능한 것만 체크
             {

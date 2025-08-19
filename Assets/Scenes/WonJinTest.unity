@@ -242,6 +242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08cd5688be2e00443a6876caaa4d2b7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiCanvas: {fileID: 0}
   inventoryPrefab: {fileID: 656363075270232250, guid: 256904f8b9fb86d4d8fadbea98b5caa5, type: 3}
   hudPrefab: {fileID: 195571802147272189, guid: 2b981f34df0c7da4094f998e333f98e4, type: 3}
 --- !u!1001 &370802181
@@ -419,7 +420,7 @@ MonoBehaviour:
   OutlineHardness: 1
   LayerMask:
     serializedVersion: 2
-    m_Bits: 536870912
+    m_Bits: 0
 --- !u!1 &1702537929
 GameObject:
   m_ObjectHideFlags: 0
@@ -642,6 +643,10 @@ PrefabInstance:
     - target: {fileID: 7595457489818111977, guid: 8c251f7bb57fef042b9c92c82c2b8948, type: 3}
       propertyPath: respownTime
       value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 7595457489818111977, guid: 8c251f7bb57fef042b9c92c82c2b8948, type: 3}
+      propertyPath: groundLayer.m_Bits
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

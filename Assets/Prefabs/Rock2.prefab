@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4975603513051902354}
   - component: {fileID: 5788143775036629525}
   - component: {fileID: 3760857797186883950}
-  m_Layer: 30
+  m_Layer: 10
   m_Name: Rock_04
   m_TagString: Rock
   m_Icon: {fileID: 0}
@@ -130,7 +130,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3022671631978572511}
-  m_Layer: 30
+  m_Layer: 10
   m_Name: Rock2
   m_TagString: Rock
   m_Icon: {fileID: 0}

@@ -15,7 +15,7 @@ public class ItemObject : MonoBehaviour, IInteractable
     public void OnInteract()
     {
         // 인벤토리에 추가 후 삭제
-        TestUISpawn.Instance.UIInventory.AddItem(itemData);
+        UIManager.Instance.UIInventory.AddItem(itemData);
         Destroy(gameObject);
     }
 }
