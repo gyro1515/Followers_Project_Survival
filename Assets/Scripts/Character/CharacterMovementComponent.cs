@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 // 실제 로직 구현
 public class CharacterMovementComponent : MonoBehaviour
 {
     public float walkSpeed;
     public float jumpForce = 5f;
+    public LayerMask groundDetectLayerMask;
 
+    float lastJumpTime;
     Rigidbody rb;
 
     bool isJumping = false;
@@ -34,25 +37,32 @@ public class CharacterMovementComponent : MonoBehaviour
 
     void DetectGround()
     {
-        Vector3 origin = transform.position + Vector3.up;
-        Vector3 direction = Vector3.down;
+        Vector3 origin = transform.position;
+        origin.y += 0.96f;
 
+        var hits = Physics.SphereCastAll(transform.position, 0.4f, Vector3.up, 0f, groundDetectLayerMask);
         RaycastHit hit;
-        if (Physics.Raycast(origin, direction, out hit, 1.1f))
+        LayerMask layerMask = LayerMask.GetMask("Ground");
+        
+        
+        if (Physics.SphereCast(origin, 0.4f, Vector3.down, out hit, 1f, groundDetectLayerMask))
         {
             isGrounded = true;
-            if (isJumping && isFalling)
+            if (Time.time - lastJumpTime > 0.1f)
             {
-                isJumping = false;
+                if (isJumping)
+                {
+                    isJumping = false;
+                }
             }
+            
         }
         else
         {
             isGrounded = false;
         }
 
-        Debug.DrawRay(origin, direction * 1.1f,
-                     isGrounded ? Color.green : Color.red);
+        
     }
 
     public void Move(Vector2 inputVector)
@@ -73,6 +83,7 @@ public class CharacterMovementComponent : MonoBehaviour
             return;
         }
 
+        lastJumpTime = Time.time;
         isJumping = true;
         if (rb.velocity.y != 0f)
         {
@@ -80,4 +91,6 @@ public class CharacterMovementComponent : MonoBehaviour
         }
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
+
+    
 }
