@@ -8,6 +8,8 @@ using UnityEngine.UI;
 
 public class BuildUI : MonoBehaviour
 {
+    public const string RESOURCES_BUILD_DATAS = "BuildDatas";   // BuildData ScriptableObject가 들어있는 폴더 이름
+
     // 테스트 용도로 public으로 설정, 끝나면 private
     public Build build;
     // 인벤토리 있어야 됨.
@@ -35,6 +37,7 @@ public class BuildUI : MonoBehaviour
 
     private void Awake()
     {
+        //buildDatas = Resources.LoadAll<BuildData>(RESOURCES_BUILD_DATAS);    // Resources 폴더 만들고 그 안에 BuildDatas 폴더 만들어서 BuildData있는 ScriptableObject 넣어주기
         build = FindObjectOfType<Build>();
     }
 

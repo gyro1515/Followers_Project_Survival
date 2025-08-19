@@ -25,7 +25,7 @@ public class PreviewBuild : MonoBehaviour
         ChangeColor();
     }
 
-    void ChangeColor()  // 건축 가능하면 초록색, 아니면 빨간색
+    void ChangeColor()  // 건축 가능하면 초록색, 아니면 빨간색 쓰읍 지금 업데이트에서 하면 무거울 거 같은데
     {
         if (CanBuild())
         {
