@@ -107,33 +107,9 @@ public class BuildUI : MonoBehaviour
     public void OnClickBuild()
     {
         // 재료 개수 감소
-        int number = 0;
         foreach(var material in selectedBuild.materials)
         {
-            number = material.requiredQuantity;
-
-            while(number > 0)
-            {
-                for (int i = 0; i < inventory.Slots.Length; i++)
-                {
-                    // 아이템이 같다면
-                    if (inventory.Slots[i].Item == material.materialData)
-                    {
-                        // 아이템 개수 빼기
-                        if(number > inventory.Slots[i].Quantity)    // 요구 개수가 한 슬롯에 있는 아이템 개수보다 많다면
-                        {
-                            number -= inventory.Slots[i].Quantity;
-                            inventory.Slots[i].Quantity = 0;
-                        }
-                        else
-                        {
-                            inventory.Slots[i].Quantity -= number;
-                            number = 0;
-                        }
-                        // 아이템 갱신하기
-                    }
-                }
-            }
+            inventory.DecreaseItemQuantity(material.materialData, material.requiredQuantity);
         }
 
         // 미리보기 생성
@@ -177,7 +153,7 @@ public class BuildUI : MonoBehaviour
             GameObject go = Instantiate(materialListPrefab, materialListContent.transform);
 
             TextMeshProUGUI text = go.GetComponentInChildren<TextMeshProUGUI>();
-            text.text = $"{material.materialData.DisplayName}\n{GetCurrentQuantity(material)} / {material.requiredQuantity}";
+            text.text = $"{material.materialData.DisplayName}\n{inventory.GetTotalQuantity(material.materialData)} / {material.requiredQuantity}";
             // 재료 이름
             // 현재 개수 / 필요 개수
 
@@ -194,32 +170,11 @@ public class BuildUI : MonoBehaviour
         }
     }
 
-    int GetCurrentQuantity(BuildMaterial material)
-    {
-        // 아이템 개수 갱신
-        int currentQuantity = 0;
-        // 인벤토리 슬롯 순회하면서 해당 아이템이 있으면 currentQuantity 늘려주기
-        for (int i = 0; i < inventory.Slots.Length; i++)
-        {
-            // 아이템이 같다면
-            if (inventory.Slots[i].Item == material.materialData)
-            {
-                // 아이템 개수 추가하기
-                currentQuantity += inventory.Slots[i].Quantity;
-            }
-        }
-        //for (int j = 0; j < ) 인벤토리 슬롯 순회하기
-        //if (selectedBuild.materails[i].name == itemSlot.name) // 이름이 같다면~
-        //currentQuantity += itemSlot.Quantity
-        // 별개로 스크롤 뷰의 Content에 추가해주기
-        return currentQuantity;
-    }
-
     bool CheckHasAllMaterials()
     {
         foreach (var material in selectedBuild.materials)
         {
-            if(GetCurrentQuantity(material) < material.requiredQuantity)
+            if(inventory.GetTotalQuantity(material.materialData) < material.requiredQuantity)
             {
                 return false;
             }

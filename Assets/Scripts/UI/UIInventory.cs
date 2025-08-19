@@ -287,5 +287,41 @@ public class UIInventory : MonoBehaviour
         if (clickClip) audioSource.PlayOneShot(clickClip);
     }
 
+    public int GetTotalQuantity(ItemData item)  // 인벤토리 전체에 해당 아이템이 몇 개있는지 반환
+    {
+        int total = 0;
+        foreach(var slot in slots)
+        {
+            if(slot.Item == item)
+            {
+                total += slot.Quantity;
+            }
+        }
+        return total;
+    }
 
+    public void DecreaseItemQuantity(ItemData item, int useQuantity)    // 외부에서 인벤토리에 있는 아이템을 사용할 때 실행
+    {
+        foreach(var slot in slots)
+        {
+            if(slot.Item == item)
+            {
+                if(slot.Quantity >= useQuantity)
+                {
+                    slot.Quantity -= useQuantity;
+                    useQuantity = 0;
+                    break;
+                }
+                else
+                {
+                    useQuantity -= slot.Quantity;
+                    slot.Quantity = 0;
+                    slot.Item = null;
+                }
+            }
+        }
+
+        // UI 업데이트
+        UpdateUI();
+    }
 }
