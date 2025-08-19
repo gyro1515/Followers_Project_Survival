@@ -44,9 +44,12 @@ public class NPCDialogue : MonoBehaviour
     {
 
     }
-    void Finish()
+    public void SetText(string text) // 외부 호출 용
     {
+        targetText = text;
+        totalDuration = targetText.Length * duration;
     }
+    
     void ActiveText()
     {
         Debug.Log("타이핑 시작");
@@ -63,11 +66,7 @@ public class NPCDialogue : MonoBehaviour
         Debug.Log("끔");
         StartCoroutine("StartSetActiveFalse");
     }
-    public void SetText(string text) // 외부 호출 용
-    {
-        targetText = text;
-        totalDuration = targetText.Length * duration;
-    }
+    
     IEnumerator StartActiveText()
     {
         yield return new WaitForSeconds(0.5f);

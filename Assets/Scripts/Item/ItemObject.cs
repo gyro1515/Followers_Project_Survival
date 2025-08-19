@@ -17,5 +17,6 @@ public class ItemObject : MonoBehaviour, IInteractable
         // 인벤토리에 추가 후 삭제
         UIManager.Instance.UIInventory.AddItem(itemData);
         Destroy(gameObject);
+        Debug.Log("자원 획득");
     }
 }

@@ -53,10 +53,8 @@ public class ResourceRespawnController : MonoBehaviour
                     }
 
                 }
-                else if(hit.collider.TryGetComponent(out IInteractable interactable)) // 얻을 수 있는 자원이라면
+                else if(hit.collider.TryGetComponent(out IInteractable interactable)) // 상호작용 가능한 대상이라면
                 {
-                    Debug.Log("자원 획득");
-                    //interactable.OnInteractTest(testInventory);
                     interactable.OnInteract();
                 }
             }
