@@ -112,7 +112,7 @@ public class ResourceRespawnController : MonoBehaviour
             // 랜덤 회전값 주기, y값만(yaw)
             float randomY = Random.Range(0f, 360f);
             Quaternion rot = Quaternion.Euler(0f, randomY, 0f);
-            Instantiate(prefab, spawnPos, rot);
+            Instantiate(prefab, spawnPos, rot).transform.SetParent(gameObject.transform);
             spawnedPos.Add(new Vector2(spawnPos.x, spawnPos.z));
             resouceCnt++;
             //Debug.Log($"{prefab.name} 리스폰");

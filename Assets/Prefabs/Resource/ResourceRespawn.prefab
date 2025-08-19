@@ -58,7 +58,8 @@ MonoBehaviour:
   maxRockCnt: 20
   groundLayer:
     serializedVersion: 2
-    m_Bits: 2147483648
+    m_Bits: 0
   spawnRadius: 40
   minDistance: 3
   respownTime: 0.5
+  testInventory: []
