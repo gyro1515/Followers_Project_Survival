@@ -17,6 +17,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using System.Collections;
+using System.Diagnostics;
 
 [RequireComponent(typeof(Animator))]
 class EnemyAI : MonoBehaviour
@@ -27,10 +29,11 @@ class EnemyAI : MonoBehaviour
     [SerializeField] private float detectionAngle = 180f; // 감지 각도
     [SerializeField] private float AttackRange = 2f; // 공격 범위
     [SerializeField] private float returnDistance = 50f; // 돌아갈 거리
+    [SerializeField] private float YieldRange = 10f; // idle 상태에서 랜덤으로 움직이는 범위
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 4f; // 이동 속도
     [Header("MinDPS")]
-    [SerializeField] private float maxDamageThreshold = 0.002f; // DPS
+    [SerializeField] private float minDamageThreshold = 0.002f; // DPS
     [Header("Health")]
     [SerializeField] private float maxHealth = 100f; // 최대 체력
 
@@ -39,6 +42,8 @@ class EnemyAI : MonoBehaviour
     BehaviourTreeRunner _BTRunner = null;// 행동 트리 실행기
     Transform _detectedPlayer = null;
     Animator _animator = null;
+    bool _isChaseActive = false; // 추적 상태
+    Stopwatch _chaseTimer = new Stopwatch(); // 추적 시간 측정
 
     const string _ATTACK_ANIM_STATE_NAME = "Attack";
     const string _ATTACK_ANIM_TRIGGER_NAME = "attack";
@@ -91,7 +96,7 @@ class EnemyAI : MonoBehaviour
                 new SequenceNode( //ReturnSeq
                     new List<INode>
                     {
-                        new ActionNode(isChaseActive),
+                        //new ActionNode(isChaseActive),
                         new SelectorNode( // ReturnSel
                             new List<INode>
                             {
@@ -122,6 +127,12 @@ class EnemyAI : MonoBehaviour
             }
         }
         return false;
+    }
+
+    IEnumerator Recover()
+    {
+        yield return new WaitForSeconds(0.5f);
+        _currentHealth += (maxHealth - _currentHealth) * 0.1f;
     }
     #region Actions
     INode.ENodeState CanAttack()
@@ -157,6 +168,18 @@ class EnemyAI : MonoBehaviour
         return INode.ENodeState.Success;
     }
 
+    INode.ENodeState EndChase()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 20f);
+        foreach (var hitCollider in hitColliders)
+        {
+            if (hitCollider.CompareTag("Player"))
+            {
+                return INode.ENodeState.Success;
+            }
+        }
+        return INode.ENodeState.Failure;
+    }
     INode.ENodeState RangeDetect()
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, detectionRange);
@@ -177,5 +200,78 @@ class EnemyAI : MonoBehaviour
         return INode.ENodeState.Failure;
     }
 
+    INode.ENodeState DamageDetect()
+    {
+        // 플레이어로부터 공격을 받았을 때
+        return INode.ENodeState.Success;
+    }
+
+    INode.ENodeState MoveToPlayer()
+    {
+        _isChaseActive = true;
+        _chaseTimer.Restart();
+        //NevMesh 를 이용한 이동 구현
+        // 이동이 불가능할 때 실패(경로가 나오지 않을 때)
+        return INode.ENodeState.Success;
+    }
+
+    INode.ENodeState CoolDownChase()
+    {
+        // 플레이어를 계속 추적하도록 한동안 Running 상태 유지.
+        // 공격 범위 내에 들어왔을 때에 Running 상태 종료하고 Success 반환.
+        return INode.ENodeState.Running;
+        // 그런데 생각이 드는 게 이 프로세스가 실행되고 있는 동안에는 AI의 트리 서칭이 멈추고 있는 게 아닌가.
+    }
+
+    //INode.ENodeState isChaseActive()
+    //{
+    //    if (_isChaseActive)
+    //    {
+    //        return INode.ENodeState.Failure;
+    //    }
+    //    return INode.ENodeState.Success;
+    //}
+
+    INode.ENodeState DistanceCheck()
+    {
+        if (Vector3.SqrMagnitude(_originPos - transform.position) > (returnDistance * returnDistance))
+        {
+            return INode.ENodeState.Success;
+        }
+        return INode.ENodeState.Failure;
+    }
+
+    INode.ENodeState DPSCheck()
+    {
+        if (minDamageThreshold >= (maxHealth-_currentHealth)*1000/_chaseTimer.Elapsed.TotalSeconds)
+        {
+            return INode.ENodeState.Success;
+        }
+        return INode.ENodeState.Failure;
+    }
+
+    INode.ENodeState MoveToOrigin()
+    {
+        _isChaseActive = false;
+        _detectedPlayer = null;
+        // 원래 자리로 이동: Nevimesh 이용?
+        return INode.ENodeState.Success;
+    }
+
+    INode.ENodeState RecoverHealth()
+    {
+        StartCoroutine(Recover());
+        return INode.ENodeState.Success;
+    }
+
+    INode.ENodeState Idle()
+    {
+        // 랜덤으로 2개의 행동 패턴 중 하나를 선택해 실행: 기다리기, 움직이기
+        // 기다리기: 움직이지 않고 idle 애니메이션 실행. 애니메이션 실행 시간은 최대 1초.
+        // 대기 중 적 감지 시 idle 상태 즉시 종료 후 추적으로 변환
+        // 움직이기: 랜덤한 방향으로 몸을 틀고 서식지 내의 랜덤 좌표로 이동: NevMesh 사용
+        // 움직임이 불가능한 좌표일 경우 강제로 기다리기 상태로 전환.
+        return INode.ENodeState.Success;
+    }
     #endregion
 }
