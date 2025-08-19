@@ -68,12 +68,16 @@ public class CharacterMovementComponent : MonoBehaviour
     
     public void Jump()
     {
-        if (isJumping || !isGrounded)
+        if (isJumping || !isGrounded || isFalling)
         {
             return;
         }
 
         isJumping = true;
+        if (rb.velocity.y != 0f)
+        {
+            rb.velocity = Vector3.zero;
+        }
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 }
