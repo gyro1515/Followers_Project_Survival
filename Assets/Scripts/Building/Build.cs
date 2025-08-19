@@ -19,7 +19,14 @@ public class Build : MonoBehaviour
 
     private void Update()
     {
-        if(isBuildMode) UpdatePreviewPosition();
+        if (isBuildMode)
+        {
+            UpdatePreviewPosition();
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                InitBuilding();
+            }
+        }
     }
 
     void UpdatePreviewPosition()

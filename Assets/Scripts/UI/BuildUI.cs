@@ -12,10 +12,8 @@ public class BuildUI : MonoBehaviour
 
     // 테스트 용도로 public으로 설정, 끝나면 private
     public Build build;
-    // 인벤토리 있어야 됨.
+
     public UIInventory inventory;
-    // 인벤토리의 모든 슬롯을 순회하면서 해당 아이템이 총 몇 개 있는지 확인해야함
-    // 그 과정을 BuildData에 있는 materials 수 만큼 반복해야함
 
     [SerializeField] BuildData[] buildDatas;    // 건축물 데이터들
     [SerializeField] Button buildButton;
@@ -112,6 +110,7 @@ public class BuildUI : MonoBehaviour
             inventory.DecreaseItemQuantity(material.materialData, material.requiredQuantity);
         }
 
+        build.buildData = selectedBuild;
         // 미리보기 생성
         build.InitPreview(selectedBuild.previewPrefab);
         // 비활성화 투명으로 만들든 setactive를 이용하든 안 보이게 하기
