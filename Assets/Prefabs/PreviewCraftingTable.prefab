@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3310496880150999516}
   - component: {fileID: 7731356192042048516}
   - component: {fileID: 2738470915164040004}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: PreviewCraftingTable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52,7 +52,8 @@ MonoBehaviour:
   red: {fileID: 2100000, guid: 52edc1824b3cbef4cb22cbd7712d3ce5, type: 2}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 32768
+    m_Bits: 256
+  materials: []
 --- !u!65 &2738470915164040004
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -85,6 +86,10 @@ PrefabInstance:
     - target: {fileID: 4955705534400271548, guid: 6fbf4207e2fef5e4687d16c507fc055b, type: 3}
       propertyPath: m_Name
       value: 03_Blacksmith_01_WoodenRack
+      objectReference: {fileID: 0}
+    - target: {fileID: 4955705534400271548, guid: 6fbf4207e2fef5e4687d16c507fc055b, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 5732487772513357318, guid: 6fbf4207e2fef5e4687d16c507fc055b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -147,6 +152,10 @@ PrefabInstance:
     - target: {fileID: 8515627493661167162, guid: d71513e356a6264478e901eb30867760, type: 3}
       propertyPath: m_Name
       value: 03_Blacksmith_01_Hammer#2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8515627493661167162, guid: d71513e356a6264478e901eb30867760, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 9035987471028524160, guid: d71513e356a6264478e901eb30867760, type: 3}
       propertyPath: m_LocalScale.x
@@ -221,6 +230,10 @@ PrefabInstance:
     - target: {fileID: 3787254232342322873, guid: b14c26b3ab0a0a54a98340c8d9fb1fff, type: 3}
       propertyPath: m_Name
       value: 03_Blacksmith_01_Hammer#1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3787254232342322873, guid: b14c26b3ab0a0a54a98340c8d9fb1fff, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4595033932045190147, guid: b14c26b3ab0a0a54a98340c8d9fb1fff, type: 3}
       propertyPath: m_LocalScale.x

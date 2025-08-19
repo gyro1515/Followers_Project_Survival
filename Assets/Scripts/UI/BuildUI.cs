@@ -8,11 +8,12 @@ using UnityEngine.UI;
 
 public class BuildUI : MonoBehaviour
 {
-    public const string RESOURCES_BUILD_DATAS = "BuildDatas";   // BuildData ScriptableObject가 들어있는 폴더 이름
+    //public const string RESOURCES_BUILD_DATAS = "BuildDatas";   // BuildData ScriptableObject가 들어있는 폴더 이름
 
     // 테스트 용도로 public으로 설정, 끝나면 private
     public Build build;
     // 인벤토리 있어야 됨.
+    public UIInventory inventory;
     // 인벤토리의 모든 슬롯을 순회하면서 해당 아이템이 총 몇 개 있는지 확인해야함
     // 그 과정을 BuildData에 있는 materials 수 만큼 반복해야함
 
@@ -29,8 +30,8 @@ public class BuildUI : MonoBehaviour
     [SerializeField] GameObject materialListPrefab; // 재료 리스트 프리팹
     [SerializeField] GameObject materialListContent;    // 재료 리스트 스크롤 뷰 Content
 
-    //[SerializeField] Image buildImage;   // 건축물 이미지
-    //[SerializeField] Image nullImage;   // 건축물 선택 안 했을 시 이미지
+    [SerializeField] Image buildImage;   // 건축물 이미지
+    [SerializeField] Sprite nullImage;   // 건축물 선택 안 했을 시 이미지
 
     // 테스트 용도로 public으로 설정, 끝나면 private
     public BuildData selectedBuild;
@@ -38,7 +39,10 @@ public class BuildUI : MonoBehaviour
     private void Awake()
     {
         //buildDatas = Resources.LoadAll<BuildData>(RESOURCES_BUILD_DATAS);    // Resources 폴더 만들고 그 안에 BuildDatas 폴더 만들어서 BuildData있는 ScriptableObject 넣어주기
+
+        // 임시로 Find 사용
         build = FindObjectOfType<Build>();
+        inventory = FindObjectOfType<UIInventory>();
     }
 
     private void Start()
@@ -62,7 +66,7 @@ public class BuildUI : MonoBehaviour
             // 건물 이름, 설명, 이미지
             buildName.text = string.Empty;
             buildDescription.text = string.Empty;
-            //buildImage = nullImage;
+            buildImage.sprite = nullImage;
         }
         else
         {
@@ -72,7 +76,7 @@ public class BuildUI : MonoBehaviour
             // 건물 이름, 설명, 이미지
             buildName.text = selectedBuild.buildName;
             buildDescription.text = selectedBuild.description;
-            //buildImage = selectedBuild.buildImage;
+            buildImage.sprite = selectedBuild.buildImage;
 
             // 재료 리스트 갱신
             UpdateBuildMaterial();
@@ -83,10 +87,15 @@ public class BuildUI : MonoBehaviour
     {
         if(build.previewGameObject != null)
         {
-            Destroy(build.previewGameObject);
+            build.CancelPreview();
         }
         gameObject.SetActive(true);
         UpdateUI();
+    }
+
+    public void OnClickCancel()
+    {
+        build.CancelPreview();
     }
 
     public void OnClickBuildSlot(BuildData data)
@@ -97,6 +106,37 @@ public class BuildUI : MonoBehaviour
 
     public void OnClickBuild()
     {
+        // 재료 개수 감소
+        int number = 0;
+        foreach(var material in selectedBuild.materials)
+        {
+            number = material.requiredQuantity;
+
+            while(number > 0)
+            {
+                for (int i = 0; i < inventory.Slots.Length; i++)
+                {
+                    // 아이템이 같다면
+                    if (inventory.Slots[i].Item == material.materialData)
+                    {
+                        // 아이템 개수 빼기
+                        if(number > inventory.Slots[i].Quantity)    // 요구 개수가 한 슬롯에 있는 아이템 개수보다 많다면
+                        {
+                            number -= inventory.Slots[i].Quantity;
+                            inventory.Slots[i].Quantity = 0;
+                        }
+                        else
+                        {
+                            inventory.Slots[i].Quantity -= number;
+                            number = 0;
+                        }
+                        // 아이템 갱신하기
+                    }
+                }
+            }
+        }
+
+        // 미리보기 생성
         build.InitPreview(selectedBuild.previewPrefab);
         // 비활성화 투명으로 만들든 setactive를 이용하든 안 보이게 하기
         gameObject.SetActive(false);
@@ -105,6 +145,7 @@ public class BuildUI : MonoBehaviour
 
     public void OnClickExit()
     {
+        build.isBuildMode = false;
         selectedBuild = null;
         gameObject.SetActive(false);
     }
@@ -136,12 +177,12 @@ public class BuildUI : MonoBehaviour
             GameObject go = Instantiate(materialListPrefab, materialListContent.transform);
 
             TextMeshProUGUI text = go.GetComponentInChildren<TextMeshProUGUI>();
-            text.text = $"{material.materialName}\n{CheckCurrentQuantity()} / {material.requiredQuantity}";
+            text.text = $"{material.materialData.DisplayName}\n{GetCurrentQuantity(material)} / {material.requiredQuantity}";
             // 재료 이름
             // 현재 개수 / 필요 개수
 
             Image icon = go.GetComponentInChildren<Image>();
-            icon = material.materialIcon;
+            icon.sprite = material.materialData.Icon;
         }
     }
 
@@ -153,11 +194,20 @@ public class BuildUI : MonoBehaviour
         }
     }
 
-    int CheckCurrentQuantity()
+    int GetCurrentQuantity(BuildMaterial material)
     {
         // 아이템 개수 갱신
         int currentQuantity = 0;
         // 인벤토리 슬롯 순회하면서 해당 아이템이 있으면 currentQuantity 늘려주기
+        for (int i = 0; i < inventory.Slots.Length; i++)
+        {
+            // 아이템이 같다면
+            if (inventory.Slots[i].Item == material.materialData)
+            {
+                // 아이템 개수 추가하기
+                currentQuantity += inventory.Slots[i].Quantity;
+            }
+        }
         //for (int j = 0; j < ) 인벤토리 슬롯 순회하기
         //if (selectedBuild.materails[i].name == itemSlot.name) // 이름이 같다면~
         //currentQuantity += itemSlot.Quantity
@@ -169,7 +219,7 @@ public class BuildUI : MonoBehaviour
     {
         foreach (var material in selectedBuild.materials)
         {
-            if(CheckCurrentQuantity() < material.requiredQuantity)
+            if(GetCurrentQuantity(material) < material.requiredQuantity)
             {
                 return false;
             }

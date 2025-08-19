@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6342267141952807061}
   - component: {fileID: 7399257140804768702}
   - component: {fileID: 6745393534835478144}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: rpgpp_lt_building_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 7691144845608691460}
   - component: {fileID: 9107727501986442861}
   - component: {fileID: 845399924020993460}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: PreviewWoodenHouse
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,7 +133,7 @@ MonoBehaviour:
   red: {fileID: 2100000, guid: 52edc1824b3cbef4cb22cbd7712d3ce5, type: 2}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 32768
+    m_Bits: 256
   materials: []
 --- !u!65 &845399924020993460
 BoxCollider:

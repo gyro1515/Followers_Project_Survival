@@ -32,6 +32,9 @@ public class UIInventory : MonoBehaviour
 
     AudioSource audioSource;
 
+    // 임시. 나중에 바꿔야 함
+    public ItemSlot[] Slots { get { return slots; } }
+
     private void Awake()
     {
         // Inventory UI 초기화 로직들
