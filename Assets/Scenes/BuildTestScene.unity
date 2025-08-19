@@ -2552,59 +2552,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 522173555}
   m_CullTransparentMesh: 1
---- !u!1 &534519253
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 534519255}
-  - component: {fileID: 534519254}
-  m_Layer: 0
-  m_Name: BuildManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &534519254
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 534519253}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22f731f27d2880c4f81b9aac25e65143, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  camera: {fileID: 1279752016}
-  buildData: {fileID: 0}
-  previewGameObject: {fileID: 0}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  previewPosition: {x: 0, y: 1, z: 3}
-  buildDistance: 10
-  isBuildMode: 0
---- !u!4 &534519255
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 534519253}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &541584547
 GameObject:
   m_ObjectHideFlags: 0
@@ -8710,6 +8657,7 @@ GameObject:
   - component: {fileID: 1986895367}
   - component: {fileID: 1986895366}
   - component: {fileID: 1986895365}
+  - component: {fileID: 1986895368}
   - component: {fileID: 1986895364}
   - component: {fileID: 1986895363}
   - component: {fileID: 1986895362}
@@ -8873,6 +8821,27 @@ Transform:
   - {fileID: 160867239}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1986895368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1986895359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22f731f27d2880c4f81b9aac25e65143, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camera: {fileID: 1279752016}
+  buildData: {fileID: 0}
+  previewGameObject: {fileID: 0}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  previewPosition: {x: 0, y: 1, z: 3}
+  buildDistance: 10
+  isBuildMode: 0
 --- !u!1 &2003985587
 GameObject:
   m_ObjectHideFlags: 0
@@ -9549,7 +9518,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 1632086802}
   - {fileID: 352031356}
-  - {fileID: 534519255}
   - {fileID: 641236914}
   - {fileID: 60884658}
   - {fileID: 549820952}

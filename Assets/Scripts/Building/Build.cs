@@ -53,7 +53,7 @@ public class Build : MonoBehaviour
         Vector3 initPosition;
 
         // 땅과 충돌이 됐을 때
-        if (Physics.Raycast(previewPosition, Vector3.down, out hit, buildDistance, groundLayer))
+        if (Physics.Raycast(previewPosition + transform.position, Vector3.down, out hit, buildDistance, groundLayer))
         {
             // 위치 갱신
             initPosition = hit.point;
