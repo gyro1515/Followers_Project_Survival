@@ -227,4 +227,4 @@ MonoBehaviour:
   npcDialoguePrefab: {fileID: 2908142110593375336, guid: ae5ff511c049bc64fbb53a8a986d289d, type: 3}
   interactionUIPrefab: {fileID: 7095599722503008204, guid: 2560a99b3e3819149aa435f5a3d68af3, type: 3}
   buildUIPrefab: {fileID: 6060516216662197069, guid: 9fe9998e7faba4f4395b9fb48da2648c, type: 3}
-  craftUIPrefab: {fileID: 272697112393480081, guid: cbaab636c6c8b974c990431b22324d7b, type: 3}
+  craftUIPrefab: {fileID: 0}
