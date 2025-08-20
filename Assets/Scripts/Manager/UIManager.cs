@@ -6,30 +6,84 @@ public class UIManager : SingletonMono<UIManager>
 {
     // 싱글톤으로 불러가기
 
-    [SerializeField] Transform uiCanvas;
     [SerializeField] GameObject inventoryPrefab;
     [SerializeField] GameObject hudPrefab;
+    [SerializeField] GameObject npcDialoguePrefab;
+    [SerializeField] GameObject interactionUIPrefab;
     private UIInventory uiInventory;
-    public UIInventory UIInventory { get { return uiInventory; } }
+    //public UIInventory UIInventory { get { return uiInventory; } }
     HUD hudUI;
-    public HUD HUDUI { get { return hudUI; } }
+    //public HUD HUDUI { get { return hudUI; } }
+    NPCDialogue npcDialouge;
+    InteractionUI interactionUI;
     protected override void Awake()
     {
         base.Awake();
-        uiInventory = Instantiate(inventoryPrefab, uiCanvas).GetComponent<UIInventory>();
         // 헤드업디스플레이 세팅
-        hudUI = Instantiate(hudPrefab, uiCanvas).GetComponent<HUD>();
-        hudUI.SetHpBar(1f); // 실제론 플레이어 체력에 따라 초기 세팅하기
-        hudUI.SetSteminaBar(1f);
-        hudUI.SetHungerBar(1f);
-        hudUI.SetThirstBar(1f);
+        hudUI = Instantiate(hudPrefab, gameObject.transform).GetComponent<HUD>();
+        uiInventory = Instantiate(inventoryPrefab, gameObject.transform).GetComponent<UIInventory>();
+        npcDialouge = Instantiate(npcDialoguePrefab, gameObject.transform).GetComponent<NPCDialogue>();
+        interactionUI = Instantiate(interactionUIPrefab, gameObject.transform).GetComponent<InteractionUI>();
+        uiInventory = Instantiate(inventoryPrefab, gameObject.transform).GetComponent<UIInventory>();
+    }
+    private void Start()
+    {
+        InitializeHUD();
     }
     private void Update()
     {
         // 테스트
-        if(uiInventory && Input.GetKeyDown(KeyCode.Tab))
+        if(Input.GetKeyDown(KeyCode.Tab))
         {
-            uiInventory.Toggle();
+            uiInventory?.Toggle();
         }
+    }
+    public void InitializeHUD()
+    {
+        PlayerCharacter player = GameManager.Instance.GetPlayer(0);
+        //Debug.Log(player.GetStatComponent<PlayerStatComponent>().statValues.Count);
+        if (player.GetStatComponent<PlayerStatComponent>().statValues.Count > 0)
+        {
+            StatValue statValue;
+            if (player.GetStatComponent<PlayerStatComponent>().statValues.TryGetValue(StatType.Health, out statValue))
+            {
+                statValue.OnValueChanged += hudUI.UpdateGaugeBar;
+                statValue.RecalculateFinalValue();
+            }
+            if (player.GetStatComponent<PlayerStatComponent>().statValues.TryGetValue(StatType.Hunger, out statValue))
+            {
+                statValue.OnValueChanged += hudUI.UpdateGaugeBar;
+                statValue.RecalculateFinalValue();
+
+            }
+            if (player.GetStatComponent<PlayerStatComponent>().statValues.TryGetValue(StatType.Stamina, out statValue))
+            {
+                statValue.OnValueChanged += hudUI.UpdateGaugeBar;
+                statValue.RecalculateFinalValue();
+
+            }
+            if (player.GetStatComponent<PlayerStatComponent>().statValues.TryGetValue(StatType.Thirst, out statValue))
+            {
+                statValue.OnValueChanged += hudUI.UpdateGaugeBar;
+                statValue.RecalculateFinalValue();
+
+            }
+        }
+    }
+    public void ActiveNPCDialouge()
+    {
+        npcDialouge?.gameObject.SetActive(true);
+    }
+    public void SetInteractionUIText(string value) // 세팅하면 자동 활성화
+    {
+        interactionUI?.SetText(value);
+    }
+    public void DeactivateInteractionUI()
+    {
+        interactionUI?.gameObject.SetActive(false);
+    }
+    public void AddItemToInventory(ItemData itemData)
+    {
+        uiInventory?.AddItem(itemData);
     }
 }

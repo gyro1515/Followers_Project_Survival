@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class PlayerStatComponent : StatComponentBase
 {
+    protected override void Awake()
+    {
+        base.Awake();
+    }
     protected override void Initialize()
     {
         base.Initialize();

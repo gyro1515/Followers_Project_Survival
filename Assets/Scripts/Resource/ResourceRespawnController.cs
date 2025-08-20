@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem.HID;
 
 public class ResourceRespawnController : MonoBehaviour
 {
@@ -22,23 +23,25 @@ public class ResourceRespawnController : MonoBehaviour
     int maxAttempts = 20;  // 랜덤 소환 시도 횟수, 무한 루프 방지용
     private HashSet<Vector2> spawnedPos = new HashSet<Vector2>(); // x, z값만 저장하도록
 
+    // 상호작용 테스트용, 플레이어로 옮겨야 함
+    IInteractable curInteractable;
+
     private void Start()
     {
         InvokeRepeating("Respawn", 0f, respownTime); // respownTime초마다 리스폰
     }
     private void Update()
     {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         // 테스트 용, 추후 플레이어 컨트롤로 이동
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("자원 캐기");
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if(Physics.Raycast(ray, out RaycastHit hit, 100f, LayerMask.GetMask("Interacterble", "Resource"))) // 리소스와 상호작용 가능한 것만 체크
+            //if(Physics.Raycast(ray, out RaycastHit hit, 100f, LayerMask.GetMask("Interacterble", "Resource"))) // 리소스와 상호작용 가능한 것만 체크
+            if(Physics.Raycast(ray, out RaycastHit hit, 100f, LayerMask.GetMask("Resource"))) // 자원만 체크
             {
-                Debug.DrawLine(Camera.main.ScreenToWorldPoint(Input.mousePosition), hit.point, Color.magenta, 1f);
+                //Debug.DrawLine(Camera.main.ScreenToWorldPoint(Input.mousePosition), hit.point, Color.magenta, 1f);
                 if(hit.collider.TryGetComponent(out Resource resource)) // 캘 수 있는 자원이라면
                 {
-
                     // 추후 아래 부분 갈아 엎어야 함
                     if(resource.gameObject.CompareTag("Tree"))
                     {
@@ -51,16 +54,25 @@ public class ResourceRespawnController : MonoBehaviour
                         Debug.Log("자원 캐기: 돌");
                         resource.Gather(hit.point, hit.normal, 1, ref curRockCnt);
                     }
-
-                }
-                else if(hit.collider.TryGetComponent(out IInteractable interactable)) // 얻을 수 있는 자원이라면
-                {
-                    Debug.Log("자원 획득");
-                    //interactable.OnInteractTest(testInventory);
-                    interactable.OnInteract();
                 }
             }
         }
+        else if (Input.GetKeyDown(KeyCode.R))
+        {
+            // 상호작용할 것이 있다면
+            curInteractable?.OnInteract();
+        }
+        // 테스트 용, 상호작용 가능한 물체면 UI 띄우기
+        if (!Physics.Raycast(ray, out RaycastHit hitInteracterble, 100f, LayerMask.GetMask("Interacterble")))
+        {
+            curInteractable = null;
+            UIManager.Instance.DeactivateInteractionUI(); // UI 끄기
+            return; // 상호작용만 체크
+        }
+        if (!hitInteracterble.collider.TryGetComponent(out IInteractable interactableForText)) return; // 이중 체크 -> 굳이?
+        curInteractable = interactableForText;
+        interactableForText.SetInteractionText();
+
     }
     void Respawn()
     {
@@ -112,7 +124,7 @@ public class ResourceRespawnController : MonoBehaviour
             // 랜덤 회전값 주기, y값만(yaw)
             float randomY = Random.Range(0f, 360f);
             Quaternion rot = Quaternion.Euler(0f, randomY, 0f);
-            Instantiate(prefab, spawnPos, rot);
+            Instantiate(prefab, spawnPos, rot).transform.SetParent(gameObject.transform);
             spawnedPos.Add(new Vector2(spawnPos.x, spawnPos.z));
             resouceCnt++;
             //Debug.Log($"{prefab.name} 리스폰");
