@@ -10,12 +10,14 @@ public class UIManager : SingletonMono<UIManager>
     [SerializeField] GameObject hudPrefab;
     [SerializeField] GameObject npcDialoguePrefab;
     [SerializeField] GameObject interactionUIPrefab;
+    [SerializeField] GameObject buildUIPrefab;
     private UIInventory uiInventory;
     //public UIInventory UIInventory { get { return uiInventory; } }
     HUD hudUI;
     //public HUD HUDUI { get { return hudUI; } }
     NPCDialogue npcDialouge;
     InteractionUI interactionUI;
+    BuildUI buildUI;
     protected override void Awake()
     {
         base.Awake();
@@ -25,10 +27,12 @@ public class UIManager : SingletonMono<UIManager>
         npcDialouge = Instantiate(npcDialoguePrefab, gameObject.transform).GetComponent<NPCDialogue>();
         interactionUI = Instantiate(interactionUIPrefab, gameObject.transform).GetComponent<InteractionUI>();
         uiInventory = Instantiate(inventoryPrefab, gameObject.transform).GetComponent<UIInventory>();
+        buildUI = Instantiate(buildUIPrefab, gameObject.transform).GetComponent<BuildUI>();
     }
     private void Start()
     {
         InitializeHUD();
+        buildUI.inventory = uiInventory;
     }
     private void Update()
     {
@@ -36,6 +40,11 @@ public class UIManager : SingletonMono<UIManager>
         if(Input.GetKeyDown(KeyCode.Tab))
         {
             uiInventory?.Toggle();
+        }
+        // 테스트
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            buildUI.ToggleBuildUI();
         }
     }
     public void InitializeHUD()

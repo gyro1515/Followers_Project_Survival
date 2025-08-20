@@ -8,8 +8,6 @@ using UnityEngine.UI;
 
 public class BuildUI : MonoBehaviour
 {
-    //public const string RESOURCES_BUILD_DATAS = "BuildDatas";   // BuildData ScriptableObject가 들어있는 폴더 이름
-
     // 테스트 용도로 public으로 설정, 끝나면 private
     public Build build;
 
@@ -31,24 +29,32 @@ public class BuildUI : MonoBehaviour
     [SerializeField] Image buildImage;   // 건축물 이미지
     [SerializeField] Sprite nullImage;   // 건축물 선택 안 했을 시 이미지
 
-    // 테스트 용도로 public으로 설정, 끝나면 private
-    public BuildData selectedBuild;
+    BuildData selectedBuild;
 
     private void Awake()
     {
-        //buildDatas = Resources.LoadAll<BuildData>(RESOURCES_BUILD_DATAS);    // Resources 폴더 만들고 그 안에 BuildDatas 폴더 만들어서 BuildData있는 ScriptableObject 넣어주기
-
-        // 임시로 Find 사용
-        build = FindObjectOfType<Build>();
-        
+        buildDatas = Resources.LoadAll<BuildData>("BuildData");    // Resources 폴더 안에 BuildData 폴더 만들어서 BuildData있는 ScriptableObject 넣어주기
     }
 
     private void Start()
     {
-        inventory = FindObjectOfType<UIInventory>();
         InitBuildList();
         //build = PlayerManager.Instance.player.build;
         gameObject.SetActive(false);
+
+        // 임시로 Find 사용
+        build = FindObjectOfType<Build>();
+    }
+
+    private void Update()
+    {
+        if (gameObject.activeSelf)
+        {
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                OnClickBuild();
+            }
+        }
     }
 
     // 테스트를 위해 public으로 변경, 이후에 private로 변경해야함
@@ -82,12 +88,19 @@ public class BuildUI : MonoBehaviour
         }
     }
 
+    public void ToggleBuildUI()
+    {
+        if (gameObject.activeSelf) CloseBuildUI();
+        else OpenBuildUI();
+    }
+
     public void OpenBuildUI()
     {
         if(build.previewGameObject != null)
         {
             build.CancelPreview();
         }
+        selectedBuild = buildDatas[0];
         gameObject.SetActive(true);
         UpdateUI();
     }
@@ -110,15 +123,8 @@ public class BuildUI : MonoBehaviour
 
     public void OnClickBuild()
     {
-        // 재료 개수 감소
-        foreach(var material in selectedBuild.materials)
-        {
-            inventory.DecreaseItemQuantity(material.materialData, material.requiredQuantity);
-        }
-
-        build.buildData = selectedBuild;
         // 미리보기 생성
-        build.InitPreview(selectedBuild.previewPrefab);
+        build.InitPreview(selectedBuild);
         // UI 끄기
         CloseBuildUI();
     }
