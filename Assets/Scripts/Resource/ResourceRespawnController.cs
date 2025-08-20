@@ -15,7 +15,8 @@ public class ResourceRespawnController : MonoBehaviour
     [SerializeField] private float spawnRadius = 40;   // 리스폰 영역 반경(맵 크기)
     [SerializeField] private float minDistance = 3f;    // 기존 자원과 최소 거리
     [SerializeField] private float respownTime = 0.5f; // 리스폰 타임
-    public List<ItemData> testInventory = new List<ItemData>(); // 테스트용
+    [Header("NPC 목록")]
+    [SerializeField] private List<GameObject> npcPrefabs = new List<GameObject>();
 
     private int curTreeCnt = 0;
     private int curRockCnt = 0;
@@ -26,14 +27,15 @@ public class ResourceRespawnController : MonoBehaviour
     // 상호작용 테스트용, 플레이어로 옮겨야 함
     IInteractable curInteractable;
 
-    private void Start()
+    private void Awake()
     {
+        SpawnNPC(); // npc와 자원이 안 겹치도록 소환하기
         InvokeRepeating("Respawn", 0f, respownTime); // respownTime초마다 리스폰
     }
     private void Update()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        // 테스트 용, 추후 플레이어 컨트롤로 이동
+        // 테스트 용, 추후 플레이어 컨트롤로 이동 -> 아마도 플레이어 어택으로 가야 할 듯?
         if (Input.GetMouseButtonDown(0))
         {
             //if(Physics.Raycast(ray, out RaycastHit hit, 100f, LayerMask.GetMask("Interacterble", "Resource"))) // 리소스와 상호작용 가능한 것만 체크
@@ -57,22 +59,49 @@ public class ResourceRespawnController : MonoBehaviour
                 }
             }
         }
-        else if (Input.GetKeyDown(KeyCode.R))
+    }
+    void SpawnNPC()
+    {
+        foreach(var npc in npcPrefabs)
         {
-            // 상호작용할 것이 있다면
-            curInteractable?.OnInteract();
+            CheckSpawnNPC(npc);
         }
-        // 테스트 용, 상호작용 가능한 물체면 UI 띄우기
-        if (!Physics.Raycast(ray, out RaycastHit hitInteracterble, 100f, LayerMask.GetMask("Interacterble")))
+    }
+    void CheckSpawnNPC(GameObject prefab)
+    {
+        // NPC는 무조건 소환하기
+        while (true)
         {
-            curInteractable = null;
-            UIManager.Instance.DeactivateInteractionUI(); // UI 끄기
-            return; // 상호작용만 체크
+            // 랜덤 좌표
+            Vector3 randomPos = gameObject.transform.position + Random.insideUnitSphere.normalized * Random.Range(0f, spawnRadius);
+            // x, z값만 저장해서 쓰기
+            Vector2 randomPos2;
+            randomPos2.x = randomPos.x;
+            randomPos2.y = randomPos.z;
+            // 중복된 좌표인가, 중복되었다면 다시 좌표 생성
+            if (spawnedPos.Contains(randomPos2)) continue;
+            // 기존 물체와의 거리 체크
+            bool bCanSpawn = true;
+            foreach (Vector2 pos in spawnedPos)
+            {
+                // 기존 물체와의 거리 체크하기
+                if (Vector2.Distance(randomPos2, pos) > minDistance) continue;
+                bCanSpawn = false;
+                break;
+            }
+            // 소환 불가라면 다음 좌표 생성
+            if (!bCanSpawn) continue;
+            // 기존 물체와 거리상의 문제가 없다면 땅 위 좌표 찾기
+            // 땅이 없다면 다음 좌표 생성
+            if (!Physics.Raycast(randomPos + Vector3.up * 50f, Vector3.down, out RaycastHit hit, 100f, groundLayer)) continue;
+            Vector3 spawnPos = hit.point;
+            // 랜덤 회전값 주기, y값만(yaw)
+            float randomY = Random.Range(0f, 360f);
+            Quaternion rot = Quaternion.Euler(0f, randomY, 0f);
+            Instantiate(prefab, spawnPos, rot).transform.SetParent(gameObject.transform);
+            spawnedPos.Add(randomPos2);
+            break; // 소환 끝나면 while 종료
         }
-        if (!hitInteracterble.collider.TryGetComponent(out IInteractable interactableForText)) return; // 이중 체크 -> 굳이?
-        curInteractable = interactableForText;
-        interactableForText.SetInteractionText();
-
     }
     void Respawn()
     {
@@ -125,7 +154,7 @@ public class ResourceRespawnController : MonoBehaviour
             float randomY = Random.Range(0f, 360f);
             Quaternion rot = Quaternion.Euler(0f, randomY, 0f);
             Instantiate(prefab, spawnPos, rot).transform.SetParent(gameObject.transform);
-            spawnedPos.Add(new Vector2(spawnPos.x, spawnPos.z));
+            spawnedPos.Add(randomPos2);
             resouceCnt++;
             //Debug.Log($"{prefab.name} 리스폰");
             break; // 소환 끝나면 while 종료

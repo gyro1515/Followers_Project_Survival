@@ -16,11 +16,10 @@ MonoBehaviour:
   description: "\uC5EC\uB7EC \uC544\uC774\uD15C\uC744 \uB9CC\uB4E4 \uC218 \uC788\uB294
     \uC81C\uC791\uB300\uC785\uB2C8\uB2E4."
   type: 1
-  buildPrefab: {fileID: 0}
+  buildPrefab: {fileID: 5311566977241930642, guid: 90b2f84589375d24c9dc3693c8890794, type: 3}
   previewPrefab: {fileID: 7520180972306349701, guid: 260876c706d47c848b730c83b38b666c, type: 3}
-  buildImage: {fileID: 0}
+  buildImage: {fileID: 21300000, guid: 8c08c53642eddad4286c1f2e73e369c5, type: 3}
   materials:
-  - materialName: 
-    materialIcon: {fileID: 0}
+  - materialData: {fileID: 11400000, guid: 9782025a5504601459795be8a989a2b3, type: 2}
     requiredQuantity: 0
   hasAllMaterials: 0

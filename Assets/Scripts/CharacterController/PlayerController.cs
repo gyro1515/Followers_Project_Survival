@@ -11,7 +11,7 @@ public class PlayerController : ControllerBase
 {
     PlayerCharacter player;
     PlayerInputActions playerInputActions;
-
+    InteractionComponet interactionComponet;
     [Header("Camera")]
     Vector2 lookInput;
     public Transform cameraTarget;
@@ -36,6 +36,10 @@ public class PlayerController : ControllerBase
         if (virtualCamera == null)
         {
             virtualCamera = Camera.main.transform.GetChild(0).GetComponent<CinemachineVirtualCamera>();
+        }
+        if (interactionComponet == null)
+        {
+            interactionComponet = GetComponent<InteractionComponet>();
         }
 
         virtualCamera.Follow = cameraTarget;
@@ -71,6 +75,7 @@ public class PlayerController : ControllerBase
         playerInputActions.Player.Look.canceled += OnLook;
         playerInputActions.Player.Jump.performed += OnJump;
         playerInputActions.Player.Attack.performed += OnAttack;
+        playerInputActions.Player.Interaction.started += OnInteraction;
 
     }
 
@@ -82,6 +87,7 @@ public class PlayerController : ControllerBase
         playerInputActions.Player.Look.canceled -= OnLook;
         playerInputActions.Player.Jump.performed -= OnJump;
         playerInputActions.Player.Attack.performed -= OnAttack;
+        playerInputActions.Player.Interaction.started -= OnInteraction;
 
         playerInputActions.Player.Disable();
     }
@@ -111,6 +117,10 @@ public class PlayerController : ControllerBase
 
         cameraTarget.localEulerAngles = new Vector3(cameraPitch, 0, 0);
 
+    }
+    private void OnInteraction(InputAction.CallbackContext context)
+    {
+        interactionComponet?.OnIteract();
     }
 
     
