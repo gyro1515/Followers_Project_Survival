@@ -67,11 +67,11 @@ public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("마우스 나감");
+        //Debug.Log("마우스 나감");
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("마우스 올라옴");
+        //Debug.Log("마우스 올라옴");
     }
 }
