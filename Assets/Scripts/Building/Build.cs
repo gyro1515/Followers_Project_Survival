@@ -1,13 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Build : MonoBehaviour
 {
-    Camera camera;
+    public Camera camera;
 
     public UIInventory inventory;
 
+    public PreviewBuild previewBuild;
     public BuildData buildData;
     public GameObject previewGameObject;
 
@@ -15,6 +18,14 @@ public class Build : MonoBehaviour
 
     [SerializeField] float previewDistance; // 첫 프리뷰 생성 거리
     [SerializeField] float buildDistance;    // 건축 사정거리
+
+    // 인스펙터에 나오는데 리스트를 없애니 오류가 떠서 NonSerialized
+    [NonSerialized] public List<BuildObject> activeBuild = new List<BuildObject>(); // 현재 설치된 건축물 리스트
+    [NonSerialized] public List<BuildObject> removeBuild = new List<BuildObject>(); // 검사 후에 activeBuild에서 삭제할 오브젝트들 임시 저장
+    bool isExistRemove = false; // activeBuild에서 없앨 오브젝트가 있는지 여부
+
+    [SerializeField] float durabilityTickInterval;  // 내구도 감소 주기
+    [SerializeField] float requiredRatio;   // 수리 시 요구 재료 비율
 
     Quaternion previewRotation; // 첫 프리뷰 생성시 회전값
 
@@ -29,6 +40,8 @@ public class Build : MonoBehaviour
     private void Start()
     {
         camera = Camera.main;
+
+        InvokeRepeating("ReduceDurability", 0, durabilityTickInterval);
     }
 
     private void Update()
@@ -37,7 +50,7 @@ public class Build : MonoBehaviour
         if (isBuildMode)
         {
             UpdatePreviewPosition();
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+            if (Input.GetKeyDown(KeyCode.Mouse0) && previewBuild.CanBuild())
             {
                 InitBuilding();
             }
@@ -49,6 +62,31 @@ public class Build : MonoBehaviour
                 CancelPreview();
             }
         }
+    }
+
+    void ReduceDurability()
+    {
+        if (activeBuild.Count <= 0) return;
+        foreach(var build in activeBuild)
+        {
+            build.curDurability--;
+            if(build.curDurability <= 0)
+            {
+                isExistRemove = true;
+                removeBuild.Add(build);
+            }
+        }
+
+        if (isExistRemove)
+        {
+            foreach(var remove in removeBuild)
+            {
+                remove.DestroyBuild();
+            }
+            removeBuild.Clear();
+        }
+
+        isExistRemove = false;
     }
 
     void UpdatePreviewPosition()
@@ -75,6 +113,7 @@ public class Build : MonoBehaviour
     public void InitPreview(BuildData preview)
     {
         isBuildMode = true;
+        Debug.Log($"{isBuildMode}로 바꿈");
 
         buildData = preview;
 
@@ -120,6 +159,7 @@ public class Build : MonoBehaviour
     public void InitBuilding()
     {
         Instantiate(buildData.buildPrefab, previewGameObject.transform.position, previewGameObject.transform.rotation);
+        Debug.Log("Build CancelPreview");
         CancelPreview();
     }
 
@@ -128,6 +168,7 @@ public class Build : MonoBehaviour
         isBuildMode = false;
         Destroy(previewGameObject);
         previewGameObject = null;
+        buildData = null;
     }
 
     public void ReturnMaterial()
@@ -135,6 +176,19 @@ public class Build : MonoBehaviour
         foreach(var material in buildData.materials)
         {
             inventory.AddItem(material.materialData, material.requiredQuantity);
+        }
+    }
+
+    public void RepairBuild(BuildObject build)    // 사용하기 전에 재료 충분한지 확인하기
+    {
+        // 내구도 채우기
+        build.curDurability = build.maxDurability;
+        // 재료 계산해서 깎기
+        float ratio = (float)build.curDurability / build.maxDurability;
+
+        foreach(var material in build.buildData.materials)
+        {
+            inventory.DecreaseItemQuantity(material.materialData, Mathf.CeilToInt(material.requiredQuantity * ratio * requiredRatio));
         }
     }
 }

@@ -46,7 +46,6 @@ GameObject:
   - component: {fileID: 255361765013780853}
   - component: {fileID: 7802802825309551078}
   - component: {fileID: 4935235247455413476}
-  - component: {fileID: 8863303363674349779}
   - component: {fileID: 1946165808854291378}
   - component: {fileID: 4703415144502610415}
   - component: {fileID: 9029542106920332694}
@@ -171,27 +170,6 @@ MonoBehaviour:
   groundDetectLayerMask:
     serializedVersion: 2
     m_Bits: 5888
---- !u!114 &8863303363674349779
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 293513539923004516}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22f731f27d2880c4f81b9aac25e65143, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inventory: {fileID: 0}
-  buildData: {fileID: 0}
-  previewGameObject: {fileID: 0}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  previewDistance: 10
-  buildDistance: 20
-  isBuildMode: 0
 --- !u!95 &1946165808854291378
 Animator:
   serializedVersion: 5
@@ -262,7 +240,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22f731f27d2880c4f81b9aac25e65143, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camera: {fileID: 0}
   inventory: {fileID: 0}
+  previewBuild: {fileID: 0}
   buildData: {fileID: 0}
   previewGameObject: {fileID: 0}
   groundLayer:
@@ -270,6 +250,10 @@ MonoBehaviour:
     m_Bits: 256
   previewDistance: 10
   buildDistance: 20
+  activeBuild: []
+  removeBuild: []
+  durabilityTickInterval: 2
+  requiredRatio: 0.5
   isBuildMode: 0
 --- !u!1 &353629684960605791
 GameObject:

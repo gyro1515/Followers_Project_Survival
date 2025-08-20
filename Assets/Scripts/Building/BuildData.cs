@@ -32,6 +32,9 @@ public class BuildData : ScriptableObject
     public GameObject previewPrefab;    // PreviewBuild를 달아놓은 프리팹
     public Sprite buildImage;    // 해당 건축물의 이미지
 
+    [Header("Durability")]
+    public int maxDurability;   // 총 내구도
+
     [Header("Material")]
     public ItemMaterial[] materials;
     public bool hasAllMaterials;

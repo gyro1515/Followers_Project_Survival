@@ -344,6 +344,7 @@ public class UIInventory : MonoBehaviour
 
     public void DecreaseItemQuantity(ItemData item, int useQuantity)    // 외부에서 인벤토리에 있는 아이템을 사용할 때 실행
     {
+        Debug.Log("아이템 개수 감소");
         for(int i = slots.Length - 1; i >= 0; i--)
         {
             if (slots[i].Item == item)
