@@ -48,6 +48,7 @@ GameObject:
   - component: {fileID: 4935235247455413476}
   - component: {fileID: 1946165808854291378}
   - component: {fileID: 4703415144502610415}
+  - component: {fileID: 9029542106920332694}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -148,7 +149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraTarget: {fileID: 2957480263523843480}
   HorizontalSensitivity: 0.1
-  VerticalSensitivity: 0.01
+  VerticalSensitivity: 0.05
   MaxCameraPitch: 40
   MinCameraPitch: -40
   virtualCamera: {fileID: 0}
@@ -210,6 +211,23 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d5d647e880d7c2c4fb5bd8b656406669, type: 2}
   - {fileID: 11400000, guid: 0d242c105a7c95249a228ccdedca44a7, type: 2}
   - {fileID: 11400000, guid: 8d63ff0c0c8d60044bde9f8ea7b9288b, type: 2}
+--- !u!114 &9029542106920332694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 293513539923004516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83a336619a0d65043823d48a4ccb7782, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkRate: 0.05
+  maxCheckDistance: 8
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!1 &353629684960605791
 GameObject:
   m_ObjectHideFlags: 0

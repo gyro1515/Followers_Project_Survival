@@ -59,13 +59,13 @@ public class ResourceRespawnController : MonoBehaviour
                 }
             }
         }
-        else if (Input.GetKeyDown(KeyCode.R))
+        /*else if (Input.GetKeyDown(KeyCode.R))
         {
             // 상호작용할 것이 있다면
             curInteractable?.OnInteract();
-        }
+        }*/
         // 테스트 용, 상호작용 가능한 물체면 UI 띄우기
-        if (!Physics.Raycast(ray, out RaycastHit hitInteracterble, 100f, LayerMask.GetMask("Interacterble")))
+        /*if (!Physics.Raycast(ray, out RaycastHit hitInteracterble, 100f, LayerMask.GetMask("Interacterble")))
         {
             curInteractable = null;
             UIManager.Instance.DeactivateInteractionUI(); // UI 끄기
@@ -73,7 +73,7 @@ public class ResourceRespawnController : MonoBehaviour
         }
         if (!hitInteracterble.collider.TryGetComponent(out IInteractable interactableForText)) return; // 이중 체크 -> 굳이?
         curInteractable = interactableForText;
-        interactableForText.SetInteractionText();
+        interactableForText.SetInteractionText();*/
 
     }
     void SpawnNPC()
@@ -115,6 +115,7 @@ public class ResourceRespawnController : MonoBehaviour
             float randomY = Random.Range(0f, 360f);
             Quaternion rot = Quaternion.Euler(0f, randomY, 0f);
             Instantiate(prefab, spawnPos, rot).transform.SetParent(gameObject.transform);
+            spawnedPos.Add(randomPos2);
             break; // 소환 끝나면 while 종료
         }
     }
@@ -169,7 +170,7 @@ public class ResourceRespawnController : MonoBehaviour
             float randomY = Random.Range(0f, 360f);
             Quaternion rot = Quaternion.Euler(0f, randomY, 0f);
             Instantiate(prefab, spawnPos, rot).transform.SetParent(gameObject.transform);
-            spawnedPos.Add(new Vector2(spawnPos.x, spawnPos.z));
+            spawnedPos.Add(randomPos2);
             resouceCnt++;
             //Debug.Log($"{prefab.name} 리스폰");
             break; // 소환 끝나면 while 종료
