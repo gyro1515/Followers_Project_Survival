@@ -94,7 +94,11 @@ GameObject:
   - component: {fileID: 7691144845608691460}
   - component: {fileID: 9107727501986442861}
   - component: {fileID: 845399924020993460}
+<<<<<<< Updated upstream
   - component: {fileID: 8674086450280352373}
+=======
+  - component: {fileID: 4212096322677476357}
+>>>>>>> Stashed changes
   m_Layer: 0
   m_Name: PreviewWoodenHouse
   m_TagString: Untagged
@@ -134,7 +138,7 @@ MonoBehaviour:
   red: {fileID: 2100000, guid: 52edc1824b3cbef4cb22cbd7712d3ce5, type: 2}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 32768
+    m_Bits: 0
   materials: []
 --- !u!65 &845399924020993460
 BoxCollider:
@@ -157,7 +161,11 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 8.5, y: 9.5, z: 13.5}
   m_Center: {x: 0.1, y: 3.45, z: -0.5}
+<<<<<<< Updated upstream
 --- !u!208 &8674086450280352373
+=======
+--- !u!208 &4212096322677476357
+>>>>>>> Stashed changes
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -167,9 +175,17 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
+<<<<<<< Updated upstream
   m_Extents: {x: 4.5, y: 5, z: 7}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.1, y: 3.45, z: -0.5}
+=======
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+>>>>>>> Stashed changes
   m_TimeToStationary: 0.5

@@ -130,8 +130,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3022671631978572511}
+<<<<<<< Updated upstream
   - component: {fileID: -5028687921763245821}
   m_Layer: 30
+=======
+  - component: {fileID: -7999947816604178496}
+  m_Layer: 10
+>>>>>>> Stashed changes
   m_Name: Rock2
   m_TagString: Rock
   m_Icon: {fileID: 0}
@@ -154,7 +159,11 @@ Transform:
   - {fileID: 1397680117730587464}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< Updated upstream
 --- !u!208 &-5028687921763245821
+=======
+--- !u!208 &-7999947816604178496
+>>>>>>> Stashed changes
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -164,9 +173,15 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
+<<<<<<< Updated upstream
   m_Extents: {x: 0.5, y: 0.5, z: 0.5}
   m_MoveThreshold: 0.1
   m_Carve: 1
+=======
+  m_Extents: {x: 0.5, y: 1, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+>>>>>>> Stashed changes
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5

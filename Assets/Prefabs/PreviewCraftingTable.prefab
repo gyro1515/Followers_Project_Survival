@@ -11,7 +11,11 @@ GameObject:
   - component: {fileID: 3310496880150999516}
   - component: {fileID: 7731356192042048516}
   - component: {fileID: 2738470915164040004}
+<<<<<<< Updated upstream
   - component: {fileID: 6163423555830434465}
+=======
+  - component: {fileID: 4975503131473900367}
+>>>>>>> Stashed changes
   m_Layer: 0
   m_Name: PreviewCraftingTable
   m_TagString: Untagged
@@ -53,7 +57,11 @@ MonoBehaviour:
   red: {fileID: 2100000, guid: 52edc1824b3cbef4cb22cbd7712d3ce5, type: 2}
   groundLayer:
     serializedVersion: 2
+<<<<<<< Updated upstream
     m_Bits: 32768
+=======
+    m_Bits: 0
+>>>>>>> Stashed changes
   materials: []
 --- !u!65 &2738470915164040004
 BoxCollider:
@@ -76,7 +84,11 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.5, y: 1.15, z: 1.14}
   m_Center: {x: 0, y: 0.57, z: 0}
+<<<<<<< Updated upstream
 --- !u!208 &6163423555830434465
+=======
+--- !u!208 &4975503131473900367
+>>>>>>> Stashed changes
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -86,11 +98,19 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
+<<<<<<< Updated upstream
   m_Extents: {x: 1.5, y: 0.825, z: 0.82}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0.57, z: 0}
+=======
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+>>>>>>> Stashed changes
   m_TimeToStationary: 0.5
 --- !u!1001 &617930023229052996
 PrefabInstance:

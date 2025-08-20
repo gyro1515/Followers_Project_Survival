@@ -10,8 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 2511104569065197029}
   - component: {fileID: 5504991208003293218}
+<<<<<<< Updated upstream
   - component: {fileID: -3305228343648030430}
   m_Layer: 30
+=======
+  - component: {fileID: -2597691522317643362}
+  m_Layer: 10
+>>>>>>> Stashed changes
   m_Name: Tree3
   m_TagString: Tree
   m_Icon: {fileID: 0}
@@ -58,7 +63,11 @@ LODGroup:
     renderers:
     - renderer: {fileID: 2311021963051785178}
   m_Enabled: 1
+<<<<<<< Updated upstream
 --- !u!208 &-3305228343648030430
+=======
+--- !u!208 &-2597691522317643362
+>>>>>>> Stashed changes
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -68,11 +77,19 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 0
+<<<<<<< Updated upstream
   m_Extents: {x: 1, y: 3, z: 1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 2.5, z: 0}
+=======
+  m_Extents: {x: 0.3, y: 2, z: 0.3}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 2, z: 0}
+>>>>>>> Stashed changes
   m_TimeToStationary: 0.5
 --- !u!1 &2248195902758369572
 GameObject:
