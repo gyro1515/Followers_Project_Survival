@@ -64,7 +64,7 @@ public class UIInventory : MonoBehaviour
     }
     private void Start()
     {
-        
+
         Toggle(); // 시작 시 Inventory 창 닫기
     }
     // 선택한 아이템 표시할 정보창 Clear 함수
@@ -95,7 +95,7 @@ public class UIInventory : MonoBehaviour
     {
         return inventoryWindow.activeSelf;
     }
-    public void AddItem(ItemData data)
+    public void AddItem(ItemData data, int quantity = 1)
     {
         // 여러개 가질 수 있는 아이템이라면
 
@@ -103,19 +103,50 @@ public class UIInventory : MonoBehaviour
         // if(data.Type == EItemType.Resource)
         // 어차피 형변환을 한 번 해야 한다면 이렇게 해도...?
         StackableItemData stackableData = data as StackableItemData;
+        ItemSlot emptySlot;
         if (stackableData != null)
         {
-            ItemSlot slot = GetItemStack(stackableData);
-            if (slot != null)
+            //ItemSlot slot = GetItemStack(stackableData);
+            //if (slot != null)
+            //{
+            //    slot.Quantity++;
+            //    UpdateUI();
+            //    return;
+            //}
+
+            /////////////////////////
+
+            while (quantity > 0)
             {
-                slot.Quantity++;
+                ItemSlot slot = GetItemStack(stackableData);
+                if (slot != null)
+                {
+                    int cap = stackableData.MaxStackAmount - slot.Quantity;
+                    int add = Mathf.Min(quantity, cap);
+                    slot.Quantity += add;
+                    quantity -= add;
+                }
+                else
+                {
+                    emptySlot = GetEmptySlot();
+
+                    if (emptySlot != null)
+                    {
+                        emptySlot.Item = data;
+                        int num = Mathf.Min(quantity, stackableData.MaxStackAmount);
+                        emptySlot.Quantity = num;
+                        quantity -= num;
+                    }
+                }
+
                 UpdateUI();
-                return;
             }
+
+            return;
         }
 
         // 빈 슬롯 찾기
-        ItemSlot emptySlot = GetEmptySlot();
+        emptySlot = GetEmptySlot();
 
         // 빈 슬롯이 있다면
         if (emptySlot != null)
@@ -302,21 +333,21 @@ public class UIInventory : MonoBehaviour
 
     public void DecreaseItemQuantity(ItemData item, int useQuantity)    // 외부에서 인벤토리에 있는 아이템을 사용할 때 실행
     {
-        foreach(var slot in slots)
+        for(int i = slots.Length - 1; i > 0; i--)
         {
-            if(slot.Item == item)
+            if (slots[i].Item == item)
             {
-                if(slot.Quantity >= useQuantity)
+                if (slots[i].Quantity >= useQuantity)
                 {
-                    slot.Quantity -= useQuantity;
+                    slots[i].Quantity -= useQuantity;
                     useQuantity = 0;
                     break;
                 }
                 else
                 {
-                    useQuantity -= slot.Quantity;
-                    slot.Quantity = 0;
-                    slot.Item = null;
+                    useQuantity -= slots[i].Quantity;
+                    slots[i].Quantity = 0;
+                    slots[i].Item = null;
                 }
             }
         }

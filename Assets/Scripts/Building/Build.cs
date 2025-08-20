@@ -6,6 +6,8 @@ public class Build : MonoBehaviour
 {
     [SerializeField] Camera camera;
 
+    public UIInventory inventory;
+
     public BuildData buildData;
     public GameObject previewGameObject;
 
@@ -18,6 +20,11 @@ public class Build : MonoBehaviour
 
     public bool isBuildMode = false;
 
+    private void Awake()
+    {
+        inventory = FindObjectOfType<UIInventory>();
+    }
+
     private void Update()
     {
         if (isBuildMode)
@@ -26,6 +33,13 @@ public class Build : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
                 InitBuilding();
+            }
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                // 재료 돌려주기
+                ReturnMaterial();
+
+                CancelPreview();
             }
         }
     }
@@ -53,8 +67,7 @@ public class Build : MonoBehaviour
 
     public void InitPreview(GameObject preview)
     {
-        // 플레이어 만들면 위치 가져와서 previewPosition 설정해주기, 조금 앞에서 아래쪽으로 레이쏴서 그 포인트에서 설치되게 하면 될듯?
-        //previewPosition = PlayerManager.Instance.player.transform.position을 이용해서 바로 앞에 있는 땅에다 설치
+        isBuildMode = true;
 
         // 땅 쪽으로 레이 쏘기
         RaycastHit hit;
@@ -95,5 +108,14 @@ public class Build : MonoBehaviour
     {
         isBuildMode = false;
         Destroy(previewGameObject);
+        previewGameObject = null;
+    }
+
+    public void ReturnMaterial()
+    {
+        foreach(var material in buildData.materials)
+        {
+            inventory.AddItem(material.materialData, material.requiredQuantity);
+        }
     }
 }

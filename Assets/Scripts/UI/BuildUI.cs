@@ -92,6 +92,11 @@ public class BuildUI : MonoBehaviour
         UpdateUI();
     }
 
+    public void CloseBuildUI()
+    {
+        gameObject.SetActive(false);
+    }
+
     public void OnClickCancel()
     {
         build.CancelPreview();
@@ -114,9 +119,8 @@ public class BuildUI : MonoBehaviour
         build.buildData = selectedBuild;
         // 미리보기 생성
         build.InitPreview(selectedBuild.previewPrefab);
-        // 비활성화 투명으로 만들든 setactive를 이용하든 안 보이게 하기
-        gameObject.SetActive(false);
-        build.isBuildMode = true;
+        // UI 끄기
+        CloseBuildUI();
     }
 
     public void OnClickExit()
