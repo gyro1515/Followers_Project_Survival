@@ -14,15 +14,16 @@ public class InteractionComponet : MonoBehaviour
     private SelectionOutlineController selectionOutlineController;
 
     private IInteractable curInteractable;
-    public IInteractable CurInteractable { get { return curInteractable; } }
+    private IInteractable waterInteratable;
+    public IInteractable CurInteractable { get { return curInteractable; } set { curInteractable = value; } }
 
-    void Start()
+    bool bIsInWater = false;
+    void Awake()
     {
         _camera = Camera.main;
         selectionOutlineController = _camera.GetComponent<SelectionOutlineController>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         checkTimer += Time.deltaTime;
@@ -33,8 +34,16 @@ public class InteractionComponet : MonoBehaviour
         RaycastHit hit;
         if (!Physics.Raycast(ray, out hit, maxCheckDistance, layerMask))
         {
-            curInteractable = null;
-            UIManager.Instance.DeactivateInteractionUI(); // UI 끄기
+            if(!bIsInWater) // 플레이어가 물에 없을때만
+            {
+                curInteractable = null;
+                UIManager.Instance.DeactivateInteractionUI(); // UI 끄기
+            }
+            else // 물에 있을 때는 다시 물 상호작용으로 바꾸기
+            {
+                curInteractable = waterInteratable;
+                curInteractable?.SetInteractionText();
+            }
             selectionOutlineController?.RemoveOutline();
             return; // 상호작용만 체크
         }
@@ -46,5 +55,23 @@ public class InteractionComponet : MonoBehaviour
     public void OnIteract()
     {
         curInteractable?.OnInteract();
+    }
+    public void InWater(bool _isInWater, IInteractable _interact)
+    {
+        bIsInWater = _isInWater;
+        if (bIsInWater)
+        {
+            //enabled = false; // 기획에 따라 레이캐스트 감지를 정지할 수도 있음
+            curInteractable = _interact;
+            waterInteratable = _interact;
+            curInteractable?.SetInteractionText();
+        }
+        else
+        {
+            //enabled = true;
+            curInteractable = null;
+            waterInteratable = null;
+            UIManager.Instance.DeactivateInteractionUI();
+        }
     }
 }

@@ -35,7 +35,7 @@ public class ResourceRespawnController : MonoBehaviour
     private void Update()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        // 테스트 용, 추후 플레이어 컨트롤로 이동
+        // 테스트 용, 추후 플레이어 컨트롤로 이동 -> 아마도 플레이어 어택으로 가야 할 듯?
         if (Input.GetMouseButtonDown(0))
         {
             //if(Physics.Raycast(ray, out RaycastHit hit, 100f, LayerMask.GetMask("Interacterble", "Resource"))) // 리소스와 상호작용 가능한 것만 체크
@@ -59,22 +59,6 @@ public class ResourceRespawnController : MonoBehaviour
                 }
             }
         }
-        /*else if (Input.GetKeyDown(KeyCode.R))
-        {
-            // 상호작용할 것이 있다면
-            curInteractable?.OnInteract();
-        }*/
-        // 테스트 용, 상호작용 가능한 물체면 UI 띄우기
-        /*if (!Physics.Raycast(ray, out RaycastHit hitInteracterble, 100f, LayerMask.GetMask("Interacterble")))
-        {
-            curInteractable = null;
-            UIManager.Instance.DeactivateInteractionUI(); // UI 끄기
-            return; // 상호작용만 체크
-        }
-        if (!hitInteracterble.collider.TryGetComponent(out IInteractable interactableForText)) return; // 이중 체크 -> 굳이?
-        curInteractable = interactableForText;
-        interactableForText.SetInteractionText();*/
-
     }
     void SpawnNPC()
     {
