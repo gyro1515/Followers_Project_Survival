@@ -32,34 +32,6 @@ public class ResourceRespawnController : MonoBehaviour
         SpawnNPC(); // npc와 자원이 안 겹치도록 소환하기
         InvokeRepeating("Respawn", 0f, respownTime); // respownTime초마다 리스폰
     }
-    private void Update()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        // 테스트 용, 추후 플레이어 컨트롤로 이동 -> 아마도 플레이어 어택으로 가야 할 듯?
-        if (Input.GetMouseButtonDown(0))
-        {
-            //if(Physics.Raycast(ray, out RaycastHit hit, 100f, LayerMask.GetMask("Interacterble", "Resource"))) // 리소스와 상호작용 가능한 것만 체크
-            if(Physics.Raycast(ray, out RaycastHit hit, 100f, LayerMask.GetMask("Resource"))) // 자원만 체크
-            {
-                //Debug.DrawLine(Camera.main.ScreenToWorldPoint(Input.mousePosition), hit.point, Color.magenta, 1f);
-                if(hit.collider.TryGetComponent(out Resource resource)) // 캘 수 있는 자원이라면
-                {
-                    // 추후 아래 부분 갈아 엎어야 함
-                    if(resource.gameObject.CompareTag("Tree"))
-                    {
-                        Debug.Log("자원 캐기: 나무");
-
-                        resource.Gather(hit.point, hit.normal, 1, ref curTreeCnt);
-                    }
-                    else if(resource.gameObject.CompareTag("Rock"))
-                    {
-                        Debug.Log("자원 캐기: 돌");
-                        resource.Gather(hit.point, hit.normal, 1, ref curRockCnt);
-                    }
-                }
-            }
-        }
-    }
     void SpawnNPC()
     {
         foreach(var npc in npcPrefabs)
@@ -153,13 +125,24 @@ public class ResourceRespawnController : MonoBehaviour
             // 랜덤 회전값 주기, y값만(yaw)
             float randomY = Random.Range(0f, 360f);
             Quaternion rot = Quaternion.Euler(0f, randomY, 0f);
-            Instantiate(prefab, spawnPos, rot).transform.SetParent(gameObject.transform);
+            GameObject resourceObject = Instantiate(prefab, spawnPos, rot);
+            resourceObject.transform.SetParent(gameObject.transform);
+            Resource resourceScript = resourceObject.GetComponentInChildren<Resource>();
+            resourceScript.OnResourceDepleted += HandleResourceDepleted;
             spawnedPos.Add(randomPos2);
             resouceCnt++;
             //Debug.Log($"{prefab.name} 리스폰");
             break; // 소환 끝나면 while 종료
         }
         
+    }
+    private void HandleResourceDepleted(Resource resource)
+    {
+        // enum으로 타입 주기?
+        if (resource.CompareTag("Tree"))
+            curTreeCnt--;
+        else if (resource.CompareTag("Rock"))
+            curRockCnt--;
     }
 
 }
