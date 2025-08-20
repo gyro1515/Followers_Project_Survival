@@ -152,6 +152,54 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "PlayerUI",
+            "id": "c0a4b557-ed43-462d-85f3-47fb7a76e88c",
+            "actions": [
+                {
+                    "name": "Inventory",
+                    "type": "Button",
+                    "id": "66920c1b-1fd8-4592-bd58-f834f5cba23c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Build",
+                    "type": "Button",
+                    "id": "1333c38d-801b-473a-89f1-afa4c4a85ca9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "cb8675a0-dfa5-40bc-bd2c-e722bb863adb",
+                    "path": "<Keyboard>/b",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Build",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c816cfec-1831-4f2b-8273-fe2f2a567bec",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Inventory",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
