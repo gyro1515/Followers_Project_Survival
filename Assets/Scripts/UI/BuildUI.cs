@@ -43,7 +43,7 @@ public class BuildUI : MonoBehaviour
         //build = PlayerManager.Instance.player.build;
         gameObject.SetActive(false);
 
-        // 임시로 Find 사용
+        // 임시로 Find 사용, 어떻게 가져와야 좋을까
         build = FindObjectOfType<Build>();
 
         // 버튼 이벤트 할당

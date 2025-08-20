@@ -73,12 +73,13 @@ public class UIManager : SingletonMono<UIManager>
         /*if (Input.GetKeyDown(KeyCode.B))
         {
             buildUI?.ToggleBuildUI();
-        }
+        }*/
+
         // 테스트
         if (Input.GetKeyDown(KeyCode.C))
         {
             craftUI?.ToggleCraftUI();
-        }*/
+        }
     }
     public void InitializeHUD()
     {
