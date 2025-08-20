@@ -256,7 +256,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25a9c98774ac7f645ad58d08c20ddc18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  craft: {fileID: 0}
   inventory: {fileID: 0}
   craftDatas: []
   craftButton: {fileID: 5920804662104529061}

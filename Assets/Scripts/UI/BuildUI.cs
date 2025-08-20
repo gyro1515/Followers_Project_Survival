@@ -53,6 +53,7 @@ public class BuildUI : MonoBehaviour
 
     private void Update()
     {
+        // 테스트용
         if (gameObject.activeSelf)
         {
             if (Input.GetKeyDown(KeyCode.P))

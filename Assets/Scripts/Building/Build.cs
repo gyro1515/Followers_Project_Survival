@@ -32,6 +32,7 @@ public class Build : MonoBehaviour
 
     private void Update()
     {
+        // 테스트용
         if (isBuildMode)
         {
             UpdatePreviewPosition();

@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 public class CraftUI : MonoBehaviour
 {
-    public Craft craft;
-
     public UIInventory inventory;
 
     [SerializeField] CraftData[] craftDatas;    // 건축물 데이터들
@@ -40,9 +38,6 @@ public class CraftUI : MonoBehaviour
         //build = PlayerManager.Instance.player.build;
         gameObject.SetActive(false);
 
-        // 임시로 Find 사용
-        craft = FindObjectOfType<Craft>();
-
         // 버튼 이벤트 할당
         craftButton.onClick.AddListener(OnClickCraft);
         exitButton.onClick.AddListener(OnClickExit);
@@ -50,6 +45,7 @@ public class CraftUI : MonoBehaviour
 
     private void Update()
     {
+        // 테스트용
         if (gameObject.activeSelf)
         {
             if (Input.GetKeyDown(KeyCode.P))
@@ -62,62 +58,47 @@ public class CraftUI : MonoBehaviour
     // 테스트를 위해 public으로 변경, 이후에 private로 변경해야함
     public void UpdateUI() // 처음에 UI 열때도 실행하기
     {
-        if (selectedCraft == null)  // selectedBuild에 데이터가 없을 시 설정
+        if (selectedCraft == null)  // selectedCraft에 데이터가 없을 시 설정
         {
-            // Build 버튼 비활성화
+            // Craft 버튼 비활성화
             craftButton.interactable = false;
 
             // Material 리스트 초기화
             DestroyChildObject(materialListContent);
 
-            // 건물 이름, 설명, 이미지
+            // 아이템 이름, 설명, 이미지
             craftName.text = string.Empty;
             craftDescription.text = string.Empty;
             craftImage.sprite = nullImage;
         }
         else
         {
-            //buildButton.interactable = selectedBuild.CheckQuantity(currentQuantity);
-            craftButton.interactable = CheckHasAllMaterials();  // 재료가 충분하면 Build 버튼 활성화
+            craftButton.interactable = CheckHasAllMaterials();  // 재료가 충분하면 Craft 버튼 활성화
 
-            // 건물 이름, 설명, 이미지
-            craftName.text = selectedCraft.buildName;
-            craftDescription.text = selectedCraft.description;
-            craftImage.sprite = selectedCraft.buildImage;
+            // 아이템 이름, 설명, 이미지
+            craftName.text = selectedCraft.data.DisplayName;
+            craftDescription.text = selectedCraft.data.Description;
+            craftImage.sprite = selectedCraft.data.Icon;
 
             // 재료 리스트 갱신
-            UpdateBuildMaterial();
+            UpdateCraftMaterial();
         }
     }
 
-    public void ToggleBuildUI()
+    public void OpenCraftUI()
     {
-        if (gameObject.activeSelf) CloseBuildUI();
-        else OpenBuildUI();
-    }
-
-    public void OpenBuildUI()
-    {
-        if (craft.previewGameObject != null)
-        {
-            craft.CancelPreview();
-        }
         selectedCraft = craftDatas[0];
         gameObject.SetActive(true);
         UpdateUI();
     }
 
-    public void CloseBuildUI()
+    public void CloseCraftUI()
     {
+        selectedCraft = null;
         gameObject.SetActive(false);
     }
 
-    public void OnClickCancel()
-    {
-        craft.CancelPreview();
-    }
-
-    public void OnClickBuildSlot(BuildData data)
+    public void OnClickCraftSlot(CraftData data)
     {
         selectedCraft = data;
         UpdateUI();
@@ -125,37 +106,33 @@ public class CraftUI : MonoBehaviour
 
     public void OnClickCraft()
     {
-        // 미리보기 생성
-        craft.InitPreview(selectedCraft);
-        // UI 끄기
-        CloseBuildUI();
+        // 아이템 생성
+        CraftItem(selectedCraft);
     }
 
     public void OnClickExit()
     {
-        craft.isBuildMode = false;
-        selectedCraft = null;
-        gameObject.SetActive(false);
+        CloseCraftUI();
     }
 
     void InitCraftList()
     {
-        foreach (var build in craftDatas)
+        foreach (var craft in craftDatas)
         {
             GameObject go = Instantiate(listPrefab, listContent.transform);
 
             // 텍스트 세팅
-            TextMeshProUGUI buildName = go.GetComponentInChildren<TextMeshProUGUI>();
-            buildName.text = build.buildName;
+            TextMeshProUGUI craftName = go.GetComponentInChildren<TextMeshProUGUI>();
+            craftName.text = craft.data.DisplayName;
 
             // 버튼 onClick 이벤트 세팅
             Button button = go.GetComponentInChildren<Button>();
-            var tempData = build;
-            button.onClick.AddListener(() => OnClickBuildSlot(tempData));
+            var tempData = craft;
+            button.onClick.AddListener(() => OnClickCraftSlot(tempData));
         }
     }
 
-    void UpdateBuildMaterial()
+    void UpdateCraftMaterial()
     {
         // 이미 데이터가 있다면 다 삭제해야함
         DestroyChildObject(materialListContent);
@@ -192,5 +169,15 @@ public class CraftUI : MonoBehaviour
             }
         }
         return true;
+    }
+
+    public void CraftItem(CraftData craftData)
+    {
+        inventory.AddItem(craftData.data);
+        // 재료 감소
+        foreach (var material in craftData.materials)
+        {
+            inventory.DecreaseItemQuantity(material.materialData, material.requiredQuantity);
+        }
     }
 }

@@ -11,7 +11,7 @@ public enum EBuildingType
 }
 
 [Serializable]
-public class BuildMaterial
+public class ItemMaterial
 {
     // 어떤 게 필요한지
     public ItemData materialData;
@@ -33,6 +33,6 @@ public class BuildData : ScriptableObject
     public Sprite buildImage;    // 해당 건축물의 이미지
 
     [Header("Material")]
-    public BuildMaterial[] materials;
+    public ItemMaterial[] materials;
     public bool hasAllMaterials;
 }
