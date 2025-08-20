@@ -24,16 +24,50 @@ public class UIManager : SingletonMono<UIManager>
         uiInventory = Instantiate(inventoryPrefab, gameObject.transform).GetComponent<UIInventory>();
         npcDialouge = Instantiate(npcDialoguePrefab, gameObject.transform).GetComponent<NPCDialogue>();
         interactionUI = Instantiate(interactionUIPrefab, gameObject.transform).GetComponent<InteractionUI>();
-        uiInventory = Instantiate(inventoryPrefab, uiCanvas).GetComponent<UIInventory>();
+        uiInventory = Instantiate(inventoryPrefab, gameObject.transform).GetComponent<UIInventory>();
     }
-
-
+    private void Start()
+    {
+        InitializeHUD();
+    }
     private void Update()
     {
         // 테스트
-        if(uiInventory && Input.GetKeyDown(KeyCode.Tab))
+        if(Input.GetKeyDown(KeyCode.Tab))
         {
             uiInventory?.Toggle();
+        }
+    }
+    public void InitializeHUD()
+    {
+        PlayerCharacter player = GameManager.Instance.GetPlayer(0);
+        //Debug.Log(player.GetStatComponent<PlayerStatComponent>().statValues.Count);
+        if (player.GetStatComponent<PlayerStatComponent>().statValues.Count > 0)
+        {
+            StatValue statValue;
+            if (player.GetStatComponent<PlayerStatComponent>().statValues.TryGetValue(StatType.Health, out statValue))
+            {
+                statValue.OnValueChanged += hudUI.UpdateGaugeBar;
+                statValue.RecalculateFinalValue();
+            }
+            if (player.GetStatComponent<PlayerStatComponent>().statValues.TryGetValue(StatType.Hunger, out statValue))
+            {
+                statValue.OnValueChanged += hudUI.UpdateGaugeBar;
+                statValue.RecalculateFinalValue();
+
+            }
+            if (player.GetStatComponent<PlayerStatComponent>().statValues.TryGetValue(StatType.Stamina, out statValue))
+            {
+                statValue.OnValueChanged += hudUI.UpdateGaugeBar;
+                statValue.RecalculateFinalValue();
+
+            }
+            if (player.GetStatComponent<PlayerStatComponent>().statValues.TryGetValue(StatType.Thirst, out statValue))
+            {
+                statValue.OnValueChanged += hudUI.UpdateGaugeBar;
+                statValue.RecalculateFinalValue();
+
+            }
         }
     }
     public void ActiveNPCDialouge()

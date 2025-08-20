@@ -11,6 +11,10 @@ public abstract class StatComponentBase : MonoBehaviour
     {
         Initialize();
     }
+    protected virtual void Update()
+    {
+
+    }
     protected virtual void Initialize()
     {
         foreach (SO_StatDefinition statDefinition in statDefinitions)
@@ -22,19 +26,4 @@ public abstract class StatComponentBase : MonoBehaviour
 
         }
     }
-
-    protected virtual void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            Test();
-        }
-    }
-
-    public void Test()
-    {
-        statValues[StatType.Health].SetBaseValue(statValues[StatType.Health].BaseValue - 10);
-        Debug.Log(statValues[StatType.Health].FinalValue);
-    }
-
 }

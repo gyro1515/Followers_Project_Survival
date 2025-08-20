@@ -10,21 +10,20 @@ public class PlayerCharacter : CharacterBase
     protected override void Awake()
     {
         base.Awake();
-
         playerController = GetController<PlayerController>();
-        GameManager.Instance.AddPlayer(this);
     }
-
+    protected override void Start()
+    {
+        base.Start();
+    }
     protected override void Update()
     {
         base.Update();
-
     }
 
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
-
     }
 
     private void LateUpdate()
