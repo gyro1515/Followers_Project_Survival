@@ -35,7 +35,7 @@ public class CraftUI : MonoBehaviour
     private void Start()
     {
         InitCraftList();
-        //build = PlayerManager.Instance.player.build;
+
         gameObject.SetActive(false);
 
         // 버튼 이벤트 할당
@@ -85,6 +85,18 @@ public class CraftUI : MonoBehaviour
         }
     }
 
+    public void ToggleCraftUI()
+    {
+        if (gameObject.activeSelf)
+        {
+            CloseCraftUI();
+        }
+        else
+        {
+            OpenCraftUI();
+        }
+    }
+
     public void OpenCraftUI()
     {
         selectedCraft = craftDatas[0];
@@ -108,6 +120,8 @@ public class CraftUI : MonoBehaviour
     {
         // 아이템 생성
         CraftItem(selectedCraft);
+        // 재료 개수 갱신
+        UpdateUI();
     }
 
     public void OnClickExit()

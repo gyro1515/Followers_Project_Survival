@@ -48,12 +48,12 @@ public class UIManager : SingletonMono<UIManager>
         // 테스트
         if (Input.GetKeyDown(KeyCode.B))
         {
-            buildUI.ToggleBuildUI();
+            buildUI?.ToggleBuildUI();
         }
         // 테스트
         if (Input.GetKeyDown(KeyCode.C))
         {
-            craftUI.OpenCraftUI();
+            craftUI?.ToggleCraftUI();
         }
     }
     public void InitializeHUD()
