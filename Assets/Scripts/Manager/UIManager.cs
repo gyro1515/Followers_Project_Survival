@@ -11,11 +11,9 @@ public class UIManager : SingletonMono<UIManager>
     [SerializeField] GameObject npcDialoguePrefab;
     [SerializeField] GameObject interactionUIPrefab;
     private UIInventory uiInventory;
-    public UIInventory UIInventory { get { return uiInventory; } }
-
+    //public UIInventory UIInventory { get { return uiInventory; } }
     HUD hudUI;
-    public HUD HUDUI { get { return hudUI; } }
-
+    //public HUD HUDUI { get { return hudUI; } }
     NPCDialogue npcDialouge;
     InteractionUI interactionUI;
     protected override void Awake()
@@ -36,11 +34,23 @@ public class UIManager : SingletonMono<UIManager>
         // 테스트
         if(uiInventory && Input.GetKeyDown(KeyCode.Tab))
         {
-            uiInventory.Toggle();
+            uiInventory?.Toggle();
         }
     }
     public void ActiveNPCDialouge()
     {
-        npcDialouge.gameObject.SetActive(true);
+        npcDialouge?.gameObject.SetActive(true);
+    }
+    public void SetInteractionUIText(string value) // 세팅하면 자동 활성화
+    {
+        interactionUI?.SetText(value);
+    }
+    public void DeactivateInteractionUI()
+    {
+        interactionUI?.gameObject.SetActive(false);
+    }
+    public void AddItemToInventory(ItemData itemData)
+    {
+        uiInventory?.AddItem(itemData);
     }
 }

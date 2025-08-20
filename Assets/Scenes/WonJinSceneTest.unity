@@ -2536,7 +2536,7 @@ GameObject:
   - component: {fileID: 569266006}
   - component: {fileID: 569266008}
   - component: {fileID: 569266007}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5543,7 +5543,7 @@ GameObject:
   - component: {fileID: 1515254985}
   - component: {fileID: 1515254988}
   - component: {fileID: 1515254987}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6198,7 +6198,7 @@ GameObject:
   - component: {fileID: 1622600914}
   - component: {fileID: 1622600915}
   - component: {fileID: 1622600913}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: NPC
   m_TagString: Untagged
   m_Icon: {fileID: 0}

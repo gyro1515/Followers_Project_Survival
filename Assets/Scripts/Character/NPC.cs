@@ -8,6 +8,11 @@ public class NPC : MonoBehaviour, IInteractable //상속?
      
 public void OnInteract()
     {
-        //UIManager.Instance.ActiveNPCDialouge();
+        UIManager.Instance.ActiveNPCDialouge(); // 대화 활성화
+    }
+
+    public void SetInteractionText()
+    {
+        UIManager.Instance.SetInteractionUIText("대화하기");
     }
 }
