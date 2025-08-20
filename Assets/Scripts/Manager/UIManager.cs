@@ -15,11 +15,14 @@ public class UIManager : SingletonMono<UIManager>
     [SerializeField] GameObject interactionUIPrefab;
     [SerializeField] GameObject temperatureUIPrefab;
     [SerializeField] GameObject buildUIPrefab;
+    [SerializeField] GameObject craftUIPrefab;
+
     HUD hudUI;
     NPCDialogue npcDialouge;
     InteractionUI interactionUI;
     TemperatureUI temperatureUI;
     BuildUI buildUI;
+    CraftUI craftUI;
     UIInventory uiInventory;
 
     // 인벤토리가 열리면 건축하기UI 안 열리도록, 혹은 그 반대
@@ -46,11 +49,15 @@ public class UIManager : SingletonMono<UIManager>
         temperatureUI = Instantiate(temperatureUIPrefab, gameObject.transform).GetComponent<TemperatureUI>();
         uiInventory = Instantiate(inventoryPrefab, gameObject.transform).GetComponent<UIInventory>();
         buildUI = Instantiate(buildUIPrefab, gameObject.transform).GetComponent<BuildUI>();
+        craftUI = Instantiate(craftUIPrefab, gameObject.transform).GetComponent <CraftUI>();
     }
     private void Start()
     {
         InitializeHUD();
+        // 인벤토리 연결하는 방법 생각해봐야될듯 어떻게 하지
         buildUI.inventory = uiInventory;
+        craftUI.inventory = uiInventory;
+
         npcDialouge.OnDialogueStateChanged += GameManager.Instance.SetPlayerControlActive;
         GameManager.Instance.AddOnInventoryListener(uiInventory.Toggle);
         GameManager.Instance.AddOnBuildListener(buildUI.ToggleBuildUI);
@@ -65,8 +72,14 @@ public class UIManager : SingletonMono<UIManager>
         // 테스트
         /*if (Input.GetKeyDown(KeyCode.B))
         {
-            buildUI.ToggleBuildUI();
+            buildUI?.ToggleBuildUI();
         }*/
+
+        // 테스트
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            craftUI?.ToggleCraftUI();
+        }
     }
     public void InitializeHUD()
     {
