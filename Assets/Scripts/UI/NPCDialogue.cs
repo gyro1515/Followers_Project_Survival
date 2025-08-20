@@ -14,7 +14,6 @@ public class NPCDialogue : MonoBehaviour
     [SerializeField] float duration = 0.3f; // 글자당 시간
     float totalDuration = 0f;
     string targetText;
-    bool isFinish = false;
     private void Awake()
     {
         targetText = npcDialogueText.text;
@@ -24,6 +23,7 @@ public class NPCDialogue : MonoBehaviour
     {
         // 아마 여기서 글자 세팅하고
         // 아래 실행해야??
+        GameManager.Instance.SetPlayerControlActive(false);
 
         // 랙트 트랜스폼 원상복구
         dialogueWindowRT.position = new Vector3(dialogueWindowRT.position.x, startPosY, dialogueWindowRT.position.z);
@@ -97,5 +97,6 @@ public class NPCDialogue : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         gameObject.SetActive(false);
+        GameManager.Instance.SetPlayerControlActive(true);
     }
 }
