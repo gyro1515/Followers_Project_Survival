@@ -25,4 +25,14 @@ public abstract class StatComponentBase : MonoBehaviour
 
         }
     }
+
+    public StatValue GetStatValue(StatType type)
+    {
+        if (statValues.TryGetValue(type, out var statValue))
+        {
+            return statValue;
+
+        }
+        return null;
+    }
 }

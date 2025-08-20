@@ -53,6 +53,11 @@ public class PlayerController : ControllerBase
             player.GetStatComponent<PlayerStatComponent>().statValues[StatType.Hunger].BaseValue -= 10f;
             player.GetStatComponent<PlayerStatComponent>().statValues[StatType.Thirst].BaseValue -= 10f;
         }
+
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            player.GetStatComponent<PlayerStatComponent>().GetStatValue(StatType.MoveSpeed).BaseValue -= 0.5f;
+        }
         
     }
 

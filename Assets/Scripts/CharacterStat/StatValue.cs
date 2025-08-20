@@ -40,8 +40,7 @@ public class StatValue
         get { return baseValue; }
         set
         {
-            baseValue = value;
-            Mathf.Clamp(baseValue, MinValue, MaxValue);
+            baseValue = Mathf.Clamp(value, MinValue, MaxValue);
             RecalculateFinalValue();
         }
     }
