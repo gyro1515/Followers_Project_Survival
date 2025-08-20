@@ -15,6 +15,7 @@ public class BuildUI : MonoBehaviour
 
     [SerializeField] BuildData[] buildDatas;    // 건축물 데이터들
     [SerializeField] Button buildButton;
+    [SerializeField] Button exitButton;
 
     [Header("List")]
     [SerializeField] GameObject listPrefab; // 건축물 리스트 프리팹
@@ -44,6 +45,10 @@ public class BuildUI : MonoBehaviour
 
         // 임시로 Find 사용
         build = FindObjectOfType<Build>();
+
+        // 버튼 이벤트 할당
+        buildButton.onClick.AddListener(OnClickBuild);
+        exitButton.onClick.AddListener(OnClickExit);
     }
 
     private void Update()

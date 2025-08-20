@@ -1592,6 +1592,7 @@ MonoBehaviour:
   inventory: {fileID: 0}
   buildDatas: []
   buildButton: {fileID: 2820981379227391638}
+  exitButton: {fileID: 2183284447504097630}
   listPrefab: {fileID: 6232850734011135435, guid: 1bda854e3f9597441910f25202054b54, type: 3}
   listContent: {fileID: 3504449428208945895}
   buildName: {fileID: 4733067229487986057}
@@ -1600,7 +1601,6 @@ MonoBehaviour:
   materialListContent: {fileID: 2774215359182490390}
   buildImage: {fileID: 1212047117202686254}
   nullImage: {fileID: 0}
-  selectedBuild: {fileID: 0}
 --- !u!1 &6114102644907906880
 GameObject:
   m_ObjectHideFlags: 0
