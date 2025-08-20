@@ -11,6 +11,7 @@ public class UIManager : SingletonMono<UIManager>
     [SerializeField] GameObject npcDialoguePrefab;
     [SerializeField] GameObject interactionUIPrefab;
     [SerializeField] GameObject buildUIPrefab;
+    [SerializeField] GameObject craftUIPrefab;
     private UIInventory uiInventory;
     //public UIInventory UIInventory { get { return uiInventory; } }
     HUD hudUI;
@@ -18,6 +19,7 @@ public class UIManager : SingletonMono<UIManager>
     NPCDialogue npcDialouge;
     InteractionUI interactionUI;
     BuildUI buildUI;
+    CraftUI craftUI;
     protected override void Awake()
     {
         base.Awake();
@@ -27,11 +29,14 @@ public class UIManager : SingletonMono<UIManager>
         interactionUI = Instantiate(interactionUIPrefab, gameObject.transform).GetComponent<InteractionUI>();
         uiInventory = Instantiate(inventoryPrefab, gameObject.transform).GetComponent<UIInventory>();
         buildUI = Instantiate(buildUIPrefab, gameObject.transform).GetComponent<BuildUI>();
+        craftUI = Instantiate(craftUIPrefab, gameObject.transform).GetComponent <CraftUI>();
     }
     private void Start()
     {
         InitializeHUD();
+        // 인벤토리 연결하는 방법 생각해봐야될듯 어떻게 하지
         buildUI.inventory = uiInventory;
+        craftUI.inventory = uiInventory;
     }
     private void Update()
     {
@@ -44,6 +49,11 @@ public class UIManager : SingletonMono<UIManager>
         if (Input.GetKeyDown(KeyCode.B))
         {
             buildUI.ToggleBuildUI();
+        }
+        // 테스트
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            craftUI.OpenCraftUI();
         }
     }
     public void InitializeHUD()
