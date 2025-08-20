@@ -10,11 +10,15 @@ GameObject:
   m_Component:
   - component: {fileID: 2511104569065197029}
   - component: {fileID: 5504991208003293218}
+<<<<<<< Updated upstream:Assets/Prefabs/Tree3.prefab
 <<<<<<< Updated upstream
   - component: {fileID: -3305228343648030430}
   m_Layer: 30
 =======
   - component: {fileID: -2597691522317643362}
+=======
+  - component: {fileID: 4873967619652911473}
+>>>>>>> Stashed changes:Assets/Prefabs/Resource/Tree3.prefab
   m_Layer: 10
 >>>>>>> Stashed changes
   m_Name: Tree3
@@ -63,11 +67,15 @@ LODGroup:
     renderers:
     - renderer: {fileID: 2311021963051785178}
   m_Enabled: 1
+<<<<<<< Updated upstream:Assets/Prefabs/Tree3.prefab
 <<<<<<< Updated upstream
 --- !u!208 &-3305228343648030430
 =======
 --- !u!208 &-2597691522317643362
 >>>>>>> Stashed changes
+=======
+--- !u!208 &4873967619652911473
+>>>>>>> Stashed changes:Assets/Prefabs/Resource/Tree3.prefab
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -77,6 +85,7 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 0
+<<<<<<< Updated upstream:Assets/Prefabs/Tree3.prefab
 <<<<<<< Updated upstream
   m_Extents: {x: 1, y: 3, z: 1}
   m_MoveThreshold: 0.1
@@ -90,6 +99,13 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 2, z: 0}
 >>>>>>> Stashed changes
+=======
+  m_Extents: {x: 0.2, y: 1, z: 0.2}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+>>>>>>> Stashed changes:Assets/Prefabs/Resource/Tree3.prefab
   m_TimeToStationary: 0.5
 --- !u!1 &2248195902758369572
 GameObject:

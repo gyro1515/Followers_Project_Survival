@@ -9,11 +9,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 37858166003078046}
+<<<<<<< Updated upstream:Assets/Prefabs/Rock3.prefab
 <<<<<<< Updated upstream
   - component: {fileID: 4184927566198108008}
   m_Layer: 30
 =======
   - component: {fileID: -2192516023207847113}
+=======
+  - component: {fileID: -2041012546963163529}
+>>>>>>> Stashed changes:Assets/Prefabs/Resource/Rock3.prefab
   m_Layer: 10
 >>>>>>> Stashed changes
   m_Name: Rock3
@@ -38,11 +42,15 @@ Transform:
   - {fileID: 6950348545505791070}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< Updated upstream:Assets/Prefabs/Rock3.prefab
 <<<<<<< Updated upstream
 --- !u!208 &4184927566198108008
 =======
 --- !u!208 &-2192516023207847113
 >>>>>>> Stashed changes
+=======
+--- !u!208 &-2041012546963163529
+>>>>>>> Stashed changes:Assets/Prefabs/Resource/Rock3.prefab
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -51,6 +59,7 @@ NavMeshObstacle:
   m_GameObject: {fileID: 4046644967367270652}
   m_Enabled: 1
   serializedVersion: 3
+<<<<<<< Updated upstream:Assets/Prefabs/Rock3.prefab
 <<<<<<< Updated upstream
   m_Shape: 0
   m_Extents: {x: 1.7, y: 1.25, z: 1.7}
@@ -64,6 +73,14 @@ NavMeshObstacle:
 >>>>>>> Stashed changes
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 1, z: 0}
+=======
+  m_Shape: 1
+  m_Extents: {x: 1, y: 1, z: 1}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+>>>>>>> Stashed changes:Assets/Prefabs/Resource/Rock3.prefab
   m_TimeToStationary: 0.5
 --- !u!1 &6103359815642250368
 GameObject:

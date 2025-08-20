@@ -19,8 +19,15 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using System.Collections;
 using System.Diagnostics;
+<<<<<<< Updated upstream
 
+=======
+using System;
+using UnityEngine.UI;
+using UnityEngine.AI;
+>>>>>>> Stashed changes
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(NavMeshAgent))]
 class EnemyAI : MonoBehaviour
 {
     #region Constructor
@@ -35,7 +42,8 @@ class EnemyAI : MonoBehaviour
     [Header("MinDPS")]
     [SerializeField] private float minDamageThreshold = 0.002f; // DPS
     [Header("Health")]
-    [SerializeField] private float maxHealth = 100f; // 최대 체력
+    [SerializeField] private float maxHealth = 150f; // 최대 체력
+    
 
     Vector3 _originPos = default;// 원래 자리
     float _currentHealth = 100f; // 현재 체력
@@ -44,6 +52,12 @@ class EnemyAI : MonoBehaviour
     Animator _animator = null;
     bool _isChaseActive = false; // 추적 상태
     Stopwatch _chaseTimer = new Stopwatch(); // 추적 시간 측정
+<<<<<<< Updated upstream
+=======
+    NavMeshAgent _navMeshAgent = null; // 네비게이션 에이전트
+    PlayerCharacter TargetPlayer; // 추적 플레이어
+
+>>>>>>> Stashed changes
 
     const string _ATTACK_ANIM_STATE_NAME = "Attack";
     const string _ATTACK_ANIM_TRIGGER_NAME = "attack";
@@ -53,6 +67,7 @@ class EnemyAI : MonoBehaviour
         _animator = GetComponent<Animator>();
         _BTRunner = new BehaviourTreeRunner(SettingBT());
         _originPos = transform.position;
+        _navMeshAgent = GetComponent<NavMeshAgent>();
     }
 
     private void Update()
@@ -131,8 +146,20 @@ class EnemyAI : MonoBehaviour
 
     IEnumerator Recover()
     {
+<<<<<<< Updated upstream
         yield return new WaitForSeconds(0.5f);
         _currentHealth += (maxHealth - _currentHealth) * 0.1f;
+=======
+        while (_currentHealth < maxHealth)
+        {
+            _currentHealth += Math.Max(1, (maxHealth - _currentHealth) * 0.3f);
+            if (_currentHealth > maxHealth)
+            {
+                _currentHealth = maxHealth;
+            }
+            yield return new WaitForSeconds(0.2f);
+        }
+>>>>>>> Stashed changes
     }
     #region Actions
     INode.ENodeState CanAttack()
@@ -157,6 +184,7 @@ class EnemyAI : MonoBehaviour
             return INode.ENodeState.Success;
         }
         return INode.ENodeState.Failure;
+        // 플레이어에게 공격 판정 로직 추가 요망
     }
 
     INode.ENodeState AttackCooldown()
@@ -187,6 +215,7 @@ class EnemyAI : MonoBehaviour
         {
             if (hitCollider.CompareTag("Player"))
             {
+                TargetPlayer = hitCollider.GetComponent<PlayerCharacter>();
                 Vector3 directionToPlayer = (hitCollider.transform.position - transform.position).normalized;
                 float angle = Vector3.Angle(transform.forward, directionToPlayer);
                 if (angle < detectionAngle / 2f)
@@ -203,6 +232,10 @@ class EnemyAI : MonoBehaviour
     INode.ENodeState DamageDetect()
     {
         // 플레이어로부터 공격을 받았을 때
+<<<<<<< Updated upstream
+=======
+        // 차후 플레이어의 공격 로직이 완성된 후 작성
+>>>>>>> Stashed changes
         return INode.ENodeState.Success;
     }
 
@@ -210,8 +243,24 @@ class EnemyAI : MonoBehaviour
     {
         _isChaseActive = true;
         _chaseTimer.Restart();
+<<<<<<< Updated upstream
         //NevMesh 를 이용한 이동 구현
         // 이동이 불가능할 때 실패(경로가 나오지 않을 때)
+=======
+        ////NevMesh 를 이용한 이동 구현
+        //// 이동이 불가능할 때 실패(경로가 나오지 않을 때)
+        //if (_navMeshAgent.SetDestination(Vector3.back))
+        //    {
+        //    _navMeshAgent.speed = moveSpeed;
+        //    _navMeshAgent.isStopped = false;
+        //    return INode.ENodeState.Running;
+        //}
+        //else
+        //{
+        //    _navMeshAgent.isStopped = true;
+        //    return INode.ENodeState.Failure;
+        //}
+>>>>>>> Stashed changes
         return INode.ENodeState.Success;
     }
 

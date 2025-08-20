@@ -73,9 +73,15 @@ NavMeshProjectSettings:
   m_Settings:
   - serializedVersion: 3
     agentTypeID: 0
+<<<<<<< Updated upstream
     agentRadius: 0.7
     agentHeight: 2
     agentSlope: 30
+=======
+    agentRadius: 2
+    agentHeight: 1.5
+    agentSlope: 20
+>>>>>>> Stashed changes
     agentClimb: 0.5
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
@@ -87,6 +93,7 @@ NavMeshProjectSettings:
     buildHeightMesh: 0
     maxJobWorkers: 0
     preserveTilesOutsideBounds: 0
+<<<<<<< Updated upstream
     debug:
       m_Flags: 0
   - serializedVersion: 3
@@ -109,4 +116,9 @@ NavMeshProjectSettings:
       m_Flags: 0
   m_SettingNames:
   - Humanoid
+=======
+    debug:
+      m_Flags: 0
+  m_SettingNames:
+>>>>>>> Stashed changes
   - Monster

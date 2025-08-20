@@ -1264,6 +1264,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 5
   jumpForce: 5
+<<<<<<< Updated upstream
+=======
+  groundDetectLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+>>>>>>> Stashed changes
 --- !u!114 &208771998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1281,6 +1287,10 @@ MonoBehaviour:
   VerticalSensitivity: 0.01
   MaxCameraPitch: 40
   MinCameraPitch: -40
+<<<<<<< Updated upstream
+=======
+  virtualCamera: {fileID: 0}
+>>>>>>> Stashed changes
 --- !u!114 &208771999
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4376,6 +4386,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 0
   jumpForce: 5
+<<<<<<< Updated upstream
+=======
+  groundDetectLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+>>>>>>> Stashed changes
 --- !u!54 &819182644
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -7156,9 +7172,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08cd5688be2e00443a6876caaa4d2b7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   uiCanvas: {fileID: 0}
   inventoryPrefab: {fileID: 656363075270232250, guid: 256904f8b9fb86d4d8fadbea98b5caa5, type: 3}
   hudPrefab: {fileID: 195571802147272189, guid: 2b981f34df0c7da4094f998e333f98e4, type: 3}
+=======
+  inventoryPrefab: {fileID: 656363075270232250, guid: 256904f8b9fb86d4d8fadbea98b5caa5, type: 3}
+  hudPrefab: {fileID: 195571802147272189, guid: 2b981f34df0c7da4094f998e333f98e4, type: 3}
+  npcDialoguePrefab: {fileID: 0}
+  interactionUIPrefab: {fileID: 0}
+>>>>>>> Stashed changes
 --- !u!4 &1696142022
 Transform:
   m_ObjectHideFlags: 0
