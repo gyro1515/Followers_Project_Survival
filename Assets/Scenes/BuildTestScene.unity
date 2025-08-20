@@ -8840,6 +8840,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   previewPosition: {x: 0, y: 1, z: 3}
+  previewDistance: 3
   buildDistance: 10
   isBuildMode: 0
 --- !u!1 &2003985587

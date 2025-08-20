@@ -40,11 +40,12 @@ public class BuildUI : MonoBehaviour
 
         // 임시로 Find 사용
         build = FindObjectOfType<Build>();
-        inventory = FindObjectOfType<UIInventory>();
+        
     }
 
     private void Start()
     {
+        inventory = FindObjectOfType<UIInventory>();
         InitBuildList();
         //build = PlayerManager.Instance.player.build;
         gameObject.SetActive(false);

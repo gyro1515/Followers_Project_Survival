@@ -12,7 +12,8 @@ public class Build : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
 
     [SerializeField] Vector3 previewPosition;   // 첫 프리뷰 생성 지점
-    Quaternion previewRotation; // 첫 프리뷰 생성시 회전값
+    [SerializeField] float previewDistance; // 첫 프리뷰 생성 거리
+    public Quaternion previewRotation; // 첫 프리뷰 생성시 회전값
     [SerializeField] float buildDistance;    // 건축 사정거리
 
     public bool isBuildMode = false;
@@ -58,12 +59,15 @@ public class Build : MonoBehaviour
         // 땅 쪽으로 레이 쏘기
         RaycastHit hit;
         Vector3 initPosition;
+        Quaternion rotation;
 
         // 땅과 충돌이 됐을 때
-        if (Physics.Raycast(previewPosition + transform.position, Vector3.down, out hit, buildDistance, groundLayer))
+        if (Physics.Raycast(transform.position + transform.forward * previewDistance, Vector3.down, out hit, buildDistance, groundLayer))
         {
             // 위치 갱신
             initPosition = hit.point;
+
+            
         }
         else
         {
@@ -73,7 +77,12 @@ public class Build : MonoBehaviour
         }
 
         previewRotation = preview.transform.rotation;
-        previewGameObject = Instantiate(preview, initPosition, previewRotation);
+
+        rotation = Quaternion.LookRotation(camera.transform.forward) * previewRotation;
+        rotation.x = 0;
+        rotation.z = 0;
+
+        previewGameObject = Instantiate(preview, initPosition, rotation);
     }
 
     public void InitBuilding()
