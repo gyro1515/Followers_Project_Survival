@@ -17,11 +17,17 @@ public class StatChangedEventArgs : EventArgs
     }
 }
 
+// BaseValue: 레벨업, 스탯 상승 등을 반영하는 수치
+// modifier: 버프, 디버프 효과 같이 잠시 적용되는 수치
+// MinValue, MaxValue: BaseValue의 최소, 최대
+// FinalValue: 계산식에 따라 최종 계산된 스탯값
+// FinalValue = (BaseValue + FlatModifier) * (1 + PercentModifier)
 [System.Serializable]
 public class StatValue
 {
     public SO_StatDefinition StatDefinition;
     public StatType statType;
+    // public StatType StatType
     public float BaseValue;
     public float MinValue;
     public float MaxValue;
@@ -51,7 +57,6 @@ public class StatValue
     public void SetFinalValue(float value)
     {
         FinalValue = value;
-        Mathf.Clamp(FinalValue, MinValue, MaxValue);
 
         OnValueChanged?.Invoke(new StatChangedEventArgs(statType, FinalValue, MinValue, MaxValue));
     }
@@ -59,6 +64,8 @@ public class StatValue
     public void SetBaseValue(float value)
     {
         BaseValue = value;
+        Mathf.Clamp(BaseValue, MinValue, MaxValue);
+
         RecalculateFinalValue();
     }
 
