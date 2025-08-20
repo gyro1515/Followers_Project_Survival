@@ -87,8 +87,19 @@ public class UIInventory : MonoBehaviour
     // Inventory 창 Open/Close 시 호출
     public void Toggle()
     {
-        if (IsOpen()) inventoryWindow.SetActive(false);
-        else inventoryWindow.SetActive(true);
+        if (IsOpen())
+        {
+            UIManager.Instance.IsAnyUIOn = false;
+            inventoryWindow.SetActive(false);
+            GameManager.Instance.SetCursorVisibility(false);
+        }
+        else
+        {
+            if (UIManager.Instance.IsAnyUIOn) return;
+            UIManager.Instance.IsAnyUIOn = true;
+            inventoryWindow.SetActive(true);
+            GameManager.Instance.SetCursorVisibility(true);
+        }
         if (openCloseClip) audioSource.PlayOneShot(openCloseClip);
     }
     public bool IsOpen()

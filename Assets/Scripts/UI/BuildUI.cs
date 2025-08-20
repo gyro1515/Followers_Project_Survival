@@ -96,8 +96,19 @@ public class BuildUI : MonoBehaviour
 
     public void ToggleBuildUI()
     {
-        if (gameObject.activeSelf) CloseBuildUI();
-        else OpenBuildUI();
+        if (gameObject.activeSelf)
+        {
+            UIManager.Instance.IsAnyUIOn = false;
+            CloseBuildUI();
+            GameManager.Instance.SetCursorVisibility(false);
+        }
+        else 
+        {
+            if (UIManager.Instance.IsAnyUIOn) return;
+            UIManager.Instance.IsAnyUIOn = true;
+            OpenBuildUI();
+            GameManager.Instance.SetCursorVisibility(true);
+        }
     }
 
     public void OpenBuildUI()

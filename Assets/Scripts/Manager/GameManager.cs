@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -7,14 +8,17 @@ public class GameManager : SingletonMono<GameManager>
 {
     List<PlayerCharacter> players = new List<PlayerCharacter>();
     GameObject prefab;
+    PlayerController playerController;
     protected override void Awake()
     {
         base.Awake();
         prefab = Resources.Load<GameObject>("Prefabs/Player");
 
         //if(gameObject.IsDestroyed()) return;
-        SetCursorVisibility(false);
         SpawnPlayer();
+        playerController = GetPlayer(0)?.GetComponent<PlayerController>();
+        SetCursorVisibility(false);
+        
     }
     private void Start()
     {
@@ -41,11 +45,30 @@ public class GameManager : SingletonMono<GameManager>
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+            SetPlayerControlActive(false);
         }
         else
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+            SetPlayerControlActive(true);
         }
+    }
+    public void SetPlayerControlActive(bool active)
+    {
+        playerController?.SetControlActive(active);
+    }
+    /*public void SetPlayerControlActiveTogle()
+    {
+        playerController?.SetControlActiveTogle();
+    }*/
+
+    public void AddOnInventoryListener(Action listener)
+    {
+        playerController.OnInventotyAction += listener;
+    }
+    public void AddOnBuildListener(Action listener)
+    {
+        playerController.OnBuildAction += listener;
     }
 }

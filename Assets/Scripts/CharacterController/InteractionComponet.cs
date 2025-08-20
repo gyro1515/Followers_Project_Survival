@@ -62,16 +62,23 @@ public class InteractionComponet : MonoBehaviour
         if (bIsInWater)
         {
             //enabled = false; // 기획에 따라 레이캐스트 감지를 정지할 수도 있음
-            curInteractable = _interact;
             waterInteratable = _interact;
-            curInteractable?.SetInteractionText();
+            // 아이템을 가리키면서 물에 들어가는 경우가 아니라면
+            if (curInteractable == null) 
+            {
+                curInteractable = _interact;
+                curInteractable?.SetInteractionText();
+            }
         }
         else
         {
             //enabled = true;
-            curInteractable = null;
+            // 물에서 나올때 아이템을 가리키지 않는 상황이라면
+            if (curInteractable == waterInteratable)
+            {
+                UIManager.Instance.DeactivateInteractionUI();
+            }
             waterInteratable = null;
-            UIManager.Instance.DeactivateInteractionUI();
         }
     }
 }

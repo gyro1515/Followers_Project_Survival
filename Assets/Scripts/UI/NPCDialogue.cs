@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using System;
 
 public class NPCDialogue : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class NPCDialogue : MonoBehaviour
     [SerializeField] float duration = 0.3f; // 글자당 시간
     float totalDuration = 0f;
     string targetText;
-    bool isFinish = false;
+    public event Action<bool> OnDialogueStateChanged;
     private void Awake()
     {
         targetText = npcDialogueText.text;
@@ -24,6 +25,8 @@ public class NPCDialogue : MonoBehaviour
     {
         // 아마 여기서 글자 세팅하고
         // 아래 실행해야??
+        //GameManager.Instance.SetPlayerControlActive(false);
+        //OnDialogueStateChanged?.Invoke(false); // -> 대화 누르자 마자 이동 안되게 NPC로 옮김
 
         // 랙트 트랜스폼 원상복구
         dialogueWindowRT.position = new Vector3(dialogueWindowRT.position.x, startPosY, dialogueWindowRT.position.z);
@@ -97,5 +100,7 @@ public class NPCDialogue : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         gameObject.SetActive(false);
+        //GameManager.Instance.SetPlayerControlActive(true);
+        OnDialogueStateChanged?.Invoke(true);
     }
 }
