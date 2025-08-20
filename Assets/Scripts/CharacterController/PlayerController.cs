@@ -22,6 +22,9 @@ public class PlayerController : ControllerBase
     float cameraPitch = 0f;
     public CinemachineVirtualCamera virtualCamera;
 
+    // 추후 다른 곳으로 옮겨도 됩니다
+    bool canControl = true; // 인벤토리나 대화 창 열릴 시 Look, Move 등 입력 안들어가도록
+
     protected override void Awake()
     {
         base.Awake();
@@ -81,10 +84,12 @@ public class PlayerController : ControllerBase
 
     private void OnAttack(InputAction.CallbackContext context)
     {
+        if (!canControl) return;
         player.TryAttack();
     }
     private void OnJump(InputAction.CallbackContext context)
     {
+        if (!canControl) return;
         player.TryJump();
     }
 
@@ -95,6 +100,7 @@ public class PlayerController : ControllerBase
 
     private void OnLook(InputAction.CallbackContext context)
     {
+        if (!canControl) return; 
         lookInput = context.ReadValue<Vector2>();
 
         transform.Rotate(Vector3.up * lookInput.x * HorizontalSensitivity);
@@ -107,8 +113,12 @@ public class PlayerController : ControllerBase
     }
     private void OnInteraction(InputAction.CallbackContext context)
     {
+        if (!canControl) return;
         interactionComponet?.OnIteract();
     }
-
+    public void SetControlActive(bool active)
+    {
+        canControl = active;
+    }
     
 }

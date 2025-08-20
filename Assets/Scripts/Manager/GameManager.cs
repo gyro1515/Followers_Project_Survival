@@ -41,11 +41,13 @@ public class GameManager : SingletonMono<GameManager>
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+            GetPlayer(0)?.GetComponent<PlayerController>()?.SetControlActive(false);
         }
         else
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+            GetPlayer(0)?.GetComponent<PlayerController>()?.SetControlActive(true);
         }
     }
 }
