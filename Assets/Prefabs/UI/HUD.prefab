@@ -134,8 +134,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hpBar: {fileID: 627299900362386087}
-  hungerBar: {fileID: 5784227807519306525}
-  steminaBar: {fileID: 7996890689611236583}
+  hungerBar: {fileID: 7996890689611236583}
+  staminaBar: {fileID: 5784227807519306525}
   thirstBar: {fileID: 9078213051913308738}
 --- !u!222 &429415979869355750
 CanvasRenderer:

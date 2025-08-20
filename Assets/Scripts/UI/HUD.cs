@@ -1,30 +1,38 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HUD : MonoBehaviour
 {
+    Dictionary<StatType, Image> statBars = new Dictionary<StatType, Image>();
     [Header("HUD 세팅")]
     [SerializeField] Image hpBar;
     [SerializeField] Image hungerBar;
-    [SerializeField] Image steminaBar;
+    [SerializeField] Image staminaBar;
     [SerializeField] Image thirstBar;
 
-    public void SetHpBar(float value)
+    private void Awake()
     {
-        if (hpBar) hpBar.fillAmount = value;
+        statBars.Add(StatType.Health, hpBar);
+        statBars.Add(StatType.Hunger, hungerBar);
+        statBars.Add(StatType.Stamina, staminaBar);
+        statBars.Add(StatType.Thirst, thirstBar);
     }
-    public void SetHungerBar(float value)
+
+    public void UpdateGaugeBar(StatChangedEventArgs eventArgs)
     {
-        if (hungerBar) hungerBar.fillAmount = value;
+        float percent = eventArgs.Current / eventArgs.Max;
+
+        Image bar;
+        if (statBars.TryGetValue(eventArgs.Type, out bar))
+        {
+            bar.fillAmount = percent;
+        }
+        
     }
-    public void SetSteminaBar(float value)
-    {
-        if (steminaBar) steminaBar.fillAmount = value;
-    }
-    public void SetThirstBar(float value)
-    {
-        if (steminaBar) thirstBar.fillAmount = value;
-    }
+
+    
 }

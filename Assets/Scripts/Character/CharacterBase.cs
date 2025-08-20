@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class CharacterBase : MonoBehaviour
+public abstract class CharacterBase : MonoBehaviour
 {
     protected CharacterMovementComponent characterMovement;
     protected ControllerBase controller;
@@ -31,6 +31,11 @@ public class CharacterBase : MonoBehaviour
             animator = GetComponent<Animator>();
         }
 
+        if (stat == null)
+        {
+            stat = GetComponent<StatComponentBase>();
+        }
+
     }
 
     protected virtual void Update()
@@ -43,13 +48,13 @@ public class CharacterBase : MonoBehaviour
         characterMovement.Move(controller.MoveInput);
     }
 
-    public virtual ControllerBase GetController()
+    public T GetController<T>() where T : ControllerBase
     {
-        return controller;
+        return controller as T;
     }
 
-    public virtual StatComponentBase GetStatComponent()
+    public T GetStatComponent<T>() where T : StatComponentBase
     {
-        return stat;
+        return stat as T;
     }
 }

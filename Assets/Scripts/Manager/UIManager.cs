@@ -21,14 +21,13 @@ public class UIManager : SingletonMono<UIManager>
         base.Awake();
         // 헤드업디스플레이 세팅
         hudUI = Instantiate(hudPrefab, gameObject.transform).GetComponent<HUD>();
-        hudUI.SetHpBar(1f); // 실제론 플레이어 체력에 따라 초기 세팅하기
-        hudUI.SetSteminaBar(1f);
-        hudUI.SetHungerBar(1f);
-        hudUI.SetThirstBar(1f);
         uiInventory = Instantiate(inventoryPrefab, gameObject.transform).GetComponent<UIInventory>();
         npcDialouge = Instantiate(npcDialoguePrefab, gameObject.transform).GetComponent<NPCDialogue>();
         interactionUI = Instantiate(interactionUIPrefab, gameObject.transform).GetComponent<InteractionUI>();
+        uiInventory = Instantiate(inventoryPrefab, uiCanvas).GetComponent<UIInventory>();
     }
+
+
     private void Update()
     {
         // 테스트

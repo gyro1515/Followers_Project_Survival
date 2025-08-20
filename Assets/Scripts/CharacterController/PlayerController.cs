@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Constants;
+using Cinemachine;
+using Unity.VisualScripting;
 
 // 입력 처리만
 public class PlayerController : ControllerBase
@@ -18,7 +20,7 @@ public class PlayerController : ControllerBase
     public float MaxCameraPitch = 40f;
     public float MinCameraPitch = -40f;
     float cameraPitch = 0f;
-
+    public CinemachineVirtualCamera virtualCamera;
 
     protected override void Awake()
     {
@@ -30,6 +32,13 @@ public class PlayerController : ControllerBase
         }
 
         playerInputActions = new PlayerInputActions();
+
+        if (virtualCamera == null)
+        {
+            virtualCamera = Camera.main.transform.GetChild(0).GetComponent<CinemachineVirtualCamera>();
+        }
+
+        virtualCamera.Follow = cameraTarget;
 
     }
 
@@ -48,6 +57,8 @@ public class PlayerController : ControllerBase
         playerInputActions.Player.Look.performed += OnLook;
         playerInputActions.Player.Look.canceled += OnLook;
         playerInputActions.Player.Jump.performed += OnJump;
+        playerInputActions.Player.Attack.performed += OnAttack;
+
     }
 
     private void OnDisable()
@@ -57,8 +68,14 @@ public class PlayerController : ControllerBase
         playerInputActions.Player.Look.performed -= OnLook;
         playerInputActions.Player.Look.canceled -= OnLook;
         playerInputActions.Player.Jump.performed -= OnJump;
+        playerInputActions.Player.Attack.performed -= OnAttack;
 
         playerInputActions.Player.Disable();
+    }
+
+    private void OnAttack(InputAction.CallbackContext context)
+    {
+        player.TryAttack();
     }
     private void OnJump(InputAction.CallbackContext context)
     {

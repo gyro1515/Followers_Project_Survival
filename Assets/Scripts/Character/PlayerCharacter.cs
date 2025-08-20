@@ -6,14 +6,13 @@ using UnityEngine;
 public class PlayerCharacter : CharacterBase
 {
     PlayerController playerController;
-    PlayerStatComponent playerStat;
-    
+
     protected override void Awake()
     {
         base.Awake();
 
-        playerController = controller as PlayerController;
-        playerStat = stat as PlayerStatComponent;
+        playerController = GetController<PlayerController>();
+        GameManager.Instance.AddPlayer(this);
     }
 
     protected override void Update()
@@ -38,18 +37,13 @@ public class PlayerCharacter : CharacterBase
         animator.SetBool(AnimParam.IsGrounded, characterMovement.IsGrounded);
     }
 
-    public override ControllerBase GetController()
-    {
-        return playerController;
-    }
-
-    public override StatComponentBase GetStatComponent()
-    {
-        return playerStat;
-    }
-
     public void TryJump()
     {
         characterMovement.Jump();
+    }
+
+    public void TryAttack()
+    {
+        animator.SetTrigger(AnimParam.Attack);
     }
 }
