@@ -151,6 +151,7 @@ MonoBehaviour:
   VerticalSensitivity: 0.01
   MaxCameraPitch: 40
   MinCameraPitch: -40
+  virtualCamera: {fileID: 0}
 --- !u!114 &4935235247455413476
 MonoBehaviour:
   m_ObjectHideFlags: 0

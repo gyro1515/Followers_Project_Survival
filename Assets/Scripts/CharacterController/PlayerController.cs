@@ -75,7 +75,7 @@ public class PlayerController : ControllerBase
 
     private void OnAttack(InputAction.CallbackContext context)
     {
-        Debug.Log("공격");
+        player.TryAttack();
     }
     private void OnJump(InputAction.CallbackContext context)
     {

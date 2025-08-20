@@ -41,4 +41,9 @@ public class PlayerCharacter : CharacterBase
     {
         characterMovement.Jump();
     }
+
+    public void TryAttack()
+    {
+        animator.SetTrigger(AnimParam.Attack);
+    }
 }
