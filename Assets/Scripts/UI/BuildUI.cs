@@ -30,11 +30,18 @@ public class BuildUI : MonoBehaviour
     [SerializeField] Image buildImage;   // 건축물 이미지
     [SerializeField] Sprite nullImage;   // 건축물 선택 안 했을 시 이미지
 
+    [Header("오디오 클립")]
+    [SerializeField] AudioClip clickClip;
+    [SerializeField] AudioClip openCloseClip;
+
     BuildData selectedBuild;
+    AudioSource audioSource;
 
     private void Awake()
     {
         buildDatas = Resources.LoadAll<BuildData>("BuildData");    // Resources 폴더 안에 BuildData 폴더 만들어서 BuildData있는 ScriptableObject 넣어주기
+
+        audioSource = gameObject.GetComponent<AudioSource>();
     }
 
     private void Start()
@@ -109,6 +116,7 @@ public class BuildUI : MonoBehaviour
             OpenBuildUI();
             GameManager.Instance.SetCursorVisibility(true);
         }
+        if(openCloseClip != null) audioSource.PlayOneShot(openCloseClip);
     }
 
     public void OpenBuildUI()
@@ -124,33 +132,37 @@ public class BuildUI : MonoBehaviour
 
     public void CloseBuildUI()
     {
+        build.isBuildMode = false;
+        selectedBuild = null;
         gameObject.SetActive(false);
     }
 
     public void OnClickCancel()
     {
         build.CancelPreview();
+        if (clickClip != null) audioSource.PlayOneShot(clickClip);
     }
 
     public void OnClickBuildSlot(BuildData data)
     {
         selectedBuild = data;
         UpdateUI();
+        if (clickClip != null) audioSource.PlayOneShot(clickClip);
     }
 
     public void OnClickBuild()
     {
         // 미리보기 생성
         build.InitPreview(selectedBuild);
+        // 소리 재생
+        if (clickClip != null) audioSource.PlayOneShot(clickClip);
         // UI 끄기
         CloseBuildUI();
     }
 
-    public void OnClickExit()
+    public void OnClickExit()   // 얘는 클릭 소리 넣어야되나 닫는 소리 넣어야되나 흠..
     {
-        build.isBuildMode = false;
-        selectedBuild = null;
-        gameObject.SetActive(false);
+        CloseBuildUI();
     }
 
     void InitBuildList()

@@ -25,11 +25,18 @@ public class CraftUI : MonoBehaviour
     [SerializeField] Image craftImage;   // 건축물 이미지
     [SerializeField] Sprite nullImage;   // 건축물 선택 안 했을 시 이미지
 
+    [Header("오디오 클립")]
+    [SerializeField] AudioClip clickClip;
+    [SerializeField] AudioClip openCloseClip;
+
     CraftData selectedCraft;
+    AudioSource audioSource;
 
     private void Awake()
     {
         craftDatas = Resources.LoadAll<CraftData>("CraftData");    // Resources 폴더 안에 CraftData 폴더 만들어서 CraftData있는 ScriptableObject 넣어주기
+
+        audioSource = gameObject.GetComponent<AudioSource>();
     }
 
     private void Start()
@@ -95,6 +102,7 @@ public class CraftUI : MonoBehaviour
         {
             OpenCraftUI();
         }
+        if (openCloseClip != null) audioSource.PlayOneShot(openCloseClip);
     }
 
     public void OpenCraftUI()
@@ -114,6 +122,7 @@ public class CraftUI : MonoBehaviour
     {
         selectedCraft = data;
         UpdateUI();
+        if (clickClip != null) audioSource.PlayOneShot(clickClip);
     }
 
     public void OnClickCraft()
@@ -122,9 +131,10 @@ public class CraftUI : MonoBehaviour
         CraftItem(selectedCraft);
         // 재료 개수 갱신
         UpdateUI();
+        if (clickClip != null) audioSource.PlayOneShot(clickClip);
     }
 
-    public void OnClickExit()
+    public void OnClickExit()   // 얘는 클릭 소리 넣어야되나 닫는 소리 넣어야되나 흠..
     {
         CloseCraftUI();
     }
