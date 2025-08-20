@@ -23,7 +23,6 @@ public class UIManager : SingletonMono<UIManager>
         base.Awake();
         // 헤드업디스플레이 세팅
         hudUI = Instantiate(hudPrefab, gameObject.transform).GetComponent<HUD>();
-        uiInventory = Instantiate(inventoryPrefab, gameObject.transform).GetComponent<UIInventory>();
         npcDialouge = Instantiate(npcDialoguePrefab, gameObject.transform).GetComponent<NPCDialogue>();
         interactionUI = Instantiate(interactionUIPrefab, gameObject.transform).GetComponent<InteractionUI>();
         uiInventory = Instantiate(inventoryPrefab, gameObject.transform).GetComponent<UIInventory>();

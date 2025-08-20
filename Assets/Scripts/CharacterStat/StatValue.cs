@@ -25,59 +25,78 @@ public class StatChangedEventArgs : EventArgs
 [System.Serializable]
 public class StatValue
 {
-    public SO_StatDefinition StatDefinition;
-    public StatType statType;
-    // public StatType StatType
-    public float BaseValue;
-    public float MinValue;
-    public float MaxValue;
-    public float FlatModifier;
+    private StatType statType;
+    public StatType StatType { get { return statType; } }
+
+    private float minValue;
+    public float MinValue { get { return minValue; } }
+
+    private float maxValue;
+    public float MaxValue { get { return maxValue; } }
+
+    private float baseValue;
+    public float BaseValue
+    {
+        get { return baseValue; }
+        set
+        {
+            baseValue = Mathf.Clamp(value, MinValue, MaxValue);
+            RecalculateFinalValue();
+        }
+    }
+
+    private float flatModifier;
+    public float FlatModifier
+    {
+        get { return flatModifier; }
+        set
+        {
+            flatModifier = value;
+            RecalculateFinalValue();
+        }
+    }
+
+    private float percentModifer;
     // 0.3 => 30%
-    public float PercentModifier;
-    public float FinalValue;
+    public float PercentModifier
+    {
+        get { return percentModifer; }
+        set
+        {
+            percentModifer = value;
+            RecalculateFinalValue();
+        }
+    }
+
+    private float finalValue;
+    public float FinalValue
+    {
+        get { return finalValue; }
+        private set 
+        {
+            finalValue = value;
+
+            OnValueChanged?.Invoke(new StatChangedEventArgs(statType, finalValue, minValue, maxValue));
+        }
+    }
 
     public event Action<StatChangedEventArgs> OnValueChanged;
 
-    public void Initialize()
+    public void Initialize(SO_StatDefinition statDefinition)
     {
-        statType = StatDefinition.type;
-        BaseValue = StatDefinition.baseValue;
-        MinValue = StatDefinition.minValue;
-        MaxValue = StatDefinition.maxValue;
-        FlatModifier = 0f;
-        PercentModifier = 0f;
+        statType = statDefinition.type;
+        baseValue = statDefinition.baseValue;
+        minValue = statDefinition.minValue;
+        maxValue = statDefinition.maxValue;
+        flatModifier = 0f;
+        percentModifer = 0f;
         RecalculateFinalValue();
     }
 
     public void RecalculateFinalValue()
     {
-        SetFinalValue((BaseValue + FlatModifier) * (1f + PercentModifier));
+        float result = (baseValue + flatModifier) * (1f + percentModifer);
+        FinalValue = result;
     }
-
-    public void SetFinalValue(float value)
-    {
-        FinalValue = value;
-
-        OnValueChanged?.Invoke(new StatChangedEventArgs(statType, FinalValue, MinValue, MaxValue));
-    }
-
-    public void SetBaseValue(float value)
-    {
-        BaseValue = value;
-        Mathf.Clamp(BaseValue, MinValue, MaxValue);
-
-        RecalculateFinalValue();
-    }
-
-    public void SetFlatModifier(float value)
-    {
-        FlatModifier = value;
-        RecalculateFinalValue();
-    }
-
-    public void SetPercentModifier(float value)
-    {
-        FlatModifier = value;
-        RecalculateFinalValue();
-    }
+    
 }

@@ -49,12 +49,16 @@ public class SelectionOutlineController : MonoBehaviour
     [Range(0, 1)]
     public float OutlineHardness = 0.85f;
     public LayerMask LayerMask;
-
-    void OnEnale()
+    private void OnEnable()
     {
-
         Inital();
+
     }
+    /*void OnEnale()
+    {
+        Inital();
+
+    }*/
     void Inital()
     {
 #if UNITY_WEBGL
@@ -191,13 +195,12 @@ public class SelectionOutlineController : MonoBehaviour
         cmd.Clear();
     }
     // Update is called once per frame
-    void Update()
+    /*void Update()
     {
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 100f, LayerMask))
         {
-
             TargetRenderer = hit.transform.GetComponentInChildren<Renderer>();
             if (lastTarget == null) lastTarget = TargetRenderer;
             if (SelectionMode == SelMode.AndChildren)
@@ -209,12 +212,10 @@ public class SelectionOutlineController : MonoBehaviour
                 ChildrenRenderers = hit.transform.GetComponentsInChildren<Renderer>();
             }
 
-
             if (TargetRenderer != lastTarget || !Selected)
             {
                 SetTarget();
             }
-            //Debug.DrawRay(transform.position, hit.point - transform.position, Color.blue);
             lastTarget = TargetRenderer;
         }
         else
@@ -224,7 +225,7 @@ public class SelectionOutlineController : MonoBehaviour
             ClearTarget();
         }
 
-        /*if (Input.GetMouseButton(0))
+        *//*if (Input.GetMouseButton(0))
         {
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -264,6 +265,32 @@ public class SelectionOutlineController : MonoBehaviour
         if (Input.GetMouseButtonUp(0) && Selected)
         {
             ClearTarget();
-        }*/
+        }*//*
+    }*/
+
+    public void ApplyOutline(RaycastHit hit)
+    {
+        TargetRenderer = hit.transform.GetComponentInChildren<Renderer>();
+        if (lastTarget == null) lastTarget = TargetRenderer;
+        if (SelectionMode == SelMode.AndChildren)
+        {
+            if (ChildrenRenderers != null)
+            {
+                Array.Clear(ChildrenRenderers, 0, ChildrenRenderers.Length);
+            }
+            ChildrenRenderers = hit.transform.GetComponentsInChildren<Renderer>();
+        }
+
+        if (TargetRenderer != lastTarget || !Selected)
+        {
+            SetTarget();
+        }
+        lastTarget = TargetRenderer;
+    }
+    public void RemoveOutline()
+    {
+        TargetRenderer = null;
+        lastTarget = null;
+        ClearTarget();
     }
 }

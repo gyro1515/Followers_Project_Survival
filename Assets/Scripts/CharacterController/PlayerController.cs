@@ -11,7 +11,7 @@ public class PlayerController : ControllerBase
 {
     PlayerCharacter player;
     PlayerInputActions playerInputActions;
-
+    InteractionComponet interactionComponet;
     [Header("Camera")]
     Vector2 lookInput;
     public Transform cameraTarget;
@@ -37,6 +37,10 @@ public class PlayerController : ControllerBase
         {
             virtualCamera = Camera.main.transform.GetChild(0).GetComponent<CinemachineVirtualCamera>();
         }
+        if (interactionComponet == null)
+        {
+            interactionComponet = GetComponent<InteractionComponet>();
+        }
 
         virtualCamera.Follow = cameraTarget;
 
@@ -46,6 +50,19 @@ public class PlayerController : ControllerBase
     {
         base.Update();
 
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            player.GetStatComponent<PlayerStatComponent>().statValues[StatType.Health].BaseValue -= 10f;
+            player.GetStatComponent<PlayerStatComponent>().statValues[StatType.Stamina].BaseValue -= 10f;
+            player.GetStatComponent<PlayerStatComponent>().statValues[StatType.Hunger].BaseValue -= 10f;
+            player.GetStatComponent<PlayerStatComponent>().statValues[StatType.Thirst].BaseValue -= 10f;
+        }
+
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            player.GetStatComponent<PlayerStatComponent>().GetStatValue(StatType.MoveSpeed).BaseValue -= 0.5f;
+        }
+        
     }
 
     private void OnEnable()
@@ -58,6 +75,7 @@ public class PlayerController : ControllerBase
         playerInputActions.Player.Look.canceled += OnLook;
         playerInputActions.Player.Jump.performed += OnJump;
         playerInputActions.Player.Attack.performed += OnAttack;
+        playerInputActions.Player.Interaction.started += OnInteraction;
 
     }
 
@@ -69,6 +87,7 @@ public class PlayerController : ControllerBase
         playerInputActions.Player.Look.canceled -= OnLook;
         playerInputActions.Player.Jump.performed -= OnJump;
         playerInputActions.Player.Attack.performed -= OnAttack;
+        playerInputActions.Player.Interaction.started -= OnInteraction;
 
         playerInputActions.Player.Disable();
     }
@@ -98,6 +117,10 @@ public class PlayerController : ControllerBase
 
         cameraTarget.localEulerAngles = new Vector3(cameraPitch, 0, 0);
 
+    }
+    private void OnInteraction(InputAction.CallbackContext context)
+    {
+        interactionComponet?.OnIteract();
     }
 
     

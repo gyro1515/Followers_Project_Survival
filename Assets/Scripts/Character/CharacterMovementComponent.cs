@@ -6,12 +6,13 @@ using UnityEngine.UIElements;
 // 실제 로직 구현
 public class CharacterMovementComponent : MonoBehaviour
 {
-    public float walkSpeed;
+    private float walkSpeed = 5f;
     public float jumpForce = 5f;
     public LayerMask groundDetectLayerMask;
 
     float lastJumpTime;
     Rigidbody rb;
+    StatComponentBase stat;
 
     bool isJumping = false;
     public bool IsJumping {  get { return isJumping; } }
@@ -27,6 +28,34 @@ public class CharacterMovementComponent : MonoBehaviour
             rb = GetComponent<Rigidbody>();
         }
         rb.freezeRotation = true;
+        
+        if (stat == null)
+        {
+            stat = GetComponent<StatComponentBase>();
+        }
+        
+        
+        StatValue moveSpeed = stat.GetStatValue(StatType.MoveSpeed);
+        if (moveSpeed != null)
+        {
+            walkSpeed = moveSpeed.FinalValue;
+        }
+
+
+    }
+
+    private void Start()
+    {
+        StatValue moveSpeed = stat.GetStatValue(StatType.MoveSpeed);
+        if ( moveSpeed != null )
+        {
+            moveSpeed.OnValueChanged += MoveSpeed_OnValueChanged;
+        }
+    }
+
+    private void MoveSpeed_OnValueChanged(StatChangedEventArgs eventArgs)
+    {
+        walkSpeed = eventArgs.Current;
     }
 
     private void Update()
@@ -40,11 +69,7 @@ public class CharacterMovementComponent : MonoBehaviour
         Vector3 origin = transform.position;
         origin.y += 0.96f;
 
-        var hits = Physics.SphereCastAll(transform.position, 0.4f, Vector3.up, 0f, groundDetectLayerMask);
         RaycastHit hit;
-        LayerMask layerMask = LayerMask.GetMask("Ground");
-        
-        
         if (Physics.SphereCast(origin, 0.4f, Vector3.down, out hit, 1f, groundDetectLayerMask))
         {
             isGrounded = true;
@@ -92,5 +117,4 @@ public class CharacterMovementComponent : MonoBehaviour
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 
-    
 }

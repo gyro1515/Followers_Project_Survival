@@ -44,5 +44,15 @@ public class PlayerCharacter : CharacterBase
     public void TryAttack()
     {
         animator.SetTrigger(AnimParam.Attack);
+
+        Vector3 origin = transform.position + transform.forward * 0.4f + transform.up * 2f;
+
+        LayerMask layerMask = LayerMask.GetMask(new string[] { "Enemy", "Resource" });
+        var hits = Physics.SphereCastAll(origin, 0.2f, Vector3.down, 2f, layerMask);
+
+        foreach (RaycastHit hit in hits)
+        {
+            Debug.Log(hit.transform.name);
+        }
     }
 }

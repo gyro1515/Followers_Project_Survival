@@ -58,8 +58,9 @@ MonoBehaviour:
   maxRockCnt: 20
   groundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   spawnRadius: 40
   minDistance: 3
-  respownTime: 0.5
-  testInventory: []
+  respownTime: 0.01
+  npcPrefabs:
+  - {fileID: 3723790568139472377, guid: 28b7a85cefd2a5841bab7fa544b07d29, type: 3}
