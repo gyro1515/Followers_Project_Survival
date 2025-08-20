@@ -11,6 +11,7 @@ public class UIManager : SingletonMono<UIManager>
     [SerializeField] GameObject npcDialoguePrefab;
     [SerializeField] GameObject interactionUIPrefab;
     [SerializeField] GameObject temperatureUIPrefab;
+    [SerializeField] GameObject buildUIPrefab;
     private UIInventory uiInventory;
     //public UIInventory UIInventory { get { return uiInventory; } }
     HUD hudUI;
@@ -18,6 +19,7 @@ public class UIManager : SingletonMono<UIManager>
     NPCDialogue npcDialouge;
     InteractionUI interactionUI;
     TemperatureUI temperatureUI;
+    BuildUI buildUI;
     protected override void Awake()
     {
         base.Awake();
@@ -27,10 +29,12 @@ public class UIManager : SingletonMono<UIManager>
         interactionUI = Instantiate(interactionUIPrefab, gameObject.transform).GetComponent<InteractionUI>();
         temperatureUI = Instantiate(temperatureUIPrefab, gameObject.transform).GetComponent<TemperatureUI>();
         uiInventory = Instantiate(inventoryPrefab, gameObject.transform).GetComponent<UIInventory>();
+        buildUI = Instantiate(buildUIPrefab, gameObject.transform).GetComponent<BuildUI>();
     }
     private void Start()
     {
         InitializeHUD();
+        buildUI.inventory = uiInventory;
     }
     private void Update()
     {
@@ -38,6 +42,11 @@ public class UIManager : SingletonMono<UIManager>
         if(Input.GetKeyDown(KeyCode.Tab))
         {
             uiInventory?.Toggle();
+        }
+        // 테스트
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            buildUI.ToggleBuildUI();
         }
     }
     public void InitializeHUD()

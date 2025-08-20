@@ -53,6 +53,19 @@ public class PlayerController : ControllerBase
     {
         base.Update();
 
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            player.GetStatComponent<PlayerStatComponent>().statValues[StatType.Health].BaseValue -= 10f;
+            player.GetStatComponent<PlayerStatComponent>().statValues[StatType.Stamina].BaseValue -= 10f;
+            player.GetStatComponent<PlayerStatComponent>().statValues[StatType.Hunger].BaseValue -= 10f;
+            player.GetStatComponent<PlayerStatComponent>().statValues[StatType.Thirst].BaseValue -= 10f;
+        }
+
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            player.GetStatComponent<PlayerStatComponent>().GetStatValue(StatType.MoveSpeed).BaseValue -= 0.5f;
+        }
+        
     }
 
     private void OnEnable()

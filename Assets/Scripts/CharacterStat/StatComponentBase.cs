@@ -20,10 +20,19 @@ public abstract class StatComponentBase : MonoBehaviour
         foreach (SO_StatDefinition statDefinition in statDefinitions)
         {
             StatValue statValue = new StatValue();
-            statValue.StatDefinition = statDefinition;
-            statValue.Initialize();
+            statValue.Initialize(statDefinition);
             statValues.Add(statDefinition.type, statValue);
 
         }
+    }
+
+    public StatValue GetStatValue(StatType type)
+    {
+        if (statValues.TryGetValue(type, out var statValue))
+        {
+            return statValue;
+
+        }
+        return null;
     }
 }
