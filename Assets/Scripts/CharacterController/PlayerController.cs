@@ -76,8 +76,13 @@ public class PlayerController : ControllerBase
         playerInputActions.Player.Jump.performed += OnJump;
         playerInputActions.Player.Attack.performed += OnAttack;
         playerInputActions.Player.Interaction.started += OnInteraction;
+        playerInputActions.Player.Sprint.started += Sprint_started;
+        playerInputActions.Player.Sprint.canceled += Sprint_canceled;
+
 
     }
+
+    
 
     private void OnDisable()
     {
@@ -88,8 +93,20 @@ public class PlayerController : ControllerBase
         playerInputActions.Player.Jump.performed -= OnJump;
         playerInputActions.Player.Attack.performed -= OnAttack;
         playerInputActions.Player.Interaction.started -= OnInteraction;
+        playerInputActions.Player.Sprint.started -= Sprint_started;
+        playerInputActions.Player.Sprint.canceled -= Sprint_canceled;
 
         playerInputActions.Player.Disable();
+    }
+
+    private void Sprint_canceled(InputAction.CallbackContext context)
+    {
+        player.ExitSprint();
+    }
+
+    private void Sprint_started(InputAction.CallbackContext context)
+    {
+        player.EnterSprint();
     }
 
     private void OnAttack(InputAction.CallbackContext context)

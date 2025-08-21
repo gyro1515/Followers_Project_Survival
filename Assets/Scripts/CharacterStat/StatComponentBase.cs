@@ -15,6 +15,11 @@ public abstract class StatComponentBase : MonoBehaviour
     {
 
     }
+
+    protected virtual void Start()
+    {
+        
+    }
     protected virtual void Initialize()
     {
         foreach (SO_StatDefinition statDefinition in statDefinitions)

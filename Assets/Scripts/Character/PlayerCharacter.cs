@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerCharacter : CharacterBase
 {
     PlayerController playerController;
+    PlayerStatComponent playerStat { get { return GetStatComponent<PlayerStatComponent>(); } }
 
     protected override void Awake()
     {
@@ -34,11 +35,31 @@ public class PlayerCharacter : CharacterBase
         animator.SetBool(AnimParam.IsJumping, characterMovement.IsJumping);
         animator.SetBool(AnimParam.IsFalling, characterMovement.IsFalling);
         animator.SetBool(AnimParam.IsGrounded, characterMovement.IsGrounded);
+        animator.SetFloat(AnimParam.MoveSpeed, playerStat.GetStatValue(StatType.MoveSpeed).FinalValue, 0.1f, Time.deltaTime);
+    }
+
+    public void EnterSprint()
+    {
+        playerStat.OnSprintEnter();
+
+    }
+
+    public void ExitSprint()
+    {
+        playerStat.OnSprintExit();
+
     }
 
     public void TryJump()
     {
-        characterMovement.Jump();
+        if (characterMovement.CanJump())
+        {
+            characterMovement.Jump();
+            playerStat.OnJump();
+
+
+        }
+
     }
 
     public void TryAttack()

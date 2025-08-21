@@ -100,10 +100,19 @@ public class CharacterMovementComponent : MonoBehaviour
         Vector3 moveVector = dir * walkSpeed * Time.fixedDeltaTime;
         rb.MovePosition(rb.position + moveVector);
     }
+
+    public bool CanJump()
+    {
+        if (isJumping || !isGrounded || isFalling)
+        {
+            return false;
+        }
+        return true;
+    }
     
     public void Jump()
     {
-        if (isJumping || !isGrounded || isFalling)
+        if (!CanJump())
         {
             return;
         }
@@ -116,5 +125,5 @@ public class CharacterMovementComponent : MonoBehaviour
         }
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
-
+    
 }
