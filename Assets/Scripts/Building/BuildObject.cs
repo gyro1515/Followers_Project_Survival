@@ -2,7 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuildObject : MonoBehaviour
+public interface IRepairable
+{
+    public void SetRepairText();
+    public void OnRepair();
+}
+
+public abstract class BuildObject : MonoBehaviour
 {
     public Build build;
 
@@ -11,22 +17,31 @@ public class BuildObject : MonoBehaviour
     public int maxDurability;   // 총 내구도
     public int curDurability;   // 현재 내구도
 
-    private void Awake()
-    {
-        //build = FindObjectOfType<Build>();
-
-        buildData = build.buildData;
-        build.activeBuild.Add(this);
-    }
-
     void Start()
     {
+        OnStart();
+    }
+
+    protected virtual void OnStart()
+    {
+        buildData = build.buildData;
+        build.activeBuild.Add(this);
+
+        build.CancelPreview();
+
         curDurability = maxDurability;
     }
 
-    public void DestroyBuild()
+    public virtual void DestroyBuild()
     {
         build.activeBuild.Remove(this);
         Destroy(gameObject);
+    }
+
+    public virtual float RepairBuild()
+    {
+        float ratio = (float)curDurability / maxDurability;
+        curDurability = maxDurability;
+        return ratio;
     }
 }

@@ -57,8 +57,10 @@ public class PlayerStatComponent : StatComponentBase
 
         regenConfigs.Add(StatType.Stamina, new StatRegenConfig(1f, 0.1f, 2f));
         costConfigs.Add(StatType.Stamina, new StatCostConfig(0f, 0.1f, 1f));
-        costConfigs.Add(StatType.Hunger, new StatCostConfig(0f, 0.02f, 0.03f)); // 약 초당 1.5
-        costConfigs.Add(StatType.Thirst, new StatCostConfig(0f, 0.02f, 0.02f)); // 약 초당 1
+        costConfigs.Add(StatType.Hunger, new StatCostConfig(0f, 0.02f, 0.03f)); // 초당 1.5
+        //costConfigs.Add(StatType.Hunger, new StatCostConfig(0f, 0.02f, 1f)); // 테스트, 초당 50
+        costConfigs.Add(StatType.Thirst, new StatCostConfig(0f, 0.02f, 0.02f)); // 초당 1
+        //costConfigs.Add(StatType.Thirst, new StatCostConfig(0f, 0.02f, 1f)); // 테스트, 초당 50
         costConfigs.Add(StatType.Health, new StatCostConfig(0f, 0.1f, 0.3f));
     }
     protected override void Initialize()
@@ -81,10 +83,16 @@ public class PlayerStatComponent : StatComponentBase
 
     private void CheckStatValueZero(StatChangedEventArgs obj)
     {
+        //Debug.Log($"{obj.Type} is {obj.Current}");
+
         if (obj.Current == 0f)
         {
             Debug.Log($"{obj.Type} is zero");
             DrainStat(StatType.Health);
+        }
+        else // 0이 아닐땐
+        {
+            //Debug.Log($"{obj.Type} is Not Zero");
         }
     }
 

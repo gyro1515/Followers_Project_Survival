@@ -94,10 +94,10 @@ GameObject:
   - component: {fileID: 9003299857554023640}
   - component: {fileID: 2298804392950780699}
   - component: {fileID: 2036619497092059664}
-  - component: {fileID: 2575580122052008671}
+  - component: {fileID: 8953540763601942300}
   m_Layer: 12
   m_Name: WoodenHouse
-  m_TagString: Untagged
+  m_TagString: Build
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -133,7 +133,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -166,7 +166,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &2575580122052008671
+--- !u!114 &8953540763601942300
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -175,9 +175,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7594234400889249483}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c672584ef63723b41a127051afa731d1, type: 3}
+  m_Script: {fileID: 11500000, guid: 5da76ed8d0dbc55449d3daf8d7601c9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  build: {fileID: 0}
   buildData: {fileID: 0}
-  maxDurability: 500
+  maxDurability: 20
   curDurability: 0

@@ -84,6 +84,7 @@ public class PlayerController : ControllerBase
         playerInputActions.Player.Interaction.started += OnInteraction;
         playerInputActions.Player.Sprint.started += Sprint_started;
         playerInputActions.Player.Sprint.canceled += Sprint_canceled;
+        playerInputActions.Player.Repair.started += OnRepair;
 
         playerInputActions.PlayerUI.Inventory.started += OnInventory;
         playerInputActions.PlayerUI.Build.started += OnBuild;
@@ -103,6 +104,7 @@ public class PlayerController : ControllerBase
         playerInputActions.Player.Interaction.started -= OnInteraction;
         playerInputActions.Player.Sprint.started -= Sprint_started;
         playerInputActions.Player.Sprint.canceled -= Sprint_canceled;
+        playerInputActions.Player.Repair.started -= OnRepair;
         playerInputActions.PlayerUI.Inventory.started -= OnInventory;
         playerInputActions.PlayerUI.Build.started -= OnBuild;
 
@@ -157,6 +159,11 @@ public class PlayerController : ControllerBase
     private void OnBuild(InputAction.CallbackContext context)
     {
         OnBuildAction?.Invoke();
+    }
+    private void OnRepair(InputAction.CallbackContext context)
+    {
+        Debug.Log("플레이어 컨트롤러에서 실행");
+        interactionComponet?.OnRepair();
     }
     public void SetControlActive(bool active)
     {

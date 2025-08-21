@@ -19,7 +19,8 @@ MonoBehaviour:
   buildPrefab: {fileID: 5311566977241930642, guid: 90b2f84589375d24c9dc3693c8890794, type: 3}
   previewPrefab: {fileID: 7520180972306349701, guid: 260876c706d47c848b730c83b38b666c, type: 3}
   buildImage: {fileID: 21300000, guid: 8c08c53642eddad4286c1f2e73e369c5, type: 3}
+  maxDurability: 0
   materials:
   - materialData: {fileID: 11400000, guid: 9782025a5504601459795be8a989a2b3, type: 2}
-    requiredQuantity: 1
+    requiredQuantity: 0
   hasAllMaterials: 0
