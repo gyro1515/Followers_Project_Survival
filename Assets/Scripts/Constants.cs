@@ -11,6 +11,7 @@ namespace Constants
         public const string CanAttack = "CanAttack";
         public const string Attack = "Attack";
         public const string MoveSpeed = "MoveSpeed";
+        public const string IsAttacking = "IsAttacking";
 
 
     }
