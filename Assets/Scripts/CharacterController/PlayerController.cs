@@ -82,10 +82,15 @@ public class PlayerController : ControllerBase
         playerInputActions.Player.Jump.performed += OnJump;
         playerInputActions.Player.Attack.performed += OnAttack;
         playerInputActions.Player.Interaction.started += OnInteraction;
+        playerInputActions.Player.Sprint.started += Sprint_started;
+        playerInputActions.Player.Sprint.canceled += Sprint_canceled;
+
         playerInputActions.PlayerUI.Inventory.started += OnInventory;
         playerInputActions.PlayerUI.Build.started += OnBuild;
 
     }
+
+    
 
     private void OnDisable()
     {
@@ -96,11 +101,23 @@ public class PlayerController : ControllerBase
         playerInputActions.Player.Jump.performed -= OnJump;
         playerInputActions.Player.Attack.performed -= OnAttack;
         playerInputActions.Player.Interaction.started -= OnInteraction;
+        playerInputActions.Player.Sprint.started -= Sprint_started;
+        playerInputActions.Player.Sprint.canceled -= Sprint_canceled;
         playerInputActions.PlayerUI.Inventory.started -= OnInventory;
         playerInputActions.PlayerUI.Build.started -= OnBuild;
 
         playerInputActions.Player.Disable();
         playerInputActions.PlayerUI.Disable();
+    }
+
+    private void Sprint_canceled(InputAction.CallbackContext context)
+    {
+        player.ExitSprint();
+    }
+
+    private void Sprint_started(InputAction.CallbackContext context)
+    {
+        player.EnterSprint();
     }
 
     private void OnAttack(InputAction.CallbackContext context)
