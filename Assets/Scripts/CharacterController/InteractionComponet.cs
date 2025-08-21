@@ -82,9 +82,6 @@ public class InteractionComponet : MonoBehaviour
             curRepairable = null;
             UIManager.Instance.DeactivateRepairInteractionUI();
         }
-        //curInteractable = interactableForText;
-        //interactableForText.SetInteractionText();
-        //selectionOutlineController?.ApplyOutline(hit);
     }
     public void OnIteract()
     {
@@ -92,7 +89,6 @@ public class InteractionComponet : MonoBehaviour
     }
     public void OnRepair()
     {
-        Debug.Log("인터랙션 컴포넌트에서 실행");
         curRepairable?.OnRepair();
     }
     public void InWater(bool _isInWater, IInteractable _interact)

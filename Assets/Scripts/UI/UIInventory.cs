@@ -386,6 +386,11 @@ public class UIInventory : MonoBehaviour
                 {
                     slots[i].Quantity -= useQuantity;
                     useQuantity = 0;
+                    if (slots[i].Quantity == 0)
+                    {
+                        slots[i].Item = null;
+                        UpdateUI();
+                    }
                     break;
                 }
                 else

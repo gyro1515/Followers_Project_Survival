@@ -7,10 +7,9 @@ using static UnityEditor.PlayerSettings;
 
 public class RepairUI : MonoBehaviour
 {
-    public BuildData buildData; // 수리할 건축물 데이터, 이거 어케 가져옴??
-    public BuildObject buildObject;
+    BuildData buildData; // 수리할 건축물 데이터
+    BuildObject buildObject;
 
-    public Build build;
     public UIInventory inventory;
 
     AudioSource audioSource;
@@ -46,7 +45,6 @@ public class RepairUI : MonoBehaviour
     private void Awake()
     {
         interactionBG.sizeDelta = new Vector2(interactionText.preferredWidth, interactionBG.sizeDelta.y);
-        //gameObject.SetActive(false);
 
         audioSource = gameObject.GetComponent<AudioSource>();
 
