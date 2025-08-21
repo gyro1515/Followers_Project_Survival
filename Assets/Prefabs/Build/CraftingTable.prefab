@@ -101,6 +101,8 @@ MonoBehaviour:
   buildData: {fileID: 0}
   maxDurability: 300
   curDurability: 0
+  addWorldPos: {x: 0, y: 2, z: 0}
+  screenPos: {x: 0, y: 0, z: 0}
 --- !u!1001 &2721451871476884769
 PrefabInstance:
   m_ObjectHideFlags: 0

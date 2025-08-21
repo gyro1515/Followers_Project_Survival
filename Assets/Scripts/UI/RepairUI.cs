@@ -65,16 +65,14 @@ public class RepairUI : MonoBehaviour
     }
     private void Update()
     {
-        if(durabilityPanel.activeSelf)
-        {
-            SetUIPos();
-        }
+        SetUIPos();
     }
     public void SetText()
     {
+        if (interaction.gameObject.activeSelf) return;
         interaction.SetActive(true);
         buildNameText.text = targetBuildObject.buildData.buildName;
-        durabilityBar.fillAmount = targetBuildObject.curDurability / targetBuildObject.maxDurability;
+        durabilityBar.fillAmount = targetBuildObject.curDurability / (float)targetBuildObject.maxDurability;
         durabilityPanel.SetActive(true);
     }
 
@@ -200,11 +198,12 @@ public class RepairUI : MonoBehaviour
     }
     void SetUIPos()
     {
+        if (!durabilityPanel.activeSelf) return;
         if (targetBuildObject == null) return;
         Vector3 tmpUIPos = cam.WorldToScreenPoint(targetBuildObject.gameObject.transform.position + targetBuildObject.addWorldPos);
         durabilityPanelRectTransform.position = tmpUIPos + targetBuildObject.screenPos;
         // 위치도 갱신하고 게이지도 갱신하기
-        durabilityBar.fillAmount = targetBuildObject.curDurability / targetBuildObject.maxDurability;
+        durabilityBar.fillAmount = targetBuildObject.curDurability / (float)targetBuildObject.maxDurability;
 
     }
     public void SetObjectTarget(BuildObject buildObject)

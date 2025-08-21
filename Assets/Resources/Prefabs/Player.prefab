@@ -269,7 +269,7 @@ MonoBehaviour:
     m_Bits: 256
   previewDistance: 10
   buildDistance: 20
-  durabilityTickInterval: 2
+  durabilityTickInterval: 0.5
   requiredRatio: 0.5
   isBuildMode: 0
 --- !u!1 &353629684960605791

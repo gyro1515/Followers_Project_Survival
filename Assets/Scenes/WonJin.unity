@@ -498,7 +498,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SelectionMode: 1
-  OutlineType: 1
+  OutlineType: 2
   AlphaMode: 1
   OutlineColor: {r: 1, g: 0.55, b: 0, a: 1}
   OccludedColor: {r: 0.5, g: 0.9, b: 0.3, a: 1}

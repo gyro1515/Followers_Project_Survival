@@ -74,7 +74,8 @@ public class InteractionComponet : MonoBehaviour
         {
             curRepairable = repairable;
             // ui 켜주기
-            UIManager.Instance.SetRepairUIText();
+            //UIManager.Instance.SetRepairUIText();
+            curRepairable.SetRepairText();
         }
         else
         {
