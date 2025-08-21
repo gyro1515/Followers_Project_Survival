@@ -76,10 +76,10 @@ public class UIManager : SingletonMono<UIManager>
         }*/
 
         // 테스트
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            craftUI?.ToggleCraftUI();
-        }
+        //if (Input.GetKeyDown(KeyCode.C))
+        //{
+        //    craftUI?.ToggleCraftUI();
+        //}
     }
     public void InitializeHUD()
     {
@@ -132,5 +132,9 @@ public class UIManager : SingletonMono<UIManager>
     public void SetTemperatureUI(float time)
     {
         temperatureUI?.SetTemperature(time);
+    }
+    public void SetCraftUI()
+    {
+        craftUI?.ToggleCraftUI();
     }
 }

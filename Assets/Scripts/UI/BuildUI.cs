@@ -103,35 +103,35 @@ public class BuildUI : MonoBehaviour
     {
         if (gameObject.activeSelf)
         {
-            UIManager.Instance.IsAnyUIOn = false;
             CloseBuildUI();
-            GameManager.Instance.SetCursorVisibility(false);
         }
         else 
         {
-            if (UIManager.Instance.IsAnyUIOn) return;
-            UIManager.Instance.IsAnyUIOn = true;
             OpenBuildUI();
-            GameManager.Instance.SetCursorVisibility(true);
         }
         if(openCloseClip != null) audioSource.PlayOneShot(openCloseClip);
     }
 
     public void OpenBuildUI()
     {
-        if(build.previewGameObject != null)
+        if (UIManager.Instance.IsAnyUIOn) return;
+        UIManager.Instance.IsAnyUIOn = true;
+        if (build.previewGameObject != null)
         {
             build.CancelPreview();
         }
         selectedBuild = buildDatas[0];
         gameObject.SetActive(true);
         UpdateUI();
+        GameManager.Instance.SetCursorVisibility(true);
     }
 
     public void CloseBuildUI()
     {
+        UIManager.Instance.IsAnyUIOn = false;
         selectedBuild = null;
         gameObject.SetActive(false);
+        GameManager.Instance.SetCursorVisibility(false);
     }
 
     public void OnClickCancel()

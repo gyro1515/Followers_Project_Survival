@@ -107,15 +107,20 @@ public class CraftUI : MonoBehaviour
 
     public void OpenCraftUI()
     {
+        if (UIManager.Instance.IsAnyUIOn) return;
+        UIManager.Instance.IsAnyUIOn = true;
         selectedCraft = craftDatas[0];
         gameObject.SetActive(true);
         UpdateUI();
+        GameManager.Instance.SetCursorVisibility(true);
     }
 
     public void CloseCraftUI()
     {
+        UIManager.Instance.IsAnyUIOn = false;
         selectedCraft = null;
         gameObject.SetActive(false);
+        GameManager.Instance.SetCursorVisibility(false);
     }
 
     public void OnClickCraftSlot(CraftData data)

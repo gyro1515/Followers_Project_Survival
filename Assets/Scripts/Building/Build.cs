@@ -33,12 +33,14 @@ public class Build : MonoBehaviour
 
     private void Awake()
     {
-        // find 말고 가져올 방법 생각해보기 어떻게 해야될까
-        inventory = FindObjectOfType<UIInventory>();
+        
     }
 
     private void Start()
     {
+        // find 말고 가져올 방법 생각해보기 어떻게 해야될까
+        inventory = FindObjectOfType<UIInventory>();
+
         camera = Camera.main;
 
         InvokeRepeating("ReduceDurability", 0, durabilityTickInterval);
