@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PreviewBuild : MonoBehaviour
 {
+    public Build build;
+
     [SerializeField] private UnityEngine.Material green;
     [SerializeField] private UnityEngine.Material red;
 
@@ -16,6 +18,10 @@ public class PreviewBuild : MonoBehaviour
 
     private void Awake()
     {
+        // 아니 이게 맞나
+        build = FindObjectOfType<Build>();
+        build.previewBuild = this;
+
         materials = GetComponentInChildren<Renderer>().materials;
         Debug.Log(materials[0]);
     }

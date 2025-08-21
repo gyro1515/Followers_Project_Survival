@@ -8,7 +8,6 @@ using UnityEngine.UI;
 
 public class BuildUI : MonoBehaviour
 {
-    // 테스트 용도로 public으로 설정, 끝나면 private
     public Build build;
 
     public UIInventory inventory;
@@ -46,12 +45,11 @@ public class BuildUI : MonoBehaviour
 
     private void Start()
     {
-        InitBuildList();
-        //build = PlayerManager.Instance.player.build;
-        gameObject.SetActive(false);
-
-        // 임시로 Find 사용, 어떻게 가져와야 좋을까
         build = FindObjectOfType<Build>();
+
+        InitBuildList();
+
+        gameObject.SetActive(false);
 
         // 버튼 이벤트 할당
         buildButton.onClick.AddListener(OnClickBuild);
@@ -132,7 +130,6 @@ public class BuildUI : MonoBehaviour
 
     public void CloseBuildUI()
     {
-        build.isBuildMode = false;
         selectedBuild = null;
         gameObject.SetActive(false);
     }
@@ -157,7 +154,7 @@ public class BuildUI : MonoBehaviour
         // 소리 재생
         if (clickClip != null) audioSource.PlayOneShot(clickClip);
         // UI 끄기
-        CloseBuildUI();
+        ToggleBuildUI();
     }
 
     public void OnClickExit()   // 얘는 클릭 소리 넣어야되나 닫는 소리 넣어야되나 흠..
