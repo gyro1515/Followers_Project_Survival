@@ -46,8 +46,8 @@ public class DayNightCycle : MonoBehaviour
                 if (temState == ETemperatureState.Normal) return;
                 temState = ETemperatureState.Normal;
                 Debug.Log("적당");
-                OnDayTimeStatDrain?.Invoke(StatType.Hunger, 0);
-                OnDayTimeStatDrain?.Invoke(StatType.Thirst, 0);
+                OnDayTimeStatDrain?.Invoke(StatType.Hunger, 0f);
+                OnDayTimeStatDrain?.Invoke(StatType.Thirst, 0f);
             }
         } 
     }
