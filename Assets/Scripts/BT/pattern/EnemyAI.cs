@@ -38,10 +38,10 @@ class EnemyAI : MonoBehaviour
     MonsterStatComponent _enemy; // 자신 체력 상호작용을 위한 변수
 
     const string _ATTACK_ANIM_STATE_NAME = "Attack5";
-    const string _ATTACK_ANIM_TRIGGER_NAME = "attack5";
+    const string _ATTACK_ANIM_TRIGGER_NAME = "Attack5";
     const string _IDLE_ANIM_BOOL_NAME = "Idle";
-    const string _RUN_ANIM_BOOL_NAME = "RunForward";
-    const string _WALK_ANIM_STATE_NAME = "WalkForward";
+    const string _RUN_ANIM_BOOL_NAME = "Run Forward";
+    const string _WALK_ANIM_STATE_NAME = "Walk Forward";
     const string _WALK_ANIM_BOOL_NAME = "WalkForward";
     const string _DAMAGE_ANIM_STATE_NAME = "HitFront";
     const string _DAMAGE_ANIM_TRIGGER_NAME = "HitFront";
@@ -167,10 +167,7 @@ class EnemyAI : MonoBehaviour
     INode.ENodeState Attack()
     {
         if ( _detectedPlayer != null)
-        {
-            // 38프레임부터 53프레임까지 공격 판정
-
-            
+        { 
             _animator.SetTrigger(_ATTACK_ANIM_TRIGGER_NAME);
             return INode.ENodeState.Success;
         }
@@ -231,6 +228,9 @@ class EnemyAI : MonoBehaviour
         _chaseTimer.Restart();
         //NevMesh 를 이용한 이동 구현
         // 이동이 불가능할 때 실패(경로가 나오지 않을 때)
+        _animator.SetBool(_IDLE_ANIM_BOOL_NAME, false);
+        _animator.SetBool(_RUN_ANIM_BOOL_NAME, true);
+        _animator.SetBool(_WALK_ANIM_BOOL_NAME, false);
         if (_navMeshAgent.SetDestination(_detectedPlayer.position))
         {
             _navMeshAgent.speed = moveSpeed;
@@ -305,14 +305,14 @@ class EnemyAI : MonoBehaviour
     INode.ENodeState IdleAction()
     {
         // idle 상태로 판정
-        if (UnityEngine.Random.Range(0, 2) == 0 && _idleTimer.Elapsed.TotalSeconds <= 1.2f)
+        if (_idleTimer.Elapsed.Seconds <= 1.5f)
         {
             _animator.SetBool(_IDLE_ANIM_BOOL_NAME, true);
             _animator.SetBool(_RUN_ANIM_BOOL_NAME, false);
             _animator.SetBool(_WALK_ANIM_BOOL_NAME, false);
             _navMeshAgent.isStopped = true;
         }
-        else
+        else if (UnityEngine.Random.Range(0, 2) == 0)
         {
             _idleTimer.Reset();
             if (!IsAnimationRunning(_WALK_ANIM_STATE_NAME))
@@ -324,7 +324,14 @@ class EnemyAI : MonoBehaviour
                 _IdlePos += transform.position;
             }
         }
-        return INode.ENodeState.Success;
+        else
+        {
+            _animator.SetBool(_IDLE_ANIM_BOOL_NAME, true);
+            _animator.SetBool(_RUN_ANIM_BOOL_NAME, false);
+            _animator.SetBool(_WALK_ANIM_BOOL_NAME, false);
+            _navMeshAgent.isStopped = true;
+        }
+            return INode.ENodeState.Success;
     }
     INode.ENodeState IdleMove()
     {

@@ -25,6 +25,7 @@ public class MonsterCharacter : MonoBehaviour
         _player = Player.gameObject.GetComponent<StatComponentBase>();
         if (_player != null)
         {
+            isAttacked = true;
             _player.statValues[StatType.Health].BaseValue -= _monster.statValues[StatType.Attack].BaseValue;
             Debug.Log("Player damaged: " + _monster.statValues[StatType.Attack].BaseValue + ". Remaining Health: " + _player.statValues[StatType.Health].BaseValue);
         }
