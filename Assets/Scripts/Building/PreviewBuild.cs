@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class PreviewBuild : MonoBehaviour
 {
-    [SerializeField] private Material green;
-    [SerializeField] private Material red;
+    [SerializeField] private UnityEngine.Material green;
+    [SerializeField] private UnityEngine.Material red;
 
     [SerializeField] private LayerMask groundLayer; // 지형 레이어
 
     private List<Collider> colliders = new List<Collider>();
 
     // 테스트 용도로 public 설정, 이후 private로 변경
-    public Material[] materials;
+    public UnityEngine.Material[] materials;
 
     private void Awake()
     {
@@ -37,11 +37,11 @@ public class PreviewBuild : MonoBehaviour
         }
     }
 
-    void SetColor(Material material)    // 매개변수로 주어진 material로 변경
+    void SetColor(UnityEngine.Material material)    // 매개변수로 주어진 material로 변경
     {
         foreach(Transform child in this.transform)
         {
-            Material[] materials = new Material[child.GetComponent<Renderer>().materials.Length];
+            UnityEngine.Material[] materials = new UnityEngine.Material[child.GetComponent<Renderer>().materials.Length];
 
             for (int i = 0; i < materials.Length; i++)
             {

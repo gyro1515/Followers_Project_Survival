@@ -1,10 +1,11 @@
+using Cinemachine;
+using Constants;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Constants;
-using Cinemachine;
-using Unity.VisualScripting;
 
 // 입력 처리만
 public class PlayerController : ControllerBase
@@ -12,6 +13,8 @@ public class PlayerController : ControllerBase
     PlayerCharacter player;
     PlayerInputActions playerInputActions;
     InteractionComponet interactionComponet;
+    public event Action OnInventotyAction;
+    public event Action OnBuildAction;
     [Header("Camera")]
     Vector2 lookInput;
     public Transform cameraTarget;
@@ -21,6 +24,8 @@ public class PlayerController : ControllerBase
     public float MinCameraPitch = -40f;
     float cameraPitch = 0f;
     public CinemachineVirtualCamera virtualCamera;
+
+    
 
     protected override void Awake()
     {
@@ -68,6 +73,7 @@ public class PlayerController : ControllerBase
     private void OnEnable()
     {
         playerInputActions.Player.Enable();
+        playerInputActions.PlayerUI.Enable();
 
         playerInputActions.Player.Move.performed += OnMove;
         playerInputActions.Player.Move.canceled += OnMove;
@@ -79,6 +85,8 @@ public class PlayerController : ControllerBase
         playerInputActions.Player.Sprint.started += Sprint_started;
         playerInputActions.Player.Sprint.canceled += Sprint_canceled;
 
+        playerInputActions.PlayerUI.Inventory.started += OnInventory;
+        playerInputActions.PlayerUI.Build.started += OnBuild;
 
     }
 
@@ -95,8 +103,11 @@ public class PlayerController : ControllerBase
         playerInputActions.Player.Interaction.started -= OnInteraction;
         playerInputActions.Player.Sprint.started -= Sprint_started;
         playerInputActions.Player.Sprint.canceled -= Sprint_canceled;
+        playerInputActions.PlayerUI.Inventory.started -= OnInventory;
+        playerInputActions.PlayerUI.Build.started -= OnBuild;
 
         playerInputActions.Player.Disable();
+        playerInputActions.PlayerUI.Disable();
     }
 
     private void Sprint_canceled(InputAction.CallbackContext context)
@@ -139,6 +150,27 @@ public class PlayerController : ControllerBase
     {
         interactionComponet?.OnIteract();
     }
-
+    private void OnInventory(InputAction.CallbackContext context)
+    {
+        OnInventotyAction?.Invoke();
+    }
+    private void OnBuild(InputAction.CallbackContext context)
+    {
+        OnBuildAction?.Invoke();
+    }
+    public void SetControlActive(bool active)
+    {
+        // 인벤토리는 제외해야??
+        if (active) playerInputActions.Player.Enable();
+        else playerInputActions.Player.Disable();
+    }
+    /*public void SetControlActiveTogle()
+    {
+        if (playerInputActions.Player.enabled)
+        {
+            playerInputActions.Player.Disable();
+        }
+        else playerInputActions.Player.Enable();
+    }*/
     
 }

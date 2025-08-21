@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class DayNightCycle : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class DayNightCycle : MonoBehaviour
     [SerializeField] float fullDayLength;
     [SerializeField] float startTime = 0.4f;
     [SerializeField] Vector3 noon;
+    public float DayTime { get { return time; } set { time = value; DayTimeChanged?.Invoke(time); } }
+    public event Action<float> DayTimeChanged;
 
     private float timeRate;
     public float GetTime { get { return time; } }
@@ -19,6 +22,7 @@ public class DayNightCycle : MonoBehaviour
     [SerializeField] Light sun;
     [SerializeField] Gradient sunColor;
     [SerializeField] AnimationCurve sunIntensity;
+    public Light Sun { get { return sun; } }
 
     [Header("Moon")]
     [SerializeField] Light moon;
@@ -37,15 +41,16 @@ public class DayNightCycle : MonoBehaviour
 
     private void Update()
     {
-        time = (time + timeRate * Time.deltaTime) % 1.0f;
-
+        DayTime = (time + timeRate * Time.deltaTime) % 1.0f;
         UpdateLighting(sun, sunColor, sunIntensity);
         UpdateLighting(moon, moonColor, moonIntensity);
 
         // Evaluate는 Inspector에 그린 그래프에서 time을 입력받으면 특정 값을 return
         RenderSettings.ambientIntensity = lightingIntensityMultiplier.Evaluate(time);
         RenderSettings.reflectionIntensity = reflectionIntensityMultiplier.Evaluate(time);
-
+        // 온도 UI 설정
+        // UIManager.Instance.SetTemperatureUI(time); // 델리게이트로 변경
+        // 여기서 추가로 온도(시간)에 따라 플레이어에게 데미지 주기?
     }
 
     void UpdateLighting(Light lightSource, Gradient colorGradiant, AnimationCurve intensityCurve)

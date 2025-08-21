@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2016 Unity Technologies. MIT license - license_unity.txt
+// Copyright (c) 2016 Unity Technologies. MIT license - license_unity.txt
 // #NVJOB Water Shaders. MIT license - license_nvjob.txt
 // #NVJOB Water Shaders v2.0 - https://nvjob.github.io/unity/nvjob-water-shaders-v2
 // #NVJOB Nicholas Veselov - https://nvjob.github.io

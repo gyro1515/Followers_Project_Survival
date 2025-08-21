@@ -87,8 +87,19 @@ public class UIInventory : MonoBehaviour
     // Inventory 창 Open/Close 시 호출
     public void Toggle()
     {
-        if (IsOpen()) inventoryWindow.SetActive(false);
-        else inventoryWindow.SetActive(true);
+        if (IsOpen())
+        {
+            UIManager.Instance.IsAnyUIOn = false;
+            inventoryWindow.SetActive(false);
+            GameManager.Instance.SetCursorVisibility(false);
+        }
+        else
+        {
+            if (UIManager.Instance.IsAnyUIOn) return;
+            UIManager.Instance.IsAnyUIOn = true;
+            inventoryWindow.SetActive(true);
+            GameManager.Instance.SetCursorVisibility(true);
+        }
         if (openCloseClip) audioSource.PlayOneShot(openCloseClip);
     }
     public bool IsOpen()
@@ -333,7 +344,7 @@ public class UIInventory : MonoBehaviour
 
     public void DecreaseItemQuantity(ItemData item, int useQuantity)    // 외부에서 인벤토리에 있는 아이템을 사용할 때 실행
     {
-        for(int i = slots.Length - 1; i > 0; i--)
+        for(int i = slots.Length - 1; i >= 0; i--)
         {
             if (slots[i].Item == item)
             {

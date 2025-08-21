@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Build : MonoBehaviour
 {
-    [SerializeField] Camera camera;
+    Camera camera;
 
     public UIInventory inventory;
 
@@ -13,20 +13,27 @@ public class Build : MonoBehaviour
 
     [SerializeField] private LayerMask groundLayer;
 
-    [SerializeField] Vector3 previewPosition;   // 첫 프리뷰 생성 지점
     [SerializeField] float previewDistance; // 첫 프리뷰 생성 거리
-    public Quaternion previewRotation; // 첫 프리뷰 생성시 회전값
     [SerializeField] float buildDistance;    // 건축 사정거리
+
+    Quaternion previewRotation; // 첫 프리뷰 생성시 회전값
 
     public bool isBuildMode = false;
 
     private void Awake()
     {
+        // find 말고 가져올 방법 생각해보기 어떻게 해야될까
         inventory = FindObjectOfType<UIInventory>();
+    }
+
+    private void Start()
+    {
+        camera = Camera.main;
     }
 
     private void Update()
     {
+        // 테스트용
         if (isBuildMode)
         {
             UpdatePreviewPosition();
@@ -65,9 +72,21 @@ public class Build : MonoBehaviour
         }
     }
 
-    public void InitPreview(GameObject preview)
+    public void InitPreview(BuildData preview)
     {
         isBuildMode = true;
+
+        buildData = preview;
+
+        GameObject previewPrefab = preview.previewPrefab;
+
+        // 재료 개수 감소
+        foreach (var material in buildData.materials)
+        {
+            Debug.Log(material.materialData);
+            Debug.Log(material.requiredQuantity);
+            inventory.DecreaseItemQuantity(material.materialData, material.requiredQuantity);
+        }
 
         // 땅 쪽으로 레이 쏘기
         RaycastHit hit;
@@ -89,13 +108,13 @@ public class Build : MonoBehaviour
             initPosition = hit.point;
         }
 
-        previewRotation = preview.transform.rotation;
+        previewRotation = previewPrefab.transform.rotation;
 
         rotation = Quaternion.LookRotation(camera.transform.forward) * previewRotation;
         rotation.x = 0;
         rotation.z = 0;
 
-        previewGameObject = Instantiate(preview, initPosition, rotation);
+        previewGameObject = Instantiate(previewPrefab, initPosition, rotation);
     }
 
     public void InitBuilding()

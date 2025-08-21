@@ -8,8 +8,6 @@ using UnityEngine.UI;
 
 public class BuildUI : MonoBehaviour
 {
-    //public const string RESOURCES_BUILD_DATAS = "BuildDatas";   // BuildData ScriptableObject가 들어있는 폴더 이름
-
     // 테스트 용도로 public으로 설정, 끝나면 private
     public Build build;
 
@@ -17,6 +15,7 @@ public class BuildUI : MonoBehaviour
 
     [SerializeField] BuildData[] buildDatas;    // 건축물 데이터들
     [SerializeField] Button buildButton;
+    [SerializeField] Button exitButton;
 
     [Header("List")]
     [SerializeField] GameObject listPrefab; // 건축물 리스트 프리팹
@@ -31,24 +30,44 @@ public class BuildUI : MonoBehaviour
     [SerializeField] Image buildImage;   // 건축물 이미지
     [SerializeField] Sprite nullImage;   // 건축물 선택 안 했을 시 이미지
 
-    // 테스트 용도로 public으로 설정, 끝나면 private
-    public BuildData selectedBuild;
+    [Header("오디오 클립")]
+    [SerializeField] AudioClip clickClip;
+    [SerializeField] AudioClip openCloseClip;
+
+    BuildData selectedBuild;
+    AudioSource audioSource;
 
     private void Awake()
     {
-        //buildDatas = Resources.LoadAll<BuildData>(RESOURCES_BUILD_DATAS);    // Resources 폴더 만들고 그 안에 BuildDatas 폴더 만들어서 BuildData있는 ScriptableObject 넣어주기
+        buildDatas = Resources.LoadAll<BuildData>("BuildData");    // Resources 폴더 안에 BuildData 폴더 만들어서 BuildData있는 ScriptableObject 넣어주기
 
-        // 임시로 Find 사용
-        build = FindObjectOfType<Build>();
-        
+        audioSource = gameObject.GetComponent<AudioSource>();
     }
 
     private void Start()
     {
-        inventory = FindObjectOfType<UIInventory>();
         InitBuildList();
         //build = PlayerManager.Instance.player.build;
         gameObject.SetActive(false);
+
+        // 임시로 Find 사용, 어떻게 가져와야 좋을까
+        build = FindObjectOfType<Build>();
+
+        // 버튼 이벤트 할당
+        buildButton.onClick.AddListener(OnClickBuild);
+        exitButton.onClick.AddListener(OnClickExit);
+    }
+
+    private void Update()
+    {
+        // 테스트용
+        if (gameObject.activeSelf)
+        {
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                OnClickBuild();
+            }
+        }
     }
 
     // 테스트를 위해 public으로 변경, 이후에 private로 변경해야함
@@ -82,52 +101,68 @@ public class BuildUI : MonoBehaviour
         }
     }
 
+    public void ToggleBuildUI()
+    {
+        if (gameObject.activeSelf)
+        {
+            UIManager.Instance.IsAnyUIOn = false;
+            CloseBuildUI();
+            GameManager.Instance.SetCursorVisibility(false);
+        }
+        else 
+        {
+            if (UIManager.Instance.IsAnyUIOn) return;
+            UIManager.Instance.IsAnyUIOn = true;
+            OpenBuildUI();
+            GameManager.Instance.SetCursorVisibility(true);
+        }
+        if(openCloseClip != null) audioSource.PlayOneShot(openCloseClip);
+    }
+
     public void OpenBuildUI()
     {
         if(build.previewGameObject != null)
         {
             build.CancelPreview();
         }
+        selectedBuild = buildDatas[0];
         gameObject.SetActive(true);
         UpdateUI();
     }
 
     public void CloseBuildUI()
     {
+        build.isBuildMode = false;
+        selectedBuild = null;
         gameObject.SetActive(false);
     }
 
     public void OnClickCancel()
     {
         build.CancelPreview();
+        if (clickClip != null) audioSource.PlayOneShot(clickClip);
     }
 
     public void OnClickBuildSlot(BuildData data)
     {
         selectedBuild = data;
         UpdateUI();
+        if (clickClip != null) audioSource.PlayOneShot(clickClip);
     }
 
     public void OnClickBuild()
     {
-        // 재료 개수 감소
-        foreach(var material in selectedBuild.materials)
-        {
-            inventory.DecreaseItemQuantity(material.materialData, material.requiredQuantity);
-        }
-
-        build.buildData = selectedBuild;
         // 미리보기 생성
-        build.InitPreview(selectedBuild.previewPrefab);
+        build.InitPreview(selectedBuild);
+        // 소리 재생
+        if (clickClip != null) audioSource.PlayOneShot(clickClip);
         // UI 끄기
         CloseBuildUI();
     }
 
-    public void OnClickExit()
+    public void OnClickExit()   // 얘는 클릭 소리 넣어야되나 닫는 소리 넣어야되나 흠..
     {
-        build.isBuildMode = false;
-        selectedBuild = null;
-        gameObject.SetActive(false);
+        CloseBuildUI();
     }
 
     void InitBuildList()
