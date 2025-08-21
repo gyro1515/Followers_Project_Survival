@@ -27,7 +27,6 @@ public class MonsterCharacter : MonoBehaviour
         {
             isAttacked = true;
             _player.statValues[StatType.Health].BaseValue -= _monster.statValues[StatType.Attack].BaseValue;
-            Debug.Log("Player damaged: " + _monster.statValues[StatType.Attack].BaseValue + ". Remaining Health: " + _player.statValues[StatType.Health].BaseValue);
         }
     }
 }

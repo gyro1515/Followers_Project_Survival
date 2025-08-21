@@ -13,20 +13,17 @@ class EnemyAI : MonoBehaviour
     [Header("Range")]
     [SerializeField] private float detectionRange = 10f; // 감지 범위
     [SerializeField] private float detectionAngle = 180f; // 감지 각도
-    [SerializeField] private float AttackRange = 2f; // 공격 범위
+    [SerializeField] private float AttackRange = 2.5f; // 공격 범위
     [SerializeField] private float returnDistance = 50f; // 돌아갈 거리
     [SerializeField] private float YieldRange = 10f; // idle 상태에서 랜덤으로 움직이는 범위
     [Header("Movement")]
-    [SerializeField] private float moveSpeed = 1f; // 이동 속도
+    [SerializeField] private float moveSpeed = 2f; // 이동 속도
     [Header("MinDPS")]
     [SerializeField] private float minDamageThreshold = 0.002f; // DPS
-    [Header("Health")]
-    [SerializeField] private float maxHealth = 150f; // 최대 체력
     
 
     Vector3 _originPos = default;// 원래 자리
     Vector3 _IdlePos = default; // idle 상태에서 랜덤으로 움직이는 위치
-    float _currentHealth = 100f; // 현재 체력
     bool _isRecover = false; // 회복 중에 플레이어 추적 방지용
     BehaviourTreeRunner _BTRunner = null;// 행동 트리 실행기
     Transform _detectedPlayer = null;
@@ -87,12 +84,7 @@ class EnemyAI : MonoBehaviour
                                 new ActionNode(DamageDetect)
                             }
                             ),
-                        new SequenceNode( // moveseq
-                            new List<INode>
-                            {
-                                new ActionNode(MoveToPlayer),
-                            }
-                            )
+                                new ActionNode(MoveToPlayer)
                     }
                     ),
                 new SequenceNode( //ReturnSeq
@@ -130,7 +122,7 @@ class EnemyAI : MonoBehaviour
             if (_animator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
             {
                 var normalizedTime = _animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-                return normalizedTime != 0 && normalizedTime < 1f;
+                return (normalizedTime != 0 && normalizedTime <= 1f);
             }
         }
         return false;
@@ -138,16 +130,20 @@ class EnemyAI : MonoBehaviour
 
     IEnumerator Recover()
     {
-        while (_currentHealth < maxHealth)
+        while (_enemy.statValues[StatType.Health].BaseValue < _enemy.statValues[StatType.Health].MaxValue)
         {
             _isRecover = true;
-            _currentHealth += Math.Max(1, (maxHealth - _currentHealth) * 0.3f);
-            if (_currentHealth > maxHealth)
+            _chaseTimer.Stop();
+            _chaseTimer.Reset();
+            _enemy.statValues[StatType.Health].BaseValue += Math.Max(1, (_enemy.statValues[StatType.Health].MaxValue - _enemy.statValues[StatType.Health].BaseValue) * 0.3f);
+            if (_enemy.statValues[StatType.Health].BaseValue > _enemy.statValues[StatType.Health].MaxValue)
             {
-                _currentHealth = maxHealth;
+                _enemy.statValues[StatType.Health].BaseValue = _enemy.statValues[StatType.Health].MaxValue;
             }
             yield return new WaitForSeconds(0.1f);
         }
+        _isRecover = false;
+
     }
     #region Actions
     INode.ENodeState CanAttack()
@@ -167,8 +163,18 @@ class EnemyAI : MonoBehaviour
     INode.ENodeState Attack()
     {
         if ( _detectedPlayer != null)
-        { 
-            _animator.SetTrigger(_ATTACK_ANIM_TRIGGER_NAME);
+        {
+            if(IsAnimationRunning(_ATTACK_ANIM_STATE_NAME)) 
+            {
+                return INode.ENodeState.Running;
+            }
+            else 
+            { 
+                _animator.SetBool(_WALK_ANIM_BOOL_NAME, false);
+                _animator.SetBool(_RUN_ANIM_BOOL_NAME, false);
+                _animator.SetBool(_IDLE_ANIM_BOOL_NAME, false);
+                _animator.SetTrigger(_ATTACK_ANIM_TRIGGER_NAME);
+            }
             return INode.ENodeState.Success;
         }
         return INode.ENodeState.Failure;
@@ -185,7 +191,7 @@ class EnemyAI : MonoBehaviour
 
     INode.ENodeState EndChase()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 20f);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, returnDistance);
         foreach (var hitCollider in hitColliders)
         {
             if (hitCollider.CompareTag("Player"))
@@ -225,9 +231,14 @@ class EnemyAI : MonoBehaviour
 
     INode.ENodeState MoveToPlayer()
     {
-        _chaseTimer.Restart();
         //NevMesh 를 이용한 이동 구현
         // 이동이 불가능할 때 실패(경로가 나오지 않을 때)
+        if(IsAnimationRunning(_ATTACK_ANIM_STATE_NAME) && _detectedPlayer != null)
+        {
+            return INode.ENodeState.Failure; // 공격 애니메이션이 실행 중일 때는 이동 불가
+        }
+
+        _chaseTimer.Start();
         _animator.SetBool(_IDLE_ANIM_BOOL_NAME, false);
         _animator.SetBool(_RUN_ANIM_BOOL_NAME, true);
         _animator.SetBool(_WALK_ANIM_BOOL_NAME, false);
@@ -262,9 +273,12 @@ class EnemyAI : MonoBehaviour
 
     INode.ENodeState DPSCheck()
     {
-        if (minDamageThreshold >= (maxHealth-_currentHealth)*1000/_chaseTimer.Elapsed.TotalSeconds)
-        {
-            return INode.ENodeState.Success;
+        if (_chaseTimer.Elapsed.Seconds >= 60)
+        { 
+            if (minDamageThreshold >= (_enemy.statValues[StatType.Health].MaxValue - _enemy.statValues[StatType.Health].BaseValue) * 1000 / _chaseTimer.Elapsed.Seconds)
+            {
+                return INode.ENodeState.Success;
+            }
         }
         return INode.ENodeState.Failure;
     }
@@ -304,6 +318,10 @@ class EnemyAI : MonoBehaviour
 
     INode.ENodeState IdleAction()
     {
+        if (IsAnimationRunning(_ATTACK_ANIM_STATE_NAME))
+        {
+            return INode.ENodeState.Failure; // 전투중 자꾸 애니메이션이 취소됨
+        }
         // idle 상태로 판정
         if (_idleTimer.Elapsed.Seconds <= 1.5f)
         {
@@ -338,6 +356,10 @@ class EnemyAI : MonoBehaviour
         if (_idleTimer.IsRunning) // fixed 상태일때 Failure 반환
         {
             return INode.ENodeState.Failure;
+        }
+        if (IsAnimationRunning(_ATTACK_ANIM_STATE_NAME))
+        {
+            return INode.ENodeState.Failure; // 전투중 애니메이션 취소 방지
         }
         _navMeshAgent.isStopped = true;
         // 랜덤한 위치로 이동
