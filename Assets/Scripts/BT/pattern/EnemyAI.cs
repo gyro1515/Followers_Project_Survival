@@ -122,7 +122,7 @@ class EnemyAI : MonoBehaviour
             if (_animator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
             {
                 var normalizedTime = _animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-                return (normalizedTime != 0 && normalizedTime <= 1f);
+                return (normalizedTime != 0 && normalizedTime < 1f);
             }
         }
         return false;
