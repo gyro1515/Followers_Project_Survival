@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public enum StatType
 {
+    None,
     Health,
     Attack,
     Defense,

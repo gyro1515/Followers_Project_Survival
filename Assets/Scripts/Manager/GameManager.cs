@@ -11,6 +11,7 @@ public class GameManager : SingletonMono<GameManager>
     List<PlayerCharacter> players = new List<PlayerCharacter>();
     GameObject prefab;
     PlayerController playerController;
+    PlayerStatComponent playerStatComponent;
     ResourceRespawnController respawnController;
     DayNightCycle dayNightCycle;
     
@@ -21,6 +22,7 @@ public class GameManager : SingletonMono<GameManager>
         prefab = Resources.Load<GameObject>("Prefabs/Player");
         SpawnPlayer();
         playerController = GetPlayer(0)?.GetComponent<PlayerController>();
+        playerStatComponent = GetPlayer(0)?.GetComponent<PlayerStatComponent>();
         SetCursorVisibility(false);
         // 자원, NPC 스폰 컨트롤러 세팅
         prefab = Resources.Load<GameObject>("Prefabs/ResourceRespawn");
@@ -39,6 +41,7 @@ public class GameManager : SingletonMono<GameManager>
     private void Start()
     {
         dayNightCycle.DayTimeChanged += UIManager.Instance.SetTemperatureUI;
+        dayNightCycle.OnDayTimeStatDrain += playerStatComponent.AddDrainStat;
     }
     public void SpawnPlayer()
     {
@@ -87,4 +90,10 @@ public class GameManager : SingletonMono<GameManager>
     {
         playerController.OnBuildAction += listener;
     }
+    public void AddPlayerStatValue(StatType statType, float amount)
+    {
+        playerStatComponent.AddStatValue(statType, amount);
+    }
+
+
 }
