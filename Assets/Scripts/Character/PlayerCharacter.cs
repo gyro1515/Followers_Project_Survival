@@ -10,18 +10,17 @@ public class PlayerCharacter : CharacterBase
     EquipmentController equipmentController;
     AnimatorStateInfo currentAttackStateInfo;
     bool isAttacking;
-
+    [SerializeField] Transform dropTransform;
     protected override void Awake()
     {
         base.Awake();
         playerController = GetController<PlayerController>();
         equipmentController = GetComponent<EquipmentController>();
+        equipmentController.OnWeaponEquipped += SetEquipped;
     }
     protected override void Start()
     {
-        base.Start();
-        animator.SetBool("IsEquipped", true);
-
+        base.Start();        
     }
     protected override void Update()
     {
@@ -120,6 +119,7 @@ public class PlayerCharacter : CharacterBase
 
         foreach (RaycastHit hit in hits)
         {
+
            /* Debug.Log($"{hit.transform.name}: point={hit.point}, distance={hit.distance},");
             Debug.DrawLine(origin, hit.point, Color.red, 1.0f);
             Debug.DrawRay(hit.point, hit.normal, Color.magenta, 1.0f);*/
@@ -150,5 +150,12 @@ public class PlayerCharacter : CharacterBase
         animator.SetTrigger(AnimParam.Attack);
         
     }
-    
+    void SetEquipped(bool equipped)
+    {
+        animator.SetBool(AnimParam.IsEquipped, equipped);
+    }
+    public Transform GetDropTransform()
+    {
+        return dropTransform;
+    }
 }

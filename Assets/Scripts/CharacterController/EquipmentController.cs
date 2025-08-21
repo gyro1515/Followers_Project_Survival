@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+
 
 public enum EquipmentType
 {
@@ -15,11 +17,11 @@ public class EquipmentController : MonoBehaviour
     [SerializeField] Transform weaponSocket;
     Equipment curEquipment;
     Dictionary<EquipmentType, Equipment> equipments = new Dictionary<EquipmentType, Equipment>(); // 장비 재사용하기
+    public event Action<bool> OnWeaponEquipped;
 
     public void EquipWeapon(GameObject equipmentGO)
     {
         Debug.Log("장비 추가");
-
         Equipment checkEquipment = equipmentGO.GetComponent<Equipment>();
         if (checkEquipment == null) return; // 무기가 아니라면 장착x
         if (!equipments.ContainsKey(checkEquipment.EquipmentType)) 
@@ -39,6 +41,7 @@ public class EquipmentController : MonoBehaviour
                 equipment.Value.gameObject.SetActive(true);
                 curEquipment = equipment.Value;
                 Debug.Log("장착 완료");
+                OnWeaponEquipped?.Invoke(true);
             }
             else
             {
@@ -50,6 +53,7 @@ public class EquipmentController : MonoBehaviour
     {
         curEquipment?.gameObject.SetActive(false);
         curEquipment = null;
+        OnWeaponEquipped?.Invoke(false);
     }
     public int GetQuantityPerHit()
     {
