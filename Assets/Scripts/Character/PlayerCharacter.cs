@@ -7,6 +7,8 @@ public class PlayerCharacter : CharacterBase
 {
     PlayerController playerController;
     PlayerStatComponent playerStat { get { return GetStatComponent<PlayerStatComponent>(); } }
+    AnimatorStateInfo currentAttackStateInfo;
+    bool isAttacking;
 
     protected override void Awake()
     {
@@ -16,6 +18,8 @@ public class PlayerCharacter : CharacterBase
     protected override void Start()
     {
         base.Start();
+        animator.SetBool("IsEquipped", true);
+
     }
     protected override void Update()
     {
@@ -36,6 +40,47 @@ public class PlayerCharacter : CharacterBase
         animator.SetBool(AnimParam.IsFalling, characterMovement.IsFalling);
         animator.SetBool(AnimParam.IsGrounded, characterMovement.IsGrounded);
         animator.SetFloat(AnimParam.MoveSpeed, playerStat.GetStatValue(StatType.MoveSpeed).FinalValue, 0.1f, Time.deltaTime);
+
+        AnimatorStateInfo animatorStateInfo = animator.GetCurrentAnimatorStateInfo(1);
+        
+        if (animatorStateInfo.IsName("MeleeAttack1") || animatorStateInfo.IsName("MeleeAttack2") || animatorStateInfo.IsName("PunchLeft") || animatorStateInfo.IsName("PunchRight"))
+        {
+            if (currentAttackStateInfo.fullPathHash != animatorStateInfo.fullPathHash)
+            {
+                isAttacking = false;
+            }
+            currentAttackStateInfo = animatorStateInfo;
+        }
+        
+        if (animatorStateInfo.IsName("MeleeAttack1") || animatorStateInfo.IsName("MeleeAttack2"))
+        {
+            if (!isAttacking && animatorStateInfo.normalizedTime > 0.46f)
+            {
+                isAttacking = true;
+                Attack();
+
+            }
+            
+        }
+        else if (animatorStateInfo.IsName("PunchLeft") || animatorStateInfo.IsName("PunchRight"))
+        {
+
+            if (!isAttacking && animatorStateInfo.normalizedTime > 0.52f)
+            {
+                isAttacking = true;
+                Attack();
+
+            }
+            
+        }
+
+        if (animatorStateInfo.IsName("Idle"))
+        {
+            isAttacking = false;
+
+        }
+
+
     }
 
     public void EnterSprint()
@@ -62,9 +107,10 @@ public class PlayerCharacter : CharacterBase
 
     }
 
-    public void TryAttack()
+    public void Attack()
     {
-        animator.SetTrigger(AnimParam.Attack);
+        Debug.Log("Attack start");
+
         LayerMask layerMask = LayerMask.GetMask(new string[] { "Enemy", "Resource" });
 
         Vector3 origin = transform.position + transform.forward * 0.4f + transform.up * 2f;
@@ -82,6 +128,12 @@ public class PlayerCharacter : CharacterBase
             }
             // 적이라면 적에게 데미지
         }
+    }
+
+    public void TryAttack()
+    {
+        animator.SetTrigger(AnimParam.Attack);
+        
     }
     
 }
