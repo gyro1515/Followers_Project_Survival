@@ -10,6 +10,7 @@ namespace Constants
         public const string IsGrounded = "IsGrounded";
         public const string CanAttack = "CanAttack";
         public const string Attack = "Attack";
+        public const string MoveSpeed = "MoveSpeed";
 
 
     }
