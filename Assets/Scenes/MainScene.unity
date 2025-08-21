@@ -379,7 +379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea77891764904db479cbe64516164692, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dayNightCycleGO: {fileID: 8310570419982711179, guid: 117e5faafa6311f4fb24443e7bf58c14, type: 3}
+  dayNightCycleGO: {fileID: 1591952458}
 --- !u!4 &848963960
 Transform:
   m_ObjectHideFlags: 0
