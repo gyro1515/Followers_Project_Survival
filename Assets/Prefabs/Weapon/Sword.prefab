@@ -130,4 +130,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   equipmentType: 1
   damage: 20
-  quantityPerHit: 10
+  quantityPerHit: 4

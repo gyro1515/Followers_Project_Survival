@@ -10,4 +10,6 @@ public class Equipment : MonoBehaviour
     [SerializeField] int quantityPerHit; // 한 번에 최대 몇 개의 자원을 캘 수 있는가
     
     public EquipmentType EquipmentType { get { return equipmentType; } }
+    public int QuantityPerHit { get { return quantityPerHit; } }
+    public float Damage { get { return damage; } }
 }

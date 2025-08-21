@@ -51,4 +51,14 @@ public class EquipmentController : MonoBehaviour
         curEquipment?.gameObject.SetActive(false);
         curEquipment = null;
     }
+    public int GetQuantityPerHit()
+    {
+        if(curEquipment) return curEquipment.QuantityPerHit;
+        return 2; // 장착한 무기 없다면 2개 씩만
+    }
+    public float GetDamage()
+    {
+        if (curEquipment) return curEquipment.Damage;
+        return -1f;
+    }
 }
