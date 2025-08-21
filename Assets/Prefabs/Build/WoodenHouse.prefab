@@ -198,7 +198,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   build: {fileID: 0}
   buildData: {fileID: 0}
-  maxDurability: 20
+  maxDurability: 300
   curDurability: 0
 --- !u!1 &8681169231060594748
 GameObject:
@@ -266,5 +266,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49a8d67360f6089408ddfdc8d43a496c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  structure: {fileID: 0}
-  collider: {fileID: 0}

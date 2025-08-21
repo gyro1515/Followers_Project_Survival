@@ -99,7 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   build: {fileID: 0}
   buildData: {fileID: 0}
-  maxDurability: 10
+  maxDurability: 300
   curDurability: 0
 --- !u!1001 &2721451871476884769
 PrefabInstance:
