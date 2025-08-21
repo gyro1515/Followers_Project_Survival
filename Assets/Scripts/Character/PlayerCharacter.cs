@@ -127,20 +127,18 @@ public class PlayerCharacter : CharacterBase
             {
                 resource.Gather(gameObject.transform, equipmentController.GetQuantityPerHit()); // 한 번에 캘 수 있는 개수, 장비 장착시 달라지도록
             }
-            // 적이라면 적에게 데미지
-            float weaponDamage = equipmentController.GetDamage();
-            if(weaponDamage == -1f) // -1을 리턴했다는 것은 장착한 무기가 없다는 뜻
+            else if(hit.collider.TryGetComponent(out MonsterStatComponent monster))
             {
-                // 따라서 여기서는 플레이어 기본 공격력으로 적에게 데미지주기
-                // enemy.TakeDamage(playerAttack);
-            }
-            else
-            {
-                // 여기서는 무기 공격력으로 적에게 데미지 주기
-                // 기획에 따라 둘 중 선택하면 될듯 합니다
-                // enemy.TakeDamage(playerAttack + weaponDamage);
-                // enemy.TakeDamage(weaponDamage);
-
+                // 적이라면 적에게 데미지
+                float weaponDamage = equipmentController.GetDamage();
+                if (weaponDamage == -1f) // -1을 리턴했다는 것은 장착한 무기가 없다는 뜻
+                {
+                    monster.statValues[StatType.Health].BaseValue -= playerStat.statValues[StatType.Attack].BaseValue;
+                }
+                else
+                {
+                    monster.statValues[StatType.Health].BaseValue -= playerStat.statValues[StatType.Attack].BaseValue + weaponDamage;
+                }
             }
         }
     }

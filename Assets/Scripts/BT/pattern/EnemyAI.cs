@@ -25,6 +25,7 @@ class EnemyAI : MonoBehaviour
     Vector3 _originPos = default;// 원래 자리
     Vector3 _IdlePos = default; // idle 상태에서 랜덤으로 움직이는 위치
     bool _isRecover = false; // 회복 중에 플레이어 추적 방지용
+    bool _isDead = false; // 죽었는지 여부
     BehaviourTreeRunner _BTRunner = null;// 행동 트리 실행기
     Transform _detectedPlayer = null;
     Animator _animator = null;
@@ -64,6 +65,7 @@ class EnemyAI : MonoBehaviour
         return new SelectorNode( //rootsel
             new List<INode>
             {
+                new ActionNode(WasDead),
                 new ActionNode(Death), // DeathAction
                 new SequenceNode( //AttackSeq
                 new List<INode>
@@ -225,7 +227,24 @@ class EnemyAI : MonoBehaviour
 
     INode.ENodeState DamageDetect()
     {
-        if (_enemy.statValues[StatType.Health].BaseValue < _enemy.statValues[StatType.Health].MaxValue -1 && !_isRecover) return INode.ENodeState.Success;
+        if (_enemy.statValues[StatType.Health].BaseValue < _enemy.statValues[StatType.Health].MaxValue - 1 && !_isRecover)
+        {
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, detectionRange);
+            foreach (var hitCollider in hitColliders)
+            {
+                if (hitCollider.CompareTag("Player"))
+                {
+                    _player = hitCollider.GetComponent<PlayerStatComponent>();
+                    _detectedPlayer = hitCollider.transform;
+                    Vector3 directionToPlayer = (hitCollider.transform.position - transform.position).normalized;
+                    float angle = Vector3.Angle(transform.forward, directionToPlayer);
+                    _detectedPlayer = hitCollider.transform;
+                    return INode.ENodeState.Success;
+                }
+            }
+            _detectedPlayer = null;
+            return INode.ENodeState.Failure;
+        }
         return INode.ENodeState.Failure;    
     }
 
@@ -406,9 +425,22 @@ class EnemyAI : MonoBehaviour
             _animator.SetBool(_DEATH_ANIM_BOOL_NAME, true);
             _navMeshAgent.isStopped = true;
             _navMeshAgent.enabled = false;
+            _isDead = true;
             return INode.ENodeState.Success;
         }
         return INode.ENodeState.Failure;
+    }
+
+    INode.ENodeState WasDead()
+    {
+        if (_isDead)
+        {
+            _animator.SetBool("End", true); // 죽었을 때 애니메이션 종료
+            if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime == 1f)
+                _animator.StopPlayback(); // 애니메이션이 끝났을 때 재생 중지
+            return INode.ENodeState.Success; // 죽었을 때는 더 이상 행동하지 않음
+        }
+        return INode.ENodeState.Failure; // 죽지 않았을 때는 행동 트리 계속 진행
     }
     #endregion
 }
