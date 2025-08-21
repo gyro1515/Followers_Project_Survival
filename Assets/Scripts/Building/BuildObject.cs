@@ -13,7 +13,7 @@ public class BuildObject : MonoBehaviour
 
     private void Awake()
     {
-        build = FindObjectOfType<Build>();
+        //build = FindObjectOfType<Build>();
 
         buildData = build.buildData;
         build.activeBuild.Add(this);

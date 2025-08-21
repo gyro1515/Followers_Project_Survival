@@ -158,7 +158,8 @@ public class Build : MonoBehaviour
 
     public void InitBuilding()
     {
-        Instantiate(buildData.buildPrefab, previewGameObject.transform.position, previewGameObject.transform.rotation);
+        // buildPrefab 생성하고 그 안에있는 BuildObject의 build에 이 Build 넣어주기
+        Instantiate(buildData.buildPrefab, previewGameObject.transform.position, previewGameObject.transform.rotation).GetComponent<BuildObject>().build = this;
         Debug.Log("Build CancelPreview");
         CancelPreview();
     }
