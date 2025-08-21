@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.PlayerSettings;
 
 public class RepairUI : MonoBehaviour
 {
@@ -34,6 +35,15 @@ public class RepairUI : MonoBehaviour
     [SerializeField] AudioClip clickClip;
     [SerializeField] AudioClip openCloseClip;
 
+    [Header("내구도 UI")]
+    [SerializeField] GameObject durabilityPanel; // 움직일 패널
+    [SerializeField] TextMeshProUGUI buildNameText;
+    [SerializeField] Image durabilityBar;
+    [SerializeField] Vector3 addWorldPos; // 구조물 월드 좌표 조정용, 기준이 보통 바닥이기 때문에, 조정값 필요
+    [SerializeField] Vector3 screenPos; // 해당 구조물 위치에서 화면 기준 어느 방향에 있을 것인가
+    RectTransform durabilityPanelRectTransform;
+    Camera cam;
+    public GameObject targetObject;
     private void Awake()
     {
         interactionBG.sizeDelta = new Vector2(interactionText.preferredWidth, interactionBG.sizeDelta.y);
@@ -43,22 +53,34 @@ public class RepairUI : MonoBehaviour
 
         repairButton.onClick.AddListener(OnClickRepair);
         exitButton.onClick.AddListener(OnClickExit);
+        cam = Camera.main;
+        durabilityPanelRectTransform = durabilityPanel.GetComponent<RectTransform>();
     }
 
     private void Start()
     {
         repairWindow.SetActive(false);
         interaction.SetActive(false);
-    }
+        durabilityPanel.SetActive(false);
 
+    }
+    private void Update()
+    {
+        if(durabilityPanel.activeSelf)
+        {
+            SetUIPos();
+        }
+    }
     public void SetText()
     {
         interaction.SetActive(true);
+        durabilityPanel.SetActive(true);
     }
 
     public void DeactiveText()
     {
         interaction.SetActive(false);
+        durabilityPanel.SetActive(false);
     }
 
     public void OpenRepairWindow(BuildObject buildObject)
@@ -173,5 +195,10 @@ public class RepairUI : MonoBehaviour
             }
         }
         return true;
+    }
+    void SetUIPos()
+    {
+        Vector3 tmpUIPos = cam.WorldToScreenPoint(targetObject.gameObject.transform.position + addWorldPos);
+        durabilityPanelRectTransform.position = tmpUIPos + screenPos;
     }
 }

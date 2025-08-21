@@ -7,8 +7,8 @@ using UnityEngine;
 [System.Serializable]
 public class StatRegenConfig
 {
-    public float Delay = 0f;
-    public float Rate = 0.1f;
+    public float Delay;
+    public float Rate;
     public float Amount;
 
     public StatRegenConfig(float delay, float rate, float amount)
@@ -22,8 +22,8 @@ public class StatRegenConfig
 [System.Serializable]
 public class StatCostConfig
 {
-    public float Delay = 0f;
-    public float Rate = 0.1f;
+    public float Delay;
+    public float Rate;
     public float Amount;
 
     public StatCostConfig(float delay, float rate, float amount)
@@ -78,7 +78,49 @@ public class PlayerStatComponent : StatComponentBase
         GetStatValue(StatType.Thirst).OnValueChanged += CheckStatValueZero;
         DrainStat(StatType.Hunger);
         GetStatValue(StatType.Hunger).OnValueChanged += CheckStatValueZero;
+        //StartCoroutine(DrainHungerInfinite(0.1f, 0.01f));
+        //StartCoroutine(DrainThirstInfinite(0.1f, 0.01f));
 
+    }
+
+    IEnumerator DrainHungerInfinite(float rate, float costAmount)
+    {
+        StatValue statValue = GetStatValue(StatType.Hunger);
+
+        while (true)
+        {
+            yield return new WaitForSeconds(rate);
+
+            if (statValue.BaseValue > costAmount)
+            {
+                statValue.BaseValue -= costAmount;
+
+            }
+            else
+            {
+                GetStatValue(StatType.Health).BaseValue -= costAmount;
+            }
+        }
+    }
+
+    IEnumerator DrainThirstInfinite(float rate, float costAmount)
+    {
+        StatValue statValue = GetStatValue(StatType.Thirst);
+
+        while (true)
+        {
+            yield return new WaitForSeconds(rate);
+
+            if (statValue.BaseValue > costAmount)
+            {
+                statValue.BaseValue -= costAmount;
+
+            }
+            else
+            {
+                GetStatValue(StatType.Health).BaseValue -= costAmount;
+            }
+        }
     }
 
     private void CheckStatValueZero(StatChangedEventArgs obj)
@@ -95,6 +137,20 @@ public class PlayerStatComponent : StatComponentBase
             //Debug.Log($"{obj.Type} is Not Zero");
         }
     }
+
+    // StatType의 초당 감소량 증가시키는 함수
+    public void AddCostConfigAmount(StatType type, float addAmount)
+    {
+        StatCostConfig config = costConfigs[type];
+        if (config == null) config = new StatCostConfig(0f, 0.1f, 0.1f);
+
+        config.Amount += addAmount;
+        costConfigs[type] = config;
+
+        Debug.Log(config.Amount);
+        DrainStat(type);
+    }
+
 
     private void DrainStat(StatType statType)
     {
@@ -151,6 +207,34 @@ public class PlayerStatComponent : StatComponentBase
         }
 
         regenDelayCoroutines[StatType.Stamina] = StartCoroutine(DelayedRegenStat(StatType.Stamina, regenConfigs[StatType.Stamina]));
+
+    }
+
+    public void CostHunger(float amount)
+    {
+        StatValue hunger = GetStatValue(StatType.Hunger);
+        if (hunger.BaseValue > amount)
+        {
+            hunger.BaseValue -= amount;
+        }
+        else
+        {
+            GetStatValue(StatType.Health).BaseValue -= 0.03f;
+        }
+    
+    }
+
+    public void CostThirst(float amount)
+    {
+        StatValue thirst = GetStatValue(StatType.Thirst);
+        if (thirst.BaseValue > amount)
+        {
+            thirst.BaseValue -= amount;
+        }
+        else
+        {
+            GetStatValue(StatType.Health).BaseValue -= 0.02f;
+        }
 
     }
     // 다른 스탯 증감은 이 함수로
@@ -216,7 +300,23 @@ public class PlayerStatComponent : StatComponentBase
         {
             yield return new WaitForSeconds(rate);
 
-            statValue.BaseValue -= costAmount;
+            if (statType == StatType.Stamina)
+            {
+                UseStamina(costAmount);
+            }
+            else if (statType == StatType.Hunger)
+            {
+                CostHunger(costAmount);
+            }
+            else if (statType == StatType.Thirst)
+            {
+                CostThirst(costAmount);
+            }
+            else
+            {
+                statValue.BaseValue -= costAmount;
+            }
+
             //Debug.Log($"{statType.ToString()}은 {costAmount}감소되었습니다.");
         }
     }
