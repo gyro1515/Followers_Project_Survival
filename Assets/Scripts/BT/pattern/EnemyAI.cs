@@ -27,15 +27,15 @@ class EnemyAI : MonoBehaviour
     Vector3 _originPos = default;// 원래 자리
     Vector3 _IdlePos = default; // idle 상태에서 랜덤으로 움직이는 위치
     float _currentHealth = 100f; // 현재 체력
-    bool _didAttack = false; // 공격 판정 실행 여부(다단히트 방지용)
+    bool _isRecover = false; // 회복 중에 플레이어 추적 방지용
     BehaviourTreeRunner _BTRunner = null;// 행동 트리 실행기
     Transform _detectedPlayer = null;
     Animator _animator = null;
     Stopwatch _chaseTimer = new Stopwatch(); // 추적 시간 측정
     Stopwatch _idleTimer = new Stopwatch(); // idle 시간 측정
     NavMeshAgent _navMeshAgent = null; // 네비게이션 에이전트
-    SO_StatDefinition PlayerHealth; // 플레이어 체력 상호작용을 위한 변수
-    SO_StatDefinition EnemyHealth; // 적 체력 상호작용을 위한 변수
+    PlayerStatComponent _player; // 플레이어 체력 상호작용을 위한 변수
+    MonsterStatComponent _enemy; // 자신 체력 상호작용을 위한 변수
 
     const string _ATTACK_ANIM_STATE_NAME = "Attack5";
     const string _ATTACK_ANIM_TRIGGER_NAME = "attack5";
@@ -56,7 +56,7 @@ class EnemyAI : MonoBehaviour
         _BTRunner = new BehaviourTreeRunner(SettingBT());
         _originPos = transform.position;
         _navMeshAgent = GetComponent<NavMeshAgent>();
-        EnemyHealth = GetComponent<SO_StatDefinition>();
+        _enemy = GetComponent<MonsterStatComponent>();
     }
 
     private void Update()
@@ -142,12 +142,13 @@ class EnemyAI : MonoBehaviour
     {
         while (_currentHealth < maxHealth)
         {
+            _isRecover = true;
             _currentHealth += Math.Max(1, (maxHealth - _currentHealth) * 0.3f);
             if (_currentHealth > maxHealth)
             {
                 _currentHealth = maxHealth;
             }
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.1f);
         }
     }
     #region Actions
@@ -169,11 +170,13 @@ class EnemyAI : MonoBehaviour
     {
         if ( _detectedPlayer != null)
         {
+            // 38프레임부터 53프레임까지 공격 판정
+
+            
             _animator.SetTrigger(_ATTACK_ANIM_TRIGGER_NAME);
             return INode.ENodeState.Success;
         }
         return INode.ENodeState.Failure;
-        // 플레이어에게 공격 판정 로직 추가 요망
     }
 
     INode.ENodeState AttackCooldown()
@@ -204,7 +207,8 @@ class EnemyAI : MonoBehaviour
         {
             if (hitCollider.CompareTag("Player"))
             {
-                PlayerHealth = hitCollider.GetComponent<SO_StatDefinition>();
+                _player = hitCollider.GetComponent<PlayerStatComponent>();
+                _detectedPlayer = hitCollider.transform;
                 Vector3 directionToPlayer = (hitCollider.transform.position - transform.position).normalized;
                 float angle = Vector3.Angle(transform.forward, directionToPlayer);
                 if (angle < detectionAngle / 2f)
@@ -220,10 +224,7 @@ class EnemyAI : MonoBehaviour
 
     INode.ENodeState DamageDetect()
     {
-        // 플레이어로부터 공격을 받았을 때
-        // 차후 플레이어의 공격 로직이 완성된 후 작성
-        // 생각해보니 몬스터는 플레이어의 공격을 받았을때만 HP가 줄어듦.
-        if (EnemyHealth.baseValue < EnemyHealth.maxValue) return INode.ENodeState.Success;
+        if (_enemy.statValues[StatType.Health].BaseValue < _enemy.statValues[StatType.Health].MaxValue -1 && !_isRecover) return INode.ENodeState.Success;
         return INode.ENodeState.Failure;    
     }
 
@@ -373,7 +374,7 @@ class EnemyAI : MonoBehaviour
 
     INode.ENodeState Death()
     {
-        if (EnemyHealth.baseValue <= 0)
+        if (_enemy.statValues[StatType.Health].BaseValue <= 0)
         {
             _animator.SetBool(_DEATH_ANIM_BOOL_NAME, true);
             _navMeshAgent.isStopped = true;
