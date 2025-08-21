@@ -68,7 +68,6 @@ public class UIInventory : MonoBehaviour
         audioSource = gameObject.GetComponent<AudioSource>();
 
         // ***********플레이어 기준 버리는 위치를 가져와야 하지만 현재는 플레이어가 없으므로 카메라로 대체
-        dropPosition = Camera.main.transform;
     }
     private void Start()
     {
@@ -78,6 +77,8 @@ public class UIInventory : MonoBehaviour
         Debug.Log(build.inventory);
 
         Toggle(); // 시작 시 Inventory 창 닫기
+        dropPosition = GameManager.Instance.GetPlayer(0).GetDropTransform();
+
     }
     // 선택한 아이템 표시할 정보창 Clear 함수
     void ClearSelectedItemWindow()

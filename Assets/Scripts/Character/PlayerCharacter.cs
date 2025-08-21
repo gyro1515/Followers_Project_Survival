@@ -10,18 +10,17 @@ public class PlayerCharacter : CharacterBase
     EquipmentController equipmentController;
     AnimatorStateInfo currentAttackStateInfo;
     bool isAttacking;
-
+    [SerializeField] Transform dropTransform;
     protected override void Awake()
     {
         base.Awake();
         playerController = GetController<PlayerController>();
         equipmentController = GetComponent<EquipmentController>();
+        equipmentController.OnWeaponEquipped += SetEquipped;
     }
     protected override void Start()
     {
-        base.Start();
-        animator.SetBool("IsEquipped", true);
-
+        base.Start();        
     }
     protected override void Update()
     {
@@ -150,5 +149,12 @@ public class PlayerCharacter : CharacterBase
         animator.SetTrigger(AnimParam.Attack);
         
     }
-    
+    void SetEquipped(bool equipped)
+    {
+        animator.SetBool(AnimParam.IsEquipped, equipped);
+    }
+    public Transform GetDropTransform()
+    {
+        return dropTransform;
+    }
 }
