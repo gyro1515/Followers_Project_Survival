@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class Door : MonoBehaviour, IInteractable
 {
-    [SerializeField] StructureObject structure;
-    // 테스트용 public, 이후 private로 전환
-    public Collider collider;
+    Collider collider;
 
     bool isOpen;
 
@@ -23,7 +21,6 @@ public class Door : MonoBehaviour, IInteractable
     void ToggleDoor()
     {
         // 문 열기
-        // 파괴해야되나? ㄴㄴ 비활성화
         collider.isTrigger = !collider.isTrigger;
         isOpen = collider.isTrigger;
     }
