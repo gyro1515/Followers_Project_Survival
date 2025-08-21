@@ -127,9 +127,10 @@ public class CraftUI : MonoBehaviour
         if (clickClip != null) audioSource.PlayOneShot(clickClip);
     }
 
-    public void OnClickExit()   // 얘는 클릭 소리 넣어야되나 닫는 소리 넣어야되나 흠..
+    public void OnClickExit()
     {
         CloseCraftUI();
+        if (openCloseClip != null) audioSource.PlayOneShot(openCloseClip);
     }
 
     void InitCraftList()

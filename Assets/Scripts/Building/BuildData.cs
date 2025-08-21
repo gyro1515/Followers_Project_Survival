@@ -27,7 +27,6 @@ public class BuildData : ScriptableObject
     public string buildName;
     public string description;
     public EBuildingType type;
-    //public Sprite icon; // 아이콘도 필요한가 생각해 볼 필요 있음
     public GameObject buildPrefab;      // 실제 설치될 프리팹
     public GameObject previewPrefab;    // PreviewBuild를 달아놓은 프리팹
     public Sprite buildImage;    // 해당 건축물의 이미지

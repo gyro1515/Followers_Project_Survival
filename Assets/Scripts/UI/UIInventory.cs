@@ -8,8 +8,7 @@ using System;
 
 public class UIInventory : MonoBehaviour
 {
-    //테스트용
-    public Build build;
+    Build build;
 
     [SerializeField] ItemSlot[] slots;
     [SerializeField] GameObject inventoryWindow;
@@ -71,7 +70,6 @@ public class UIInventory : MonoBehaviour
     }
     private void Start()
     {
-        // 테스트용
         build = FindObjectOfType<Build>();
         build.inventory = this;
         Debug.Log(build.inventory);
@@ -377,7 +375,6 @@ public class UIInventory : MonoBehaviour
 
     public void DecreaseItemQuantity(ItemData item, int useQuantity)    // 외부에서 인벤토리에 있는 아이템을 사용할 때 실행
     {
-        Debug.Log("아이템 개수 감소");
         for(int i = slots.Length - 1; i >= 0; i--)
         {
             if (slots[i].Item == item)
@@ -386,7 +383,7 @@ public class UIInventory : MonoBehaviour
                 {
                     slots[i].Quantity -= useQuantity;
                     useQuantity = 0;
-                    if (slots[i].Quantity == 0)
+                    if (slots[i].Quantity == 0) // 아이템 개수가 딱 0이 되면
                     {
                         slots[i].Item = null;
                         UpdateUI();
