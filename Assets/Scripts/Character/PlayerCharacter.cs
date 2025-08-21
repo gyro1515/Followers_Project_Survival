@@ -44,15 +44,23 @@ public class PlayerCharacter : CharacterBase
     public void TryAttack()
     {
         animator.SetTrigger(AnimParam.Attack);
+        LayerMask layerMask = LayerMask.GetMask(new string[] { "Enemy", "Resource" });
 
         Vector3 origin = transform.position + transform.forward * 0.4f + transform.up * 2f;
-
-        LayerMask layerMask = LayerMask.GetMask(new string[] { "Enemy", "Resource" });
         var hits = Physics.SphereCastAll(origin, 0.2f, Vector3.down, 2f, layerMask);
+
 
         foreach (RaycastHit hit in hits)
         {
-            Debug.Log(hit.transform.name);
+            Debug.Log($"{hit.transform.name}: point={hit.point}, distance={hit.distance},");
+            Debug.DrawLine(origin, hit.point, Color.red, 1.0f);
+            Debug.DrawRay(hit.point, hit.normal, Color.magenta, 1.0f);
+            if (hit.collider.TryGetComponent(out Resource resource)) // 캘 수 있는 자원이라면 캐기
+            {
+                resource.Gather(gameObject.transform, 1);
+            }
+            // 적이라면 적에게 데미지
         }
     }
+    
 }

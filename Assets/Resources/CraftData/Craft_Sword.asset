@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b753bb44968e2a243abc03f3933bd86f, type: 3}
+  m_Name: Craft_Sword
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 90f1515e7781c30498b13b3ebc31ac9b, type: 2}
+  materials:
+  - materialData: {fileID: 11400000, guid: 9782025a5504601459795be8a989a2b3, type: 2}
+    requiredQuantity: 1
+  - materialData: {fileID: 11400000, guid: 559d715d809735e48826fa25b4fd9dd1, type: 2}
+    requiredQuantity: 2
+  hasAllMaterials: 0

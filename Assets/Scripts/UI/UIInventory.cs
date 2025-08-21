@@ -89,11 +89,14 @@ public class UIInventory : MonoBehaviour
     {
         if (IsOpen())
         {
+            UIManager.Instance.IsAnyUIOn = false;
             inventoryWindow.SetActive(false);
             GameManager.Instance.SetCursorVisibility(false);
         }
         else
         {
+            if (UIManager.Instance.IsAnyUIOn) return;
+            UIManager.Instance.IsAnyUIOn = true;
             inventoryWindow.SetActive(true);
             GameManager.Instance.SetCursorVisibility(true);
         }

@@ -22,6 +22,7 @@ public class Build : MonoBehaviour
 
     private void Awake()
     {
+        // find 말고 가져올 방법 생각해보기 어떻게 해야될까
         inventory = FindObjectOfType<UIInventory>();
     }
 
@@ -32,6 +33,7 @@ public class Build : MonoBehaviour
 
     private void Update()
     {
+        // 테스트용
         if (isBuildMode)
         {
             UpdatePreviewPosition();

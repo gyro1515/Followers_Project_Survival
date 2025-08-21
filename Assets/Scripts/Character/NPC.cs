@@ -13,7 +13,7 @@ public class NPC : MonoBehaviour, IInteractable //상속?
         lookDir.y = 0;
         Debug.DrawLine(transform.position, GameManager.Instance.GetPlayer(0).transform.position, Color.blue, 1.0f);
         gameObject.transform.DORotateQuaternion(Quaternion.LookRotation(lookDir.normalized), 0.5f).onComplete += UIManager.Instance.ActiveNPCDialouge;
-        //UIManager.Instance.ActiveNPCDialouge(); // 대화 활성화
+        GameManager.Instance.SetPlayerControlActive(false); // 키 조작 막기
     }
 
     public void SetInteractionText()

@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
+
 public class UIManager : SingletonMono<UIManager>
 {
     // 싱글톤으로 불러가기
@@ -12,14 +15,30 @@ public class UIManager : SingletonMono<UIManager>
     [SerializeField] GameObject interactionUIPrefab;
     [SerializeField] GameObject temperatureUIPrefab;
     [SerializeField] GameObject buildUIPrefab;
-    private UIInventory uiInventory;
-    //public UIInventory UIInventory { get { return uiInventory; } }
+    [SerializeField] GameObject craftUIPrefab;
+
     HUD hudUI;
-    //public HUD HUDUI { get { return hudUI; } }
     NPCDialogue npcDialouge;
     InteractionUI interactionUI;
     TemperatureUI temperatureUI;
     BuildUI buildUI;
+    CraftUI craftUI;
+    UIInventory uiInventory;
+
+    // 인벤토리가 열리면 건축하기UI 안 열리도록, 혹은 그 반대
+    // 이걸 어디에 넣어야 할까요...?
+    bool isAnyUIOn = false;
+    public bool IsAnyUIOn { get { return isAnyUIOn; } set { isAnyUIOn = value; } }
+    // enum 방식으로 변경?
+    /*public enum ActivedUI
+    {
+        None = 0,
+        Inventory = 1 << 0,
+        Build = 1 << 1,
+    }*/
+    /*private ActivedUI currentUI = ActivedUI.None;
+    public ActivedUI CurrentUI => currentUI;*/
+
     protected override void Awake()
     {
         base.Awake();
@@ -30,23 +49,36 @@ public class UIManager : SingletonMono<UIManager>
         temperatureUI = Instantiate(temperatureUIPrefab, gameObject.transform).GetComponent<TemperatureUI>();
         uiInventory = Instantiate(inventoryPrefab, gameObject.transform).GetComponent<UIInventory>();
         buildUI = Instantiate(buildUIPrefab, gameObject.transform).GetComponent<BuildUI>();
+        craftUI = Instantiate(craftUIPrefab, gameObject.transform).GetComponent <CraftUI>();
     }
     private void Start()
     {
         InitializeHUD();
+        // 인벤토리 연결하는 방법 생각해봐야될듯 어떻게 하지
         buildUI.inventory = uiInventory;
+        craftUI.inventory = uiInventory;
+
+        npcDialouge.OnDialogueStateChanged += GameManager.Instance.SetPlayerControlActive;
+        GameManager.Instance.AddOnInventoryListener(uiInventory.Toggle);
+        GameManager.Instance.AddOnBuildListener(buildUI.ToggleBuildUI);
     }
     private void Update()
     {
         // 테스트
-        if(Input.GetKeyDown(KeyCode.Tab))
+        /*if(Input.GetKeyDown(KeyCode.Tab))
         {
             uiInventory?.Toggle();
-        }
+        }*/
         // 테스트
-        if (Input.GetKeyDown(KeyCode.B))
+        /*if (Input.GetKeyDown(KeyCode.B))
         {
-            buildUI.ToggleBuildUI();
+            buildUI?.ToggleBuildUI();
+        }*/
+
+        // 테스트
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            craftUI?.ToggleCraftUI();
         }
     }
     public void InitializeHUD()

@@ -1,10 +1,11 @@
+using Cinemachine;
+using Constants;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Constants;
-using Cinemachine;
-using Unity.VisualScripting;
 
 // 입력 처리만
 public class PlayerController : ControllerBase
@@ -12,6 +13,8 @@ public class PlayerController : ControllerBase
     PlayerCharacter player;
     PlayerInputActions playerInputActions;
     InteractionComponet interactionComponet;
+    public event Action OnInventotyAction;
+    public event Action OnBuildAction;
     [Header("Camera")]
     Vector2 lookInput;
     public Transform cameraTarget;
@@ -22,8 +25,7 @@ public class PlayerController : ControllerBase
     float cameraPitch = 0f;
     public CinemachineVirtualCamera virtualCamera;
 
-    // 추후 다른 곳으로 옮겨도 됩니다
-    bool canControl = true; // 인벤토리나 대화 창 열릴 시 Look, Move 등 입력 안들어가도록
+    
 
     protected override void Awake()
     {
@@ -71,6 +73,7 @@ public class PlayerController : ControllerBase
     private void OnEnable()
     {
         playerInputActions.Player.Enable();
+        playerInputActions.PlayerUI.Enable();
 
         playerInputActions.Player.Move.performed += OnMove;
         playerInputActions.Player.Move.canceled += OnMove;
@@ -79,6 +82,8 @@ public class PlayerController : ControllerBase
         playerInputActions.Player.Jump.performed += OnJump;
         playerInputActions.Player.Attack.performed += OnAttack;
         playerInputActions.Player.Interaction.started += OnInteraction;
+        playerInputActions.PlayerUI.Inventory.started += OnInventory;
+        playerInputActions.PlayerUI.Build.started += OnBuild;
 
     }
 
@@ -91,18 +96,19 @@ public class PlayerController : ControllerBase
         playerInputActions.Player.Jump.performed -= OnJump;
         playerInputActions.Player.Attack.performed -= OnAttack;
         playerInputActions.Player.Interaction.started -= OnInteraction;
+        playerInputActions.PlayerUI.Inventory.started -= OnInventory;
+        playerInputActions.PlayerUI.Build.started -= OnBuild;
 
         playerInputActions.Player.Disable();
+        playerInputActions.PlayerUI.Disable();
     }
 
     private void OnAttack(InputAction.CallbackContext context)
     {
-        if (!canControl) return;
         player.TryAttack();
     }
     private void OnJump(InputAction.CallbackContext context)
     {
-        if (!canControl) return;
         player.TryJump();
     }
 
@@ -113,7 +119,6 @@ public class PlayerController : ControllerBase
 
     private void OnLook(InputAction.CallbackContext context)
     {
-        if (!canControl) return; 
         lookInput = context.ReadValue<Vector2>();
 
         transform.Rotate(Vector3.up * lookInput.x * HorizontalSensitivity);
@@ -126,12 +131,29 @@ public class PlayerController : ControllerBase
     }
     private void OnInteraction(InputAction.CallbackContext context)
     {
-        if (!canControl) return;
         interactionComponet?.OnIteract();
+    }
+    private void OnInventory(InputAction.CallbackContext context)
+    {
+        OnInventotyAction?.Invoke();
+    }
+    private void OnBuild(InputAction.CallbackContext context)
+    {
+        OnBuildAction?.Invoke();
     }
     public void SetControlActive(bool active)
     {
-        canControl = active;
+        // 인벤토리는 제외해야??
+        if (active) playerInputActions.Player.Enable();
+        else playerInputActions.Player.Disable();
     }
+    /*public void SetControlActiveTogle()
+    {
+        if (playerInputActions.Player.enabled)
+        {
+            playerInputActions.Player.Disable();
+        }
+        else playerInputActions.Player.Enable();
+    }*/
     
 }
