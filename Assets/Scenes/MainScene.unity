@@ -379,7 +379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea77891764904db479cbe64516164692, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dayNightCycleGO: {fileID: 8310570419982711179, guid: 117e5faafa6311f4fb24443e7bf58c14, type: 3}
+  dayNightCycleGO: {fileID: 1591952458}
 --- !u!4 &848963960
 Transform:
   m_ObjectHideFlags: 0
@@ -779,6 +779,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 117e5faafa6311f4fb24443e7bf58c14, type: 3}
+--- !u!1 &1591952458 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8310570419982711179, guid: 117e5faafa6311f4fb24443e7bf58c14, type: 3}
+  m_PrefabInstance: {fileID: 1591952457}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1591952459 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1055889217630053872, guid: 117e5faafa6311f4fb24443e7bf58c14, type: 3}
