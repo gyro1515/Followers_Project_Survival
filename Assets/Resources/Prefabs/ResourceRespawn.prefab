@@ -60,7 +60,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   spawnRadius: 40
-  minDistance: 3
+  minDistance: 7
   respownTime: 0.01
   npcPrefabs:
   - {fileID: 3723790568139472377, guid: 28b7a85cefd2a5841bab7fa544b07d29, type: 3}
+  - {fileID: 3090808834890356860, guid: 9e94c0043ea274d43a91bfb45447305c, type: 3}
+  - {fileID: 1807062668685057136, guid: e9b27ec64d7383a4fa54cc6be6048b6f, type: 3}
