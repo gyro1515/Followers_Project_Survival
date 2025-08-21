@@ -153,6 +153,7 @@ public class UIManager : SingletonMono<UIManager>
     }
     public void SetRepairWindow(BuildObject buildObject)
     {
+        Debug.Log("UI매니저에서 실행");
         repairUI?.OpenRepairWindow(buildObject);
     }
 }

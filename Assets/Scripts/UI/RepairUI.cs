@@ -54,8 +54,6 @@ public class RepairUI : MonoBehaviour
     public void SetText()
     {
         interaction.SetActive(true);
-        interactionText.text = $"[F] 수리하기";
-        interactionBG.sizeDelta = new Vector2(interactionText.preferredWidth, interactionBG.sizeDelta.y);
     }
 
     public void DeactiveText()
@@ -65,18 +63,45 @@ public class RepairUI : MonoBehaviour
 
     public void OpenRepairWindow(BuildObject buildObject)
     {
+        // UI매니저 UI 열려있는 상태로 설정
+        if (UIManager.Instance.IsAnyUIOn) return;
+        UIManager.Instance.IsAnyUIOn = true;
+
+        // UI 활성화
+        repairWindow.SetActive(true);
+
+        // 필요한 데이터 할당
         this.buildObject = buildObject;
         buildData = buildObject.buildData;
+
+        // 리스트 스크롤 뷰 콘텐츠 생성 후 갱신
         InitMaterialList();
         UpdateUI();
+
+        // 소리 재생
         if (openCloseClip != null) audioSource.PlayOneShot(openCloseClip);
+
+        // 마우스 커서 활성화
+        GameManager.Instance.SetCursorVisibility(true);
     }
 
     void CloseRepairWindow()
     {
+        // UI 닫힘 상태로 설정
+        UIManager.Instance.IsAnyUIOn = false;
+
+        // UI 비활성화
+        repairWindow.SetActive(false);
+
+        // 필요없는 데이터 삭제
         buildData = null;
         buildObject = null;
+
+        // 리스트 스크롤 뷰 콘텐츠 하위 오브젝트 삭제
         DestroyChildObject(listContent);
+
+        // 마우스 커서 비활성화
+        GameManager.Instance.SetCursorVisibility(false);
     }
 
     void UpdateUI()

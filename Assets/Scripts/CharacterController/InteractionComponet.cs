@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class InteractionComponet : MonoBehaviour
@@ -92,6 +93,7 @@ public class InteractionComponet : MonoBehaviour
     }
     public void OnRepair()
     {
+        Debug.Log("인터랙션 컴포넌트에서 실행");
         curRepairable?.OnRepair();
     }
     public void InWater(bool _isInWater, IInteractable _interact)
