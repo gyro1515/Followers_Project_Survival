@@ -8,6 +8,8 @@ public class Build : MonoBehaviour
 {
     public Camera camera;
 
+    public BuildData[] buildDatas;  // 건축물 데이터들
+
     public UIInventory inventory;
 
     public PreviewBuild previewBuild;
@@ -25,7 +27,7 @@ public class Build : MonoBehaviour
     bool isExistRemove = false; // activeBuild에서 없앨 오브젝트가 있는지 여부
 
     [SerializeField] float durabilityTickInterval;  // 내구도 감소 주기
-    [SerializeField] float requiredRatio;   // 수리 시 요구 재료 비율
+    public float requiredRatio;   // 수리 시 요구 재료 비율
 
     Quaternion previewRotation; // 첫 프리뷰 생성시 회전값
 
@@ -33,7 +35,7 @@ public class Build : MonoBehaviour
 
     private void Awake()
     {
-        
+        buildDatas = Resources.LoadAll<BuildData>("BuildData");    // Resources 폴더 안에 BuildData 폴더 만들어서 BuildData있는 ScriptableObject 넣어주기
     }
 
     private void Start()
@@ -115,9 +117,9 @@ public class Build : MonoBehaviour
     public void InitPreview(BuildData preview)
     {
         isBuildMode = true;
-        Debug.Log($"{isBuildMode}로 바꿈");
-
+        
         buildData = preview;
+        Debug.Log($"{buildData}로 바꿈");
 
         GameObject previewPrefab = preview.previewPrefab;
 
@@ -162,8 +164,7 @@ public class Build : MonoBehaviour
     {
         // buildPrefab 생성하고 그 안에있는 BuildObject의 build에 이 Build 넣어주기
         Instantiate(buildData.buildPrefab, previewGameObject.transform.position, previewGameObject.transform.rotation).GetComponent<BuildObject>().build = this;
-        Debug.Log("Build CancelPreview");
-        CancelPreview();
+        //CancelPreview();
     }
 
     public void CancelPreview()
@@ -172,6 +173,7 @@ public class Build : MonoBehaviour
         Destroy(previewGameObject);
         previewGameObject = null;
         buildData = null;
+        Debug.Log("buildData null로 바꿈");
     }
 
     public void ReturnMaterial()

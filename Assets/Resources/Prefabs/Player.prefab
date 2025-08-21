@@ -211,6 +211,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d5d647e880d7c2c4fb5bd8b656406669, type: 2}
   - {fileID: 11400000, guid: 0d242c105a7c95249a228ccdedca44a7, type: 2}
   - {fileID: 11400000, guid: 8d63ff0c0c8d60044bde9f8ea7b9288b, type: 2}
+  sprintCost: 1
+  sprintCostRate: 0.1
 --- !u!114 &9029542106920332694
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,7 +229,7 @@ MonoBehaviour:
   maxCheckDistance: 8
   layerMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 4608
 --- !u!114 &7536364873261038445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,6 +243,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 0}
+  buildDatas: []
   inventory: {fileID: 0}
   previewBuild: {fileID: 0}
   buildData: {fileID: 0}
@@ -250,8 +253,6 @@ MonoBehaviour:
     m_Bits: 256
   previewDistance: 10
   buildDistance: 20
-  activeBuild: []
-  removeBuild: []
   durabilityTickInterval: 2
   requiredRatio: 0.5
   isBuildMode: 0

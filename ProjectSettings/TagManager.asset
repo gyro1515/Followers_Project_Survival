@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Rock
   - Tree
+  - Build
   layers:
   - Default
   - TransparentFX

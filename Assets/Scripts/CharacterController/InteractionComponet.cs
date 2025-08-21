@@ -17,7 +17,12 @@ public class InteractionComponet : MonoBehaviour
     private IInteractable waterInteratable;
     public IInteractable CurInteractable { get { return curInteractable; } set { curInteractable = value; } }
 
+    private IRepairable curRepairable;
+    public IRepairable CurRepairalbe { get { return curRepairable; } set { curRepairable = value; } }
+
     bool bIsInWater = false;
+    bool bIsInteractable = false;
+    bool bIsRepairable = false;
     void Awake()
     {
         _camera = Camera.main;
@@ -44,17 +49,50 @@ public class InteractionComponet : MonoBehaviour
                 curInteractable = waterInteratable;
                 curInteractable?.SetInteractionText();
             }
+            curRepairable = null;
+            UIManager.Instance.DeactivateRepairInteractionUI();
+
             selectionOutlineController?.RemoveOutline();
             return; // 상호작용만 체크
         }
-        if (!hit.collider.TryGetComponent(out IInteractable interactableForText)) return; // 이중 체크 -> 굳이?
-        curInteractable = interactableForText;
-        interactableForText.SetInteractionText();
-        selectionOutlineController?.ApplyOutline(hit);
+        bIsInteractable = hit.collider.TryGetComponent(out IInteractable interactableForText);
+        bIsRepairable = hit.collider.TryGetComponent(out IRepairable repairable);
+        //bIsRepairable = hit.collider.CompareTag("Build");
+        Debug.Log(bIsRepairable);
+        if (!bIsInteractable && !bIsRepairable) return; // 이중 체크 -> 굳이?
+        if (bIsInteractable)
+        {
+            curInteractable = interactableForText;
+            interactableForText.SetInteractionText();
+            selectionOutlineController?.ApplyOutline(hit);
+        }
+        else
+        {
+            curInteractable = null;
+            UIManager.Instance.DeactivateInteractionUI(); // UI 끄기
+        }
+        if (bIsRepairable)
+        {
+            curRepairable = repairable;
+            // ui 켜주기
+            UIManager.Instance.SetRepairUIText();
+        }
+        else
+        {
+            curRepairable = null;
+            UIManager.Instance.DeactivateRepairInteractionUI();
+        }
+        //curInteractable = interactableForText;
+        //interactableForText.SetInteractionText();
+        //selectionOutlineController?.ApplyOutline(hit);
     }
     public void OnIteract()
     {
         curInteractable?.OnInteract();
+    }
+    public void OnRepair()
+    {
+        curRepairable?.OnRepair();
     }
     public void InWater(bool _isInWater, IInteractable _interact)
     {
