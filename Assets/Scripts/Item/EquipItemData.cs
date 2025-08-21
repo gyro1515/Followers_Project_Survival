@@ -7,6 +7,7 @@ using UnityEngine;
 public class EquipItemData : ItemData
 {
     [Header("장비 정보 세팅")]
-    [SerializeField] GameObject equipPrefab; 
+    [SerializeField] GameObject equipPrefab;
+    public GameObject EquipPrefab { get { return equipPrefab; } }
     
 }

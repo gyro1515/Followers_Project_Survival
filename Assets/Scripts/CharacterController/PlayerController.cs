@@ -82,10 +82,16 @@ public class PlayerController : ControllerBase
         playerInputActions.Player.Jump.performed += OnJump;
         playerInputActions.Player.Attack.performed += OnAttack;
         playerInputActions.Player.Interaction.started += OnInteraction;
+        playerInputActions.Player.Sprint.started += Sprint_started;
+        playerInputActions.Player.Sprint.canceled += Sprint_canceled;
+        playerInputActions.Player.Repair.started += OnRepair;
+
         playerInputActions.PlayerUI.Inventory.started += OnInventory;
         playerInputActions.PlayerUI.Build.started += OnBuild;
 
     }
+
+    
 
     private void OnDisable()
     {
@@ -96,11 +102,24 @@ public class PlayerController : ControllerBase
         playerInputActions.Player.Jump.performed -= OnJump;
         playerInputActions.Player.Attack.performed -= OnAttack;
         playerInputActions.Player.Interaction.started -= OnInteraction;
+        playerInputActions.Player.Sprint.started -= Sprint_started;
+        playerInputActions.Player.Sprint.canceled -= Sprint_canceled;
+        playerInputActions.Player.Repair.started -= OnRepair;
         playerInputActions.PlayerUI.Inventory.started -= OnInventory;
         playerInputActions.PlayerUI.Build.started -= OnBuild;
 
         playerInputActions.Player.Disable();
         playerInputActions.PlayerUI.Disable();
+    }
+
+    private void Sprint_canceled(InputAction.CallbackContext context)
+    {
+        player.ExitSprint();
+    }
+
+    private void Sprint_started(InputAction.CallbackContext context)
+    {
+        player.EnterSprint();
     }
 
     private void OnAttack(InputAction.CallbackContext context)
@@ -140,6 +159,11 @@ public class PlayerController : ControllerBase
     private void OnBuild(InputAction.CallbackContext context)
     {
         OnBuildAction?.Invoke();
+    }
+    private void OnRepair(InputAction.CallbackContext context)
+    {
+        Debug.Log("플레이어 컨트롤러에서 실행");
+        interactionComponet?.OnRepair();
     }
     public void SetControlActive(bool active)
     {

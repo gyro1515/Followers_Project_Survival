@@ -4,9 +4,13 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using System;
 
 public class UIInventory : MonoBehaviour
 {
+    //테스트용
+    public Build build;
+
     [SerializeField] ItemSlot[] slots;
     [SerializeField] GameObject inventoryWindow;
     [SerializeField] Transform slotPanel;
@@ -31,6 +35,10 @@ public class UIInventory : MonoBehaviour
     private int curEquipIndex;
 
     AudioSource audioSource;
+
+    public event Action<StatType, float> OnItemConsumed;
+    public event Action<GameObject> OnEquip;
+    public event Action UnEquipAction;
 
     // 임시. 나중에 바꿔야 함
     public ItemSlot[] Slots { get { return slots; } }
@@ -60,12 +68,17 @@ public class UIInventory : MonoBehaviour
         audioSource = gameObject.GetComponent<AudioSource>();
 
         // ***********플레이어 기준 버리는 위치를 가져와야 하지만 현재는 플레이어가 없으므로 카메라로 대체
-        dropPosition = Camera.main.transform;
     }
     private void Start()
     {
+        // 테스트용
+        build = FindObjectOfType<Build>();
+        build.inventory = this;
+        Debug.Log(build.inventory);
 
         Toggle(); // 시작 시 Inventory 창 닫기
+        dropPosition = GameManager.Instance.GetPlayer(0).GetDropTransform();
+
     }
     // 선택한 아이템 표시할 정보창 Clear 함수
     void ClearSelectedItemWindow()
@@ -218,7 +231,7 @@ public class UIInventory : MonoBehaviour
     // 아이템 버리기 (실제론 매개변수로 들어온 데이터에 해당하는 아이템 생성)
     public void ThrowItem(ItemData data)
     {
-        Instantiate(data.DropPrefab, dropPosition.position, Quaternion.Euler(Vector3.one * Random.value * 360));
+        Instantiate(data.DropPrefab, dropPosition.position, Quaternion.Euler(Vector3.one * UnityEngine.Random.value * 360));
     }
 
 
@@ -249,8 +262,8 @@ public class UIInventory : MonoBehaviour
         
 
         useButton.SetActive(selectedItem.Item.ItemType == EItemType.Consumable);
-        //equipButton.SetActive(selectedItem.item.type == ItemType.Equipable && !slots[index].equipped);
-        //unEquipButton.SetActive(selectedItem.item.type == ItemType.Equipable && slots[index].equipped);
+        equipButton.SetActive(selectedItem.Item.ItemType == EItemType.Equipable && !slots[index].equipped);
+        unEquipButton.SetActive(selectedItem.Item.ItemType == EItemType.Equipable && slots[index].equipped);
         dropButton.SetActive(!slots[index].equipped); // 장착되면 버리지 못하도록
     }
 
@@ -258,8 +271,26 @@ public class UIInventory : MonoBehaviour
     {
         if (selectedItem.Item.ItemType == EItemType.Consumable)
         {
-            //stateController.ApplyConsumable(selectedItem.item);
-            
+            // 아이템 소비
+            ConsumableItemData consumableItem = selectedItem.Item as ConsumableItemData;
+            if (consumableItem)
+            {
+                foreach (var consumable in consumableItem.Consumables)
+                {
+                    StatType statType = StatType.None;
+                    switch (consumable.type)
+                    {
+                        case ConsumableType.Hunger:
+                            statType = StatType.Hunger;
+                            break;
+                        case ConsumableType.Health:
+                            statType = StatType.Health;
+                            break;
+                    }
+                    OnItemConsumed?.Invoke(statType, consumable.value);
+                }
+            }
+
             RemoveSelctedItem();
         }
         if (clickClip) audioSource.PlayOneShot(clickClip);
@@ -280,10 +311,10 @@ public class UIInventory : MonoBehaviour
 
         if (selectedItem.Quantity <= 0)
         {
-            if (slots[selectedItemIndex].equipped)
+            /*if (slots[selectedItemIndex].equipped)
             {
-                //UnEquip(selectedItemIndex);
-            }
+                UnEquip(selectedItemIndex);
+            }*/
 
             selectedItem.Item = null;
             ClearSelectedItemWindow();
@@ -304,7 +335,9 @@ public class UIInventory : MonoBehaviour
 
         slots[selectedItemIndex].equipped = true;
         curEquipIndex = selectedItemIndex;
-        //GameManager.Instance.Player.equip.EquipNew(selectedItem.item);
+        EquipItemData equipItem = selectedItem.Item as EquipItemData;
+        if(equipItem != null) OnEquip?.Invoke(equipItem.EquipPrefab); // 장비 장착
+
         UpdateUI();
 
         SelectItem(selectedItemIndex);
@@ -314,7 +347,7 @@ public class UIInventory : MonoBehaviour
     void UnEquip(int index)
     {
         slots[index].equipped = false;
-        //GameManager.Instance.Player.equip.UnEquip();
+        UnEquipAction?.Invoke();
         UpdateUI();
 
         if (selectedItemIndex == index)
@@ -344,6 +377,7 @@ public class UIInventory : MonoBehaviour
 
     public void DecreaseItemQuantity(ItemData item, int useQuantity)    // 외부에서 인벤토리에 있는 아이템을 사용할 때 실행
     {
+        Debug.Log("아이템 개수 감소");
         for(int i = slots.Length - 1; i >= 0; i--)
         {
             if (slots[i].Item == item)
