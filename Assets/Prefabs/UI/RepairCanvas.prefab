@@ -1266,6 +1266,8 @@ MonoBehaviour:
   durabilityPanel: {fileID: 5571477135994359353}
   buildNameText: {fileID: 4836903073747983805}
   durabilityBar: {fileID: 8982494859743366041}
+  addWorldPos: {x: 0, y: 2, z: 0}
+  screenPos: {x: 100, y: 0, z: 0}
 --- !u!223 &939232503882184355
 Canvas:
   m_ObjectHideFlags: 0

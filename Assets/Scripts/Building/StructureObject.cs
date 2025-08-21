@@ -19,6 +19,7 @@ public class StructureObject : BuildObject, IRepairable
 
     public void SetRepairText()
     {
+        UIManager.Instance.SetBuildTargetObject(this);
         UIManager.Instance.SetRepairUIText();
     }
 

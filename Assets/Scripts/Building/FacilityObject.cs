@@ -30,6 +30,7 @@ public class FacilityObject : BuildObject, IInteractable, IRepairable
 
     public void SetRepairText()
     {
+        UIManager.Instance.SetBuildTargetObject(this);
         UIManager.Instance.SetRepairUIText();
     }
 

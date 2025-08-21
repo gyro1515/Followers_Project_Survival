@@ -106,15 +106,15 @@ NavMeshSettings:
   m_BuildSettings:
     serializedVersion: 3
     agentTypeID: 0
-    agentRadius: 0.5
-    agentHeight: 2
-    agentSlope: 45
+    agentRadius: 2
+    agentHeight: 1.5
+    agentSlope: 15
     agentClimb: 0.4
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
     minRegionArea: 2
     manualCellSize: 0
-    cellSize: 0.16666667
+    cellSize: 0.6666667
     manualTileSize: 0
     tileSize: 256
     buildHeightMesh: 0
@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 5ef4644d930025c41b7200cb152b92b9, type: 2}
 --- !u!1 &116305797
 GameObject:
   m_ObjectHideFlags: 0
@@ -426,7 +426,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2612128795109985342, guid: e9b27ec64d7383a4fa54cc6be6048b6f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.15
+      value: 3.3
       objectReference: {fileID: 0}
     - target: {fileID: 2612128795109985342, guid: e9b27ec64d7383a4fa54cc6be6048b6f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -498,7 +498,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SelectionMode: 1
-  OutlineType: 2
+  OutlineType: 1
   AlphaMode: 1
   OutlineColor: {r: 1, g: 0.55, b: 0, a: 1}
   OccludedColor: {r: 0.5, g: 0.9, b: 0.3, a: 1}
@@ -633,7 +633,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!64 &1567117628
 MeshCollider:
@@ -769,14 +769,6 @@ PrefabInstance:
     - target: {fileID: 1055889217630053872, guid: 117e5faafa6311f4fb24443e7bf58c14, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8111502344827407263, guid: 117e5faafa6311f4fb24443e7bf58c14, type: 3}
-      propertyPath: startTime
-      value: 0.35
-      objectReference: {fileID: 0}
-    - target: {fileID: 8111502344827407263, guid: 117e5faafa6311f4fb24443e7bf58c14, type: 3}
-      propertyPath: fullDayLength
-      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8310570419982711179, guid: 117e5faafa6311f4fb24443e7bf58c14, type: 3}
       propertyPath: m_Name
