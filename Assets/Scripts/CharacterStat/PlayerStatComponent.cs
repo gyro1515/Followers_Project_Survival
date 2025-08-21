@@ -57,11 +57,9 @@ public class PlayerStatComponent : StatComponentBase
 
         regenConfigs.Add(StatType.Stamina, new StatRegenConfig(1f, 0.1f, 2f));
         costConfigs.Add(StatType.Stamina, new StatCostConfig(0f, 0.1f, 1f));
-        costConfigs.Add(StatType.Hunger, new StatCostConfig(0f, 0.1f, 3f));
-        costConfigs.Add(StatType.Thirst, new StatCostConfig(0f, 0.1f, 2f));
-        costConfigs.Add(StatType.Health, new StatCostConfig(0f, 0.1f, 1f));
-
-
+        costConfigs.Add(StatType.Hunger, new StatCostConfig(0f, 0.02f, 0.03f)); // 약 초당 1.5
+        costConfigs.Add(StatType.Thirst, new StatCostConfig(0f, 0.02f, 0.02f)); // 약 초당 1
+        costConfigs.Add(StatType.Health, new StatCostConfig(0f, 0.1f, 0.3f));
     }
     protected override void Initialize()
     {
@@ -100,7 +98,28 @@ public class PlayerStatComponent : StatComponentBase
         costCoroutines.TryAdd(statType, StartCoroutine(DrainStat(statType, config.Rate, config.Amount)));
 
     }
-
+    // 환경에 따라 스탯 더 닳게하는 함수
+    public void AddDrainStat(StatType statType, float addAmount)
+    {
+        StatCostConfig config = costConfigs[statType];
+        if (regenCoroutines.TryGetValue(statType, out var regenCoroutine))
+        {
+            StopCoroutine(regenCoroutine);
+        }
+        if(costCoroutines.ContainsKey(statType) ) // 이미 있다면
+        {
+            //Debug.Log("삭제후 추가");
+            if(costCoroutines[statType] != null) StopCoroutine(costCoroutines[statType]); // 기존 정지하고
+            costCoroutines.Remove(statType); // 삭제
+            costCoroutines.TryAdd(statType, StartCoroutine(DrainStat(statType, config.Rate, config.Amount + addAmount))); // 추가로 더 닳도록
+        }
+        else // 그럴 리는 없겠지만 없다면 config도 없을 가능성이 있으므로
+        {
+            if(config == null) costConfigs.Add(StatType.Health, new StatCostConfig(0f, 0.1f, addAmount));
+            costCoroutines.TryAdd(statType, StartCoroutine(DrainStat(statType, config.Rate, config.Amount)));
+            Debug.Log("그냥 추가");
+        }
+    }
     protected override void Update()
     {
         base.Update();
@@ -126,7 +145,13 @@ public class PlayerStatComponent : StatComponentBase
         regenDelayCoroutines[StatType.Stamina] = StartCoroutine(DelayedRegenStat(StatType.Stamina, regenConfigs[StatType.Stamina]));
 
     }
-
+    // 다른 스탯 증감은 이 함수로
+    public void AddStatValue(StatType statType, float amount)
+    {
+        if(statType == StatType.Stamina) { Debug.Log("스테미너는 UseStamina()을 사용"); return; }
+        StatValue statValue = GetStatValue(statType);
+        statValue.BaseValue += amount;
+    }
     public void OnJump()
     {
         UseStamina(5f);
@@ -184,7 +209,7 @@ public class PlayerStatComponent : StatComponentBase
             yield return new WaitForSeconds(rate);
 
             statValue.BaseValue -= costAmount;
-
+            //Debug.Log($"{statType.ToString()}은 {costAmount}감소되었습니다.");
         }
     }
 

@@ -70,7 +70,6 @@ public class PlayerCharacter : CharacterBase
         Vector3 origin = transform.position + transform.forward * 0.4f + transform.up * 2f;
         var hits = Physics.SphereCastAll(origin, 0.2f, Vector3.down, 2f, layerMask);
 
-
         foreach (RaycastHit hit in hits)
         {
             Debug.Log($"{hit.transform.name}: point={hit.point}, distance={hit.distance},");
@@ -78,7 +77,7 @@ public class PlayerCharacter : CharacterBase
             Debug.DrawRay(hit.point, hit.normal, Color.magenta, 1.0f);
             if (hit.collider.TryGetComponent(out Resource resource)) // 캘 수 있는 자원이라면 캐기
             {
-                resource.Gather(gameObject.transform, 1);
+                resource.Gather(gameObject.transform, 5); // 5는 한 번에 캘 수 있는 개수, 장비 장착시 달라지도록
             }
             // 적이라면 적에게 데미지
         }
