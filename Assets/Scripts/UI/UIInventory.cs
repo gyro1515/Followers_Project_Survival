@@ -37,6 +37,8 @@ public class UIInventory : MonoBehaviour
     AudioSource audioSource;
 
     public event Action<StatType, float> OnItemConsumed;
+    public event Action<GameObject> OnEquip;
+    public event Action UnEquipAction;
 
     // 임시. 나중에 바꿔야 함
     public ItemSlot[] Slots { get { return slots; } }
@@ -259,8 +261,8 @@ public class UIInventory : MonoBehaviour
         
 
         useButton.SetActive(selectedItem.Item.ItemType == EItemType.Consumable);
-        //equipButton.SetActive(selectedItem.item.type == ItemType.Equipable && !slots[index].equipped);
-        //unEquipButton.SetActive(selectedItem.item.type == ItemType.Equipable && slots[index].equipped);
+        equipButton.SetActive(selectedItem.Item.ItemType == EItemType.Equipable && !slots[index].equipped);
+        unEquipButton.SetActive(selectedItem.Item.ItemType == EItemType.Equipable && slots[index].equipped);
         dropButton.SetActive(!slots[index].equipped); // 장착되면 버리지 못하도록
     }
 
@@ -308,10 +310,10 @@ public class UIInventory : MonoBehaviour
 
         if (selectedItem.Quantity <= 0)
         {
-            if (slots[selectedItemIndex].equipped)
+            /*if (slots[selectedItemIndex].equipped)
             {
-                //UnEquip(selectedItemIndex);
-            }
+                UnEquip(selectedItemIndex);
+            }*/
 
             selectedItem.Item = null;
             ClearSelectedItemWindow();
@@ -332,7 +334,9 @@ public class UIInventory : MonoBehaviour
 
         slots[selectedItemIndex].equipped = true;
         curEquipIndex = selectedItemIndex;
-        //GameManager.Instance.Player.equip.EquipNew(selectedItem.item);
+        EquipItemData equipItem = selectedItem.Item as EquipItemData;
+        if(equipItem != null) OnEquip?.Invoke(equipItem.EquipPrefab); // 장비 장착
+
         UpdateUI();
 
         SelectItem(selectedItemIndex);
@@ -342,7 +346,7 @@ public class UIInventory : MonoBehaviour
     void UnEquip(int index)
     {
         slots[index].equipped = false;
-        //GameManager.Instance.Player.equip.UnEquip();
+        UnEquipAction?.Invoke();
         UpdateUI();
 
         if (selectedItemIndex == index)

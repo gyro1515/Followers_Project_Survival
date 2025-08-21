@@ -67,6 +67,8 @@ public class UIManager : SingletonMono<UIManager>
         GameManager.Instance.AddOnBuildListener(buildUI.ToggleBuildUI);
 
         uiInventory.OnItemConsumed += GameManager.Instance.AddPlayerStatValue; 
+        uiInventory.OnEquip += GameManager.Instance.PlayerEquipWeapon;
+        uiInventory.UnEquipAction += GameManager.Instance.PlayerUnEquipWeapon;
     }
     private void Update()
     {

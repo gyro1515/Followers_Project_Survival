@@ -7,6 +7,7 @@ public class PlayerCharacter : CharacterBase
 {
     PlayerController playerController;
     PlayerStatComponent playerStat { get { return GetStatComponent<PlayerStatComponent>(); } }
+    EquipmentController equipmentController;
     AnimatorStateInfo currentAttackStateInfo;
     bool isAttacking;
 
@@ -14,6 +15,7 @@ public class PlayerCharacter : CharacterBase
     {
         base.Awake();
         playerController = GetController<PlayerController>();
+        equipmentController = GetComponent<EquipmentController>();
     }
     protected override void Start()
     {
@@ -118,14 +120,28 @@ public class PlayerCharacter : CharacterBase
 
         foreach (RaycastHit hit in hits)
         {
-            Debug.Log($"{hit.transform.name}: point={hit.point}, distance={hit.distance},");
+           /* Debug.Log($"{hit.transform.name}: point={hit.point}, distance={hit.distance},");
             Debug.DrawLine(origin, hit.point, Color.red, 1.0f);
-            Debug.DrawRay(hit.point, hit.normal, Color.magenta, 1.0f);
+            Debug.DrawRay(hit.point, hit.normal, Color.magenta, 1.0f);*/
             if (hit.collider.TryGetComponent(out Resource resource)) // 캘 수 있는 자원이라면 캐기
             {
-                resource.Gather(gameObject.transform, 5); // 5는 한 번에 캘 수 있는 개수, 장비 장착시 달라지도록
+                resource.Gather(gameObject.transform, equipmentController.GetQuantityPerHit()); // 한 번에 캘 수 있는 개수, 장비 장착시 달라지도록
             }
             // 적이라면 적에게 데미지
+            float weaponDamage = equipmentController.GetDamage();
+            if(weaponDamage == -1f) // -1을 리턴했다는 것은 장착한 무기가 없다는 뜻
+            {
+                // 따라서 여기서는 플레이어 기본 공격력으로 적에게 데미지주기
+                // enemy.TakeDamage(playerAttack);
+            }
+            else
+            {
+                // 여기서는 무기 공격력으로 적에게 데미지 주기
+                // 기획에 따라 둘 중 선택하면 될듯 합니다
+                // enemy.TakeDamage(playerAttack + weaponDamage);
+                // enemy.TakeDamage(weaponDamage);
+
+            }
         }
     }
 

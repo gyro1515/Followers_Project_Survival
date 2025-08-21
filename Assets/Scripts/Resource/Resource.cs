@@ -19,6 +19,7 @@ public class Resource : MonoBehaviour
     }
     IEnumerator DropItem(Transform dropTransform, int quantityPerHit)
     {
+        Debug.Log($"{quantityPerHit}개 캡니다.");
         for (int i = 0; i < quantityPerHit; i++) // quantityPerHit에 따라 아이템 더 떨어지도록
         {
             capacity -= 1;
