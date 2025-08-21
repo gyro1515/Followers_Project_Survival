@@ -5,6 +5,14 @@ using System;
 
 public class DayNightCycle : MonoBehaviour
 {
+    enum ETemperatureState
+    {
+        None,
+        Normal,
+        Hot,
+        Cold
+    }
+    ETemperatureState temState = ETemperatureState.None;
     // 하루 시간을 0 ~ 1로 치환
     // 길이를 늘리고 싶으면 fullDayLength를 조절
     [Range(0.0f, 1.0f)]
@@ -12,8 +20,39 @@ public class DayNightCycle : MonoBehaviour
     [SerializeField] float fullDayLength;
     [SerializeField] float startTime = 0.4f;
     [SerializeField] Vector3 noon;
-    public float DayTime { get { return time; } set { time = value; DayTimeChanged?.Invoke(time); } }
+    public float DayTime 
+    { 
+        get { return time; } 
+        set 
+        { 
+            time = value; 
+            DayTimeChanged?.Invoke(time);
+            if(time >= 0.45f && time <= 0.55f) // 가장 더울때는 갈증 추가 감소
+            {
+                if (temState == ETemperatureState.Hot) return;
+                Debug.Log("더움");
+                temState = ETemperatureState.Hot;
+                OnDayTimeStatDrain?.Invoke(StatType.Thirst, 0.1f);
+            }
+            else if (time <= 0.05f || time >= 0.95f) // 가중 추울때는 굶주림 추가 감소
+            {
+                if (temState == ETemperatureState.Cold) return;
+                Debug.Log("추움");
+                temState = ETemperatureState.Cold;
+                OnDayTimeStatDrain?.Invoke(StatType.Hunger, 0.15f);
+            }
+            else // 다른 시간은 원래대로 감소
+            {
+                if (temState == ETemperatureState.Normal) return;
+                temState = ETemperatureState.Normal;
+                Debug.Log("적당");
+                OnDayTimeStatDrain?.Invoke(StatType.Hunger, 0);
+                OnDayTimeStatDrain?.Invoke(StatType.Thirst, 0);
+            }
+        } 
+    }
     public event Action<float> DayTimeChanged;
+    public event Action<StatType, float> OnDayTimeStatDrain;
 
     private float timeRate;
     public float GetTime { get { return time; } }

@@ -61,6 +61,8 @@ public class UIManager : SingletonMono<UIManager>
         npcDialouge.OnDialogueStateChanged += GameManager.Instance.SetPlayerControlActive;
         GameManager.Instance.AddOnInventoryListener(uiInventory.Toggle);
         GameManager.Instance.AddOnBuildListener(buildUI.ToggleBuildUI);
+
+        uiInventory.OnItemConsumed += GameManager.Instance.AddPlayerStatValue; 
     }
     private void Update()
     {

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using System;
 
 public class UIInventory : MonoBehaviour
 {
@@ -31,6 +32,8 @@ public class UIInventory : MonoBehaviour
     private int curEquipIndex;
 
     AudioSource audioSource;
+
+    public event Action<StatType, float> OnItemConsumed;
 
     // 임시. 나중에 바꿔야 함
     public ItemSlot[] Slots { get { return slots; } }
@@ -218,7 +221,7 @@ public class UIInventory : MonoBehaviour
     // 아이템 버리기 (실제론 매개변수로 들어온 데이터에 해당하는 아이템 생성)
     public void ThrowItem(ItemData data)
     {
-        Instantiate(data.DropPrefab, dropPosition.position, Quaternion.Euler(Vector3.one * Random.value * 360));
+        Instantiate(data.DropPrefab, dropPosition.position, Quaternion.Euler(Vector3.one * UnityEngine.Random.value * 360));
     }
 
 
@@ -258,8 +261,26 @@ public class UIInventory : MonoBehaviour
     {
         if (selectedItem.Item.ItemType == EItemType.Consumable)
         {
-            //stateController.ApplyConsumable(selectedItem.item);
-            
+            // 아이템 소비
+            ConsumableItemData consumableItem = selectedItem.Item as ConsumableItemData;
+            if (consumableItem)
+            {
+                foreach (var consumable in consumableItem.Consumables)
+                {
+                    StatType statType = StatType.None;
+                    switch (consumable.type)
+                    {
+                        case ConsumableType.Hunger:
+                            statType = StatType.Hunger;
+                            break;
+                        case ConsumableType.Health:
+                            statType = StatType.Health;
+                            break;
+                    }
+                    OnItemConsumed?.Invoke(statType, consumable.value);
+                }
+            }
+
             RemoveSelctedItem();
         }
         if (clickClip) audioSource.PlayOneShot(clickClip);
@@ -344,6 +365,7 @@ public class UIInventory : MonoBehaviour
 
     public void DecreaseItemQuantity(ItemData item, int useQuantity)    // 외부에서 인벤토리에 있는 아이템을 사용할 때 실행
     {
+        Debug.Log("아이템 개수 감소");
         for(int i = slots.Length - 1; i >= 0; i--)
         {
             if (slots[i].Item == item)

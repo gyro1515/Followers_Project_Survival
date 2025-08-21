@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Water : MonoBehaviour, IInteractable
 {
+    [Header("물 세팅")]
+    [SerializeField] float addThirstValue = 10f;
     BoxCollider col;
     InteractionComponet interactionComponet;
     private void Awake()
@@ -31,6 +33,8 @@ public class Water : MonoBehaviour, IInteractable
     {
         // 물 마시기
         Debug.Log("물 마시기");
+        GameManager.Instance.AddPlayerStatValue(StatType.Thirst, addThirstValue);
+        // 물도 게임 매니저가 소환하고 게임 매니저에서 델리게이트 등록? 
     }
 
     public void SetInteractionText()
