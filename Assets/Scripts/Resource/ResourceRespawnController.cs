@@ -23,6 +23,7 @@ public class ResourceRespawnController : MonoBehaviour
 
     int maxAttempts = 20;  // 랜덤 소환 시도 횟수, 무한 루프 방지용
     private HashSet<Vector2> spawnedPos = new HashSet<Vector2>(); // x, z값만 저장하도록
+    Dictionary<Resource, Vector2> resourecePositions = new Dictionary<Resource, Vector2>(); // 자원이 파괴될 때 위치도 지우기 위한 자료
 
     // 상호작용 테스트용, 플레이어로 옮겨야 함
     IInteractable curInteractable;
@@ -130,6 +131,7 @@ public class ResourceRespawnController : MonoBehaviour
             Resource resourceScript = resourceObject.GetComponentInChildren<Resource>();
             resourceScript.OnResourceDepleted += HandleResourceDepleted;
             spawnedPos.Add(randomPos2);
+            resourecePositions.Add(resourceScript, randomPos2);
             resouceCnt++;
             //Debug.Log($"{prefab.name} 리스폰");
             break; // 소환 끝나면 while 종료
@@ -138,6 +140,7 @@ public class ResourceRespawnController : MonoBehaviour
     }
     private void HandleResourceDepleted(Resource resource)
     {
+        spawnedPos.Remove(resourecePositions[resource]); // 위치 값도 삭제
         // enum으로 타입 주기?
         if (resource.CompareTag("Tree"))
             curTreeCnt--;
