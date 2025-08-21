@@ -8,6 +8,9 @@ using System;
 
 public class UIInventory : MonoBehaviour
 {
+    //테스트용
+    public Build build;
+
     [SerializeField] ItemSlot[] slots;
     [SerializeField] GameObject inventoryWindow;
     [SerializeField] Transform slotPanel;
@@ -67,6 +70,10 @@ public class UIInventory : MonoBehaviour
     }
     private void Start()
     {
+        // 테스트용
+        build = FindObjectOfType<Build>();
+        build.inventory = this;
+        Debug.Log(build.inventory);
 
         Toggle(); // 시작 시 Inventory 창 닫기
     }
