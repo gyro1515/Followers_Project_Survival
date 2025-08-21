@@ -119,6 +119,7 @@ public class PlayerCharacter : CharacterBase
 
         foreach (RaycastHit hit in hits)
         {
+
            /* Debug.Log($"{hit.transform.name}: point={hit.point}, distance={hit.distance},");
             Debug.DrawLine(origin, hit.point, Color.red, 1.0f);
             Debug.DrawRay(hit.point, hit.normal, Color.magenta, 1.0f);*/
