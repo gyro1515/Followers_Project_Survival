@@ -243,7 +243,7 @@ MonoBehaviour:
   maxCheckDistance: 8
   layerMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 4608
 --- !u!114 &7536364873261038445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,6 +257,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 0}
+  buildDatas: []
   inventory: {fileID: 0}
   previewBuild: {fileID: 0}
   buildData: {fileID: 0}

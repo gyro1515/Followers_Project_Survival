@@ -12,7 +12,7 @@ public class BuildUI : MonoBehaviour
 
     public UIInventory inventory;
 
-    [SerializeField] BuildData[] buildDatas;    // 건축물 데이터들
+    //[SerializeField] BuildData[] buildDatas;    // 건축물 데이터들
     [SerializeField] Button buildButton;
     [SerializeField] Button exitButton;
 
@@ -38,7 +38,7 @@ public class BuildUI : MonoBehaviour
 
     private void Awake()
     {
-        buildDatas = Resources.LoadAll<BuildData>("BuildData");    // Resources 폴더 안에 BuildData 폴더 만들어서 BuildData있는 ScriptableObject 넣어주기
+        //buildDatas = Resources.LoadAll<BuildData>("BuildData");    // Resources 폴더 안에 BuildData 폴더 만들어서 BuildData있는 ScriptableObject 넣어주기
 
         audioSource = gameObject.GetComponent<AudioSource>();
     }
@@ -103,35 +103,35 @@ public class BuildUI : MonoBehaviour
     {
         if (gameObject.activeSelf)
         {
-            UIManager.Instance.IsAnyUIOn = false;
             CloseBuildUI();
-            GameManager.Instance.SetCursorVisibility(false);
         }
         else 
         {
-            if (UIManager.Instance.IsAnyUIOn) return;
-            UIManager.Instance.IsAnyUIOn = true;
             OpenBuildUI();
-            GameManager.Instance.SetCursorVisibility(true);
         }
         if(openCloseClip != null) audioSource.PlayOneShot(openCloseClip);
     }
 
     public void OpenBuildUI()
     {
-        if(build.previewGameObject != null)
+        if (UIManager.Instance.IsAnyUIOn) return;
+        UIManager.Instance.IsAnyUIOn = true;
+        if (build.previewGameObject != null)
         {
             build.CancelPreview();
         }
-        selectedBuild = buildDatas[0];
+        selectedBuild = build.buildDatas[0];
         gameObject.SetActive(true);
         UpdateUI();
+        GameManager.Instance.SetCursorVisibility(true);
     }
 
     public void CloseBuildUI()
     {
+        UIManager.Instance.IsAnyUIOn = false;
         selectedBuild = null;
         gameObject.SetActive(false);
+        GameManager.Instance.SetCursorVisibility(false);
     }
 
     public void OnClickCancel()
@@ -164,7 +164,7 @@ public class BuildUI : MonoBehaviour
 
     void InitBuildList()
     {
-        foreach(var build in buildDatas)
+        foreach(var build in build.buildDatas)
         {
             GameObject go = Instantiate(listPrefab, listContent.transform);
 

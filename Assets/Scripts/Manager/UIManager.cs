@@ -16,6 +16,7 @@ public class UIManager : SingletonMono<UIManager>
     [SerializeField] GameObject temperatureUIPrefab;
     [SerializeField] GameObject buildUIPrefab;
     [SerializeField] GameObject craftUIPrefab;
+    [SerializeField] GameObject repairUIPrefab;
 
     HUD hudUI;
     NPCDialogue npcDialouge;
@@ -23,6 +24,7 @@ public class UIManager : SingletonMono<UIManager>
     TemperatureUI temperatureUI;
     BuildUI buildUI;
     CraftUI craftUI;
+    RepairUI repairUI;
     UIInventory uiInventory;
 
     // 인벤토리가 열리면 건축하기UI 안 열리도록, 혹은 그 반대
@@ -50,6 +52,7 @@ public class UIManager : SingletonMono<UIManager>
         uiInventory = Instantiate(inventoryPrefab, gameObject.transform).GetComponent<UIInventory>();
         buildUI = Instantiate(buildUIPrefab, gameObject.transform).GetComponent<BuildUI>();
         craftUI = Instantiate(craftUIPrefab, gameObject.transform).GetComponent <CraftUI>();
+        repairUI = Instantiate(repairUIPrefab, gameObject.transform).GetComponent<RepairUI>();
     }
     private void Start()
     {
@@ -57,6 +60,7 @@ public class UIManager : SingletonMono<UIManager>
         // 인벤토리 연결하는 방법 생각해봐야될듯 어떻게 하지
         buildUI.inventory = uiInventory;
         craftUI.inventory = uiInventory;
+        repairUI.inventory = uiInventory;
 
         npcDialouge.OnDialogueStateChanged += GameManager.Instance.SetPlayerControlActive;
         GameManager.Instance.AddOnInventoryListener(uiInventory.Toggle);
@@ -80,10 +84,10 @@ public class UIManager : SingletonMono<UIManager>
         }*/
 
         // 테스트
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            craftUI?.ToggleCraftUI();
-        }
+        //if (Input.GetKeyDown(KeyCode.C))
+        //{
+        //    craftUI?.ToggleCraftUI();
+        //}
     }
     public void InitializeHUD()
     {
@@ -136,5 +140,22 @@ public class UIManager : SingletonMono<UIManager>
     public void SetTemperatureUI(float time)
     {
         temperatureUI?.SetTemperature(time);
+    }
+    public void SetCraftUI()
+    {
+        craftUI?.ToggleCraftUI();
+    }
+    public void SetRepairUIText()
+    {
+        repairUI?.SetText();
+    }
+    public void DeactivateRepairInteractionUI()
+    {
+        repairUI?.DeactiveText();
+    }
+    public void SetRepairWindow(BuildObject buildObject)
+    {
+        Debug.Log("UI매니저에서 실행");
+        repairUI?.OpenRepairWindow(buildObject);
     }
 }
