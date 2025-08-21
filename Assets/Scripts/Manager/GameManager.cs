@@ -35,11 +35,10 @@ public class GameManager : SingletonMono<GameManager>
         // 따라서 인스펙터 창에 넣은 걸로 스크립트 가져오기 진행
         // null오류 뜨면 Resources/Prefabs/DayAndNight를 게임 매니저 인스펙터창에 넣기
         dayNightCycle = dayNightCycleGO?.GetComponent<DayNightCycle>();
-        dayNightCycle.DayTimeChanged += UIManager.Instance.SetTemperatureUI;
     }
     private void Start()
     {
-        
+        dayNightCycle.DayTimeChanged += UIManager.Instance.SetTemperatureUI;
     }
     public void SpawnPlayer()
     {
