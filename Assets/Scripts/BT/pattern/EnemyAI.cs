@@ -17,7 +17,7 @@ class EnemyAI : MonoBehaviour
     [SerializeField] private float returnDistance = 50f; // 돌아갈 거리
     [SerializeField] private float YieldRange = 10f; // idle 상태에서 랜덤으로 움직이는 범위
     [Header("Movement")]
-    [SerializeField] private float moveSpeed = 4f; // 이동 속도
+    [SerializeField] private float moveSpeed = 1f; // 이동 속도
     [Header("MinDPS")]
     [SerializeField] private float minDamageThreshold = 0.002f; // DPS
     [Header("Health")]
@@ -39,9 +39,7 @@ class EnemyAI : MonoBehaviour
 
     const string _ATTACK_ANIM_STATE_NAME = "Attack5";
     const string _ATTACK_ANIM_TRIGGER_NAME = "attack5";
-    const string _IDLE_ANIM_STATE_NAME = "Idle";
     const string _IDLE_ANIM_BOOL_NAME = "Idle";
-    const string _RUN_ANIM_STATE_NAME = "RunForward";
     const string _RUN_ANIM_BOOL_NAME = "RunForward";
     const string _WALK_ANIM_STATE_NAME = "WalkForward";
     const string _WALK_ANIM_BOOL_NAME = "WalkForward";

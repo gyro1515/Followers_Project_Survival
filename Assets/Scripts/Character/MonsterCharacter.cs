@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonsterCharacter : CharacterBase
+public class MonsterCharacter : MonoBehaviour
 {
     StatComponentBase _player;
     StatComponentBase _monster;
+    public bool isAttacked = false;
 
     private void Awake()
     {
@@ -17,21 +18,15 @@ public class MonsterCharacter : CharacterBase
         {
             return;
         }
+        if (isAttacked)
+        {
+            return;
+        }
         _player = Player.gameObject.GetComponent<StatComponentBase>();
         if (_player != null)
         {
             _player.statValues[StatType.Health].BaseValue -= _monster.statValues[StatType.Attack].BaseValue;
             Debug.Log("Player damaged: " + _monster.statValues[StatType.Attack].BaseValue + ". Remaining Health: " + _player.statValues[StatType.Health].BaseValue);
         }
-    }
-
-    void HitboxOn()
-    {
-        //히트박스 활성화
-    }
-
-    void HitboxOff()
-    {
-        //히트박스 비활성화
     }
 }
