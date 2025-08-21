@@ -12,6 +12,7 @@ public class GameManager : SingletonMono<GameManager>
     GameObject prefab;
     PlayerController playerController;
     PlayerStatComponent playerStatComponent;
+    EquipmentController equipmentController;
     ResourceRespawnController respawnController;
     DayNightCycle dayNightCycle;
     
@@ -23,6 +24,7 @@ public class GameManager : SingletonMono<GameManager>
         SpawnPlayer();
         playerController = GetPlayer(0)?.GetComponent<PlayerController>();
         playerStatComponent = GetPlayer(0)?.GetComponent<PlayerStatComponent>();
+        equipmentController = GetPlayer(0)?.GetComponent<EquipmentController>();
         SetCursorVisibility(false);
         // 자원, NPC 스폰 컨트롤러 세팅
         prefab = Resources.Load<GameObject>("Prefabs/ResourceRespawn");
@@ -94,6 +96,13 @@ public class GameManager : SingletonMono<GameManager>
     {
         playerStatComponent.AddStatValue(statType, amount);
     }
-
+    public void PlayerEquipWeapon(GameObject equipmentGO)
+    {
+        equipmentController.EquipWeapon(equipmentGO);
+    }
+    public void PlayerUnEquipWeapon()
+    {
+        equipmentController.UnEquipWeapon();
+    }
 
 }

@@ -17,4 +17,4 @@ MonoBehaviour:
   itemType: 1
   icon: {fileID: 21300000, guid: 4c29acae754600a45a306d6587ee4234, type: 3}
   dropPrefab: {fileID: 7161319249013723537, guid: 366c3019b5bd7fe4aa5dbc255910fe03, type: 3}
-  equipPrefab: {fileID: 0}
+  equipPrefab: {fileID: 5295151179954475570, guid: 93768b6f8765a6b42ae54be22009f371, type: 3}
