@@ -4,9 +4,28 @@ using System.Collections;
 using System.Diagnostics;
 using System;
 using UnityEngine.AI;
+using Unity.VisualScripting;
 
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(NavMeshAgent))]
+///<LayOut>
+///
+///  Idle: 랜덤으로 움직이고, 행동 방향을 바꿈.
+///  
+///  감지 범위는 시야 방향을 기준으로 180도, 거리는 10m. 
+///  혹은 공격 판정을 받았을 경우(플레이어로부터의 공격을 받았을 때).
+/// 
+///  감지 후에는 플레이어 추적.
+///  
+///  기본 행동 반경으로부터 50m 밖으로 벗어나고, 120초 이내에 유의미한 피해(최대 체력의 25%)가 들어오지 않으면 원래 자리로 돌아가 체력을 전부 회복함.
+/// 
+///  플레이어가 죽었을 때에도 원래 자리로 돌아가 체력을 전부 회복함.
+/// 
+/// 
+/// </LayOut>
+/// 
+
+[RequireComponent(typeof(Animator))]
 class EnemyAI : MonoBehaviour
 {
     #region Constructor
