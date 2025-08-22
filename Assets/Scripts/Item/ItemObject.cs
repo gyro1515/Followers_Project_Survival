@@ -1,0 +1,28 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public interface IInteractable
+{
+    public void SetInteractionText(); // 인터랙션 텍스트 설정
+    public void OnInteract(); // 상호작용 가능한 것들은 OnInteract()에서 작성하도록
+    // 예: ItemObject = 줍기, 문 = 열기, 작업대 = 작업하기 등
+
+}
+public class ItemObject : MonoBehaviour, IInteractable
+{
+    [Header("아이템 세팅")]
+    [SerializeField] ItemData itemData;
+    public void OnInteract()
+    {
+        // 인벤토리에 추가 후 삭제
+        UIManager.Instance.AddItemToInventory(itemData);
+        Destroy(gameObject);
+        //Debug.Log("자원 획득");
+    }
+
+    public void SetInteractionText()
+    {
+        UIManager.Instance.SetInteractionUIText("아이템 줍기");
+    }
+}

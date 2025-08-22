@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4470888028543859872
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2568540760584757657}
+  - component: {fileID: 7595457489818111977}
+  m_Layer: 0
+  m_Name: ResourceRespawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2568540760584757657
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4470888028543859872}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7595457489818111977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4470888028543859872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df2c6843c7cb1e34e883b1c8979c19b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  treePrefabs:
+  - {fileID: 6171967006479265586, guid: 9fab20205425b4a4293495a6a1971f7d, type: 3}
+  - {fileID: 1003215730751420620, guid: 1c6d802e8a50c664697e6f268752546e, type: 3}
+  - {fileID: 1483965241314802523, guid: bbc0c4dc4134cc848b04b9365dee01fa, type: 3}
+  - {fileID: 2420118512973508116, guid: dc9766b90be17da41940837b33fbe52b, type: 3}
+  - {fileID: 8689226824251896335, guid: b485eeb429838a04288200ef9dd1173d, type: 3}
+  maxTreeCnt: 10
+  rockPrefabs:
+  - {fileID: 3731775582616656056, guid: 4b90db9dceeceed479e32034b410439c, type: 3}
+  - {fileID: 8633822570729487218, guid: d3cf66a52f0c52748964de72c5fb8273, type: 3}
+  - {fileID: 4046644967367270652, guid: 77e8a04c9c593244ba51b6dbb64f130b, type: 3}
+  maxRockCnt: 10
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  spawnRadius: 40
+  minDistance: 10
+  respownTime: 0.05
+  npcPrefabs:
+  - {fileID: 3723790568139472377, guid: 28b7a85cefd2a5841bab7fa544b07d29, type: 3}
+  - {fileID: 3090808834890356860, guid: 9e94c0043ea274d43a91bfb45447305c, type: 3}
+  - {fileID: 1807062668685057136, guid: e9b27ec64d7383a4fa54cc6be6048b6f, type: 3}
