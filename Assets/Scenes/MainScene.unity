@@ -448,38 +448,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bear
       objectReference: {fileID: 0}
-    - target: {fileID: 7581239663672927005, guid: 9e94c0043ea274d43a91bfb45447305c, type: 3}
-      propertyPath: moveSpeed
-      value: 3.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7581239663672927005, guid: 9e94c0043ea274d43a91bfb45447305c, type: 3}
-      propertyPath: AttackRange
-      value: 2.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7581239663672927005, guid: 9e94c0043ea274d43a91bfb45447305c, type: 3}
-      propertyPath: detectionAngle
-      value: 270
-      objectReference: {fileID: 0}
-    - target: {fileID: 7581239663672927005, guid: 9e94c0043ea274d43a91bfb45447305c, type: 3}
-      propertyPath: detectionRange
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 9208749807952106899, guid: 9e94c0043ea274d43a91bfb45447305c, type: 3}
-      propertyPath: m_Speed
-      value: 3.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9208749807952106899, guid: 9e94c0043ea274d43a91bfb45447305c, type: 3}
-      propertyPath: m_Acceleration
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 9208749807952106899, guid: 9e94c0043ea274d43a91bfb45447305c, type: 3}
-      propertyPath: m_AngularSpeed
-      value: 120
-      objectReference: {fileID: 0}
-    - target: {fileID: 9208749807952106899, guid: 9e94c0043ea274d43a91bfb45447305c, type: 3}
-      propertyPath: m_StoppingDistance
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -868,11 +836,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 117e5faafa6311f4fb24443e7bf58c14, type: 3}
---- !u!1 &1591952458 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8310570419982711179, guid: 117e5faafa6311f4fb24443e7bf58c14, type: 3}
-  m_PrefabInstance: {fileID: 1591952457}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1591952459 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1055889217630053872, guid: 117e5faafa6311f4fb24443e7bf58c14, type: 3}

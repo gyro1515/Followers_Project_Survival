@@ -20,6 +20,8 @@ class EnemyAI : MonoBehaviour
     [SerializeField] private float moveSpeed = 2f; // 이동 속도
     [Header("MinDPS")]
     [SerializeField] private float minDamageThreshold = 0.002f; // DPS
+    [Header("Collider")]
+    [SerializeField] private GameObject BearCollider;
     
 
     Vector3 _originPos = default;// 원래 자리
@@ -236,6 +238,7 @@ class EnemyAI : MonoBehaviour
                     Vector3 directionToPlayer = (hitCollider.transform.position - transform.position).normalized;
                     float angle = Vector3.Angle(transform.forward, directionToPlayer);
                     _detectedPlayer = hitCollider.transform;
+                    _navMeshAgent.SetDestination(_detectedPlayer.position);
                     return INode.ENodeState.Success;
                 }
             }
@@ -423,6 +426,7 @@ class EnemyAI : MonoBehaviour
             _navMeshAgent.isStopped = true;
             _navMeshAgent.enabled = false;
             _isDead = true;
+            BearCollider.SetActive(false); // 죽었을 때 콜라이더 비활성화
             return INode.ENodeState.Success;
         }
         return INode.ENodeState.Failure;
