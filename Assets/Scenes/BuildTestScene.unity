@@ -689,7 +689,7 @@ MonoBehaviour:
   OutlineHardness: 1
   LayerMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 4608
 --- !u!114 &1256965843
 MonoBehaviour:
   m_ObjectHideFlags: 0

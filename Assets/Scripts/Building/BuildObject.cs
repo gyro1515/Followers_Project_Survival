@@ -16,6 +16,8 @@ public abstract class BuildObject : MonoBehaviour
 
     public int maxDurability;   // 총 내구도
     public int curDurability;   // 현재 내구도
+    public Vector3 addWorldPos; // 구조물 월드 좌표 조정용, 기준이 보통 바닥이기 때문에, 조정값 필요
+    public Vector3 screenPos; // 해당 구조물 위치에서 화면 기준 어느 방향에 있을 것인가
 
     void Start()
     {

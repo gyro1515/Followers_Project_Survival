@@ -6,24 +6,16 @@ public class PreviewBuild : MonoBehaviour
 {
     public Build build;
 
-    [SerializeField] private UnityEngine.Material green;
-    [SerializeField] private UnityEngine.Material red;
+    [SerializeField] private Material green;
+    [SerializeField] private Material red;
 
     [SerializeField] private LayerMask groundLayer; // 지형 레이어
 
     private List<Collider> colliders = new List<Collider>();
 
-    // 테스트 용도로 public 설정, 이후 private로 변경
-    public UnityEngine.Material[] materials;
-
-    private void Awake()
+    private void Start()
     {
-        // 아니 이게 맞나
-        build = FindObjectOfType<Build>();
         build.previewBuild = this;
-
-        materials = GetComponentInChildren<Renderer>().materials;
-        Debug.Log(materials[0]);
     }
 
     private void Update()

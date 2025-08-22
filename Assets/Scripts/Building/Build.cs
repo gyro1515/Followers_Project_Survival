@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Build : MonoBehaviour
 {
-    public Camera camera;
+    Camera camera;
 
     public BuildData[] buildDatas;  // 건축물 데이터들
 
@@ -23,15 +23,15 @@ public class Build : MonoBehaviour
 
     // 인스펙터에 나오는데 리스트를 없애니 오류가 떠서 NonSerialized
     [NonSerialized] public List<BuildObject> activeBuild = new List<BuildObject>(); // 현재 설치된 건축물 리스트
-    [NonSerialized] public List<BuildObject> removeBuild = new List<BuildObject>(); // 검사 후에 activeBuild에서 삭제할 오브젝트들 임시 저장
+    List<BuildObject> removeBuild = new List<BuildObject>(); // 검사 후에 activeBuild에서 삭제할 오브젝트들 임시 저장
     bool isExistRemove = false; // activeBuild에서 없앨 오브젝트가 있는지 여부
 
     [SerializeField] float durabilityTickInterval;  // 내구도 감소 주기
-    public float requiredRatio;   // 수리 시 요구 재료 비율
+    [SerializeField] float requiredRatio;   // 수리 시 요구 재료 비율
 
     Quaternion previewRotation; // 첫 프리뷰 생성시 회전값
 
-    public bool isBuildMode = false;
+    bool isBuildMode = false;
 
     private void Awake()
     {
@@ -40,9 +40,6 @@ public class Build : MonoBehaviour
 
     private void Start()
     {
-        // find 말고 가져올 방법 생각해보기 어떻게 해야될까
-        //inventory = FindObjectOfType<UIInventory>();
-
         camera = Camera.main;
 
         InvokeRepeating("ReduceDurability", 0, durabilityTickInterval);
@@ -50,7 +47,6 @@ public class Build : MonoBehaviour
 
     private void Update()
     {
-        // 테스트용
         if (isBuildMode)
         {
             UpdatePreviewPosition();
@@ -119,7 +115,6 @@ public class Build : MonoBehaviour
         isBuildMode = true;
         
         buildData = preview;
-        Debug.Log($"{buildData}로 바꿈");
 
         GameObject previewPrefab = preview.previewPrefab;
 
@@ -141,8 +136,6 @@ public class Build : MonoBehaviour
         {
             // 위치 갱신
             initPosition = hit.point;
-
-            
         }
         else
         {
@@ -158,13 +151,13 @@ public class Build : MonoBehaviour
         rotation.z = 0;
 
         previewGameObject = Instantiate(previewPrefab, initPosition, rotation);
+        previewGameObject.GetComponent<PreviewBuild>().build = this;
     }
 
     public void InitBuilding()
     {
         // buildPrefab 생성하고 그 안에있는 BuildObject의 build에 이 Build 넣어주기
         Instantiate(buildData.buildPrefab, previewGameObject.transform.position, previewGameObject.transform.rotation).GetComponent<BuildObject>().build = this;
-        //CancelPreview();
     }
 
     public void CancelPreview()
@@ -173,7 +166,6 @@ public class Build : MonoBehaviour
         Destroy(previewGameObject);
         previewGameObject = null;
         buildData = null;
-        Debug.Log("buildData null로 바꿈");
     }
 
     public void ReturnMaterial()

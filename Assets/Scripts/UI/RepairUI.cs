@@ -7,10 +7,9 @@ using static UnityEditor.PlayerSettings;
 
 public class RepairUI : MonoBehaviour
 {
-    public BuildData buildData; // 수리할 건축물 데이터, 이거 어케 가져옴??
-    public BuildObject buildObject;
+    BuildData buildData; // 수리할 건축물 데이터
+    BuildObject buildObject;
 
-    public Build build;
     public UIInventory inventory;
 
     AudioSource audioSource;
@@ -39,15 +38,13 @@ public class RepairUI : MonoBehaviour
     [SerializeField] GameObject durabilityPanel; // 움직일 패널
     [SerializeField] TextMeshProUGUI buildNameText;
     [SerializeField] Image durabilityBar;
-    [SerializeField] Vector3 addWorldPos; // 구조물 월드 좌표 조정용, 기준이 보통 바닥이기 때문에, 조정값 필요
-    [SerializeField] Vector3 screenPos; // 해당 구조물 위치에서 화면 기준 어느 방향에 있을 것인가
+    
     RectTransform durabilityPanelRectTransform;
     Camera cam;
-    public GameObject targetObject;
+    BuildObject targetBuildObject; // 위랑 중복되지만 혹시 몰라서 또 만들었습니다.
     private void Awake()
     {
         interactionBG.sizeDelta = new Vector2(interactionText.preferredWidth, interactionBG.sizeDelta.y);
-        //gameObject.SetActive(false);
 
         audioSource = gameObject.GetComponent<AudioSource>();
 
@@ -66,14 +63,14 @@ public class RepairUI : MonoBehaviour
     }
     private void Update()
     {
-        if(durabilityPanel.activeSelf)
-        {
-            SetUIPos();
-        }
+        SetUIPos();
     }
     public void SetText()
     {
+        if (interaction.gameObject.activeSelf) return;
         interaction.SetActive(true);
+        buildNameText.text = targetBuildObject.buildData.buildName;
+        durabilityBar.fillAmount = targetBuildObject.curDurability / (float)targetBuildObject.maxDurability;
         durabilityPanel.SetActive(true);
     }
 
@@ -81,6 +78,7 @@ public class RepairUI : MonoBehaviour
     {
         interaction.SetActive(false);
         durabilityPanel.SetActive(false);
+        targetBuildObject = null;
     }
 
     public void OpenRepairWindow(BuildObject buildObject)
@@ -198,7 +196,16 @@ public class RepairUI : MonoBehaviour
     }
     void SetUIPos()
     {
-        Vector3 tmpUIPos = cam.WorldToScreenPoint(targetObject.gameObject.transform.position + addWorldPos);
-        durabilityPanelRectTransform.position = tmpUIPos + screenPos;
+        if (!durabilityPanel.activeSelf) return;
+        if (targetBuildObject == null) return;
+        Vector3 tmpUIPos = cam.WorldToScreenPoint(targetBuildObject.gameObject.transform.position + targetBuildObject.addWorldPos);
+        durabilityPanelRectTransform.position = tmpUIPos + targetBuildObject.screenPos;
+        // 위치도 갱신하고 게이지도 갱신하기
+        durabilityBar.fillAmount = targetBuildObject.curDurability / (float)targetBuildObject.maxDurability;
+
+    }
+    public void SetObjectTarget(BuildObject buildObject)
+    {
+        targetBuildObject = buildObject;
     }
 }

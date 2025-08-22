@@ -106,15 +106,15 @@ NavMeshSettings:
   m_BuildSettings:
     serializedVersion: 3
     agentTypeID: 0
-    agentRadius: 0.5
-    agentHeight: 2
-    agentSlope: 45
+    agentRadius: 2
+    agentHeight: 1.5
+    agentSlope: 15
     agentClimb: 0.4
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
     minRegionArea: 2
     manualCellSize: 0
-    cellSize: 0.16666667
+    cellSize: 0.6666667
     manualTileSize: 0
     tileSize: 256
     buildHeightMesh: 0
@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 5ef4644d930025c41b7200cb152b92b9, type: 2}
 --- !u!1 &116305797
 GameObject:
   m_ObjectHideFlags: 0
@@ -396,75 +396,6 @@ Transform:
   - {fileID: 1591952459}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1374254425
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1807062668685057136, guid: e9b27ec64d7383a4fa54cc6be6048b6f, type: 3}
-      propertyPath: m_Name
-      value: Water
-      objectReference: {fileID: 0}
-    - target: {fileID: 1807062668685057136, guid: e9b27ec64d7383a4fa54cc6be6048b6f, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2612128795109985342, guid: e9b27ec64d7383a4fa54cc6be6048b6f, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 2612128795109985342, guid: e9b27ec64d7383a4fa54cc6be6048b6f, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 2612128795109985342, guid: e9b27ec64d7383a4fa54cc6be6048b6f, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 6.55
-      objectReference: {fileID: 0}
-    - target: {fileID: 2612128795109985342, guid: e9b27ec64d7383a4fa54cc6be6048b6f, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 2612128795109985342, guid: e9b27ec64d7383a4fa54cc6be6048b6f, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2612128795109985342, guid: e9b27ec64d7383a4fa54cc6be6048b6f, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2612128795109985342, guid: e9b27ec64d7383a4fa54cc6be6048b6f, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2612128795109985342, guid: e9b27ec64d7383a4fa54cc6be6048b6f, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2612128795109985342, guid: e9b27ec64d7383a4fa54cc6be6048b6f, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2612128795109985342, guid: e9b27ec64d7383a4fa54cc6be6048b6f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2612128795109985342, guid: e9b27ec64d7383a4fa54cc6be6048b6f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2612128795109985342, guid: e9b27ec64d7383a4fa54cc6be6048b6f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: e9b27ec64d7383a4fa54cc6be6048b6f, type: 3}
 --- !u!1 &1539258728
 GameObject:
   m_ObjectHideFlags: 0
@@ -633,7 +564,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!64 &1567117628
 MeshCollider:
@@ -770,14 +701,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8111502344827407263, guid: 117e5faafa6311f4fb24443e7bf58c14, type: 3}
-      propertyPath: startTime
-      value: 0.35
-      objectReference: {fileID: 0}
-    - target: {fileID: 8111502344827407263, guid: 117e5faafa6311f4fb24443e7bf58c14, type: 3}
-      propertyPath: fullDayLength
-      value: 100
-      objectReference: {fileID: 0}
     - target: {fileID: 8310570419982711179, guid: 117e5faafa6311f4fb24443e7bf58c14, type: 3}
       propertyPath: m_Name
       value: DayAndNight
@@ -878,4 +801,3 @@ SceneRoots:
   - {fileID: 116305800}
   - {fileID: 264689483}
   - {fileID: 848963960}
-  - {fileID: 1374254425}

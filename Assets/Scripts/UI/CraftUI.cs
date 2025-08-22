@@ -50,18 +50,6 @@ public class CraftUI : MonoBehaviour
         exitButton.onClick.AddListener(OnClickExit);
     }
 
-    private void Update()
-    {
-        // 테스트용
-        if (gameObject.activeSelf)
-        {
-            if (Input.GetKeyDown(KeyCode.P))
-            {
-                OnClickCraft();
-            }
-        }
-    }
-
     // 테스트를 위해 public으로 변경, 이후에 private로 변경해야함
     public void UpdateUI() // 처음에 UI 열때도 실행하기
     {
@@ -139,9 +127,10 @@ public class CraftUI : MonoBehaviour
         if (clickClip != null) audioSource.PlayOneShot(clickClip);
     }
 
-    public void OnClickExit()   // 얘는 클릭 소리 넣어야되나 닫는 소리 넣어야되나 흠..
+    public void OnClickExit()
     {
         CloseCraftUI();
+        if (openCloseClip != null) audioSource.PlayOneShot(openCloseClip);
     }
 
     void InitCraftList()

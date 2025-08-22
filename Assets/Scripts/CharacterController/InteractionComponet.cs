@@ -19,11 +19,10 @@ public class InteractionComponet : MonoBehaviour
     public IInteractable CurInteractable { get { return curInteractable; } set { curInteractable = value; } }
 
     private IRepairable curRepairable;
-    public IRepairable CurRepairalbe { get { return curRepairable; } set { curRepairable = value; } }
 
     bool bIsInWater = false;
-    bool bIsInteractable = false;
-    bool bIsRepairable = false;
+    bool bIsInteractable = false;   // 상호작용 가능한 오브젝트인가
+    bool bIsRepairable = false; // 수리 가능한 오브젝트인가
     void Awake()
     {
         _camera = Camera.main;
@@ -58,8 +57,7 @@ public class InteractionComponet : MonoBehaviour
         }
         bIsInteractable = hit.collider.TryGetComponent(out IInteractable interactableForText);
         bIsRepairable = hit.collider.TryGetComponent(out IRepairable repairable);
-        //bIsRepairable = hit.collider.CompareTag("Build");
-        Debug.Log(bIsRepairable);
+
         if (!bIsInteractable && !bIsRepairable) return; // 이중 체크 -> 굳이?
         if (bIsInteractable)
         {
@@ -76,16 +74,14 @@ public class InteractionComponet : MonoBehaviour
         {
             curRepairable = repairable;
             // ui 켜주기
-            UIManager.Instance.SetRepairUIText();
+            //UIManager.Instance.SetRepairUIText();
+            curRepairable.SetRepairText();
         }
         else
         {
             curRepairable = null;
             UIManager.Instance.DeactivateRepairInteractionUI();
         }
-        //curInteractable = interactableForText;
-        //interactableForText.SetInteractionText();
-        //selectionOutlineController?.ApplyOutline(hit);
     }
     public void OnIteract()
     {
@@ -93,7 +89,6 @@ public class InteractionComponet : MonoBehaviour
     }
     public void OnRepair()
     {
-        Debug.Log("인터랙션 컴포넌트에서 실행");
         curRepairable?.OnRepair();
     }
     public void InWater(bool _isInWater, IInteractable _interact)

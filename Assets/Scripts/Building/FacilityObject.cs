@@ -30,12 +30,13 @@ public class FacilityObject : BuildObject, IInteractable, IRepairable
 
     public void SetRepairText()
     {
+        UIManager.Instance.SetBuildTargetObject(this);
         UIManager.Instance.SetRepairUIText();
     }
 
     public void OnRepair()
     {
-        Debug.Log("오브젝트에서 실행");
+        // 수리 UI 켜주기
         UIManager.Instance.SetRepairWindow(this);
     }
 }

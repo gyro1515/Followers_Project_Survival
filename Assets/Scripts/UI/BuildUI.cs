@@ -8,11 +8,10 @@ using UnityEngine.UI;
 
 public class BuildUI : MonoBehaviour
 {
-    public Build build;
+    Build build;
 
     public UIInventory inventory;
 
-    //[SerializeField] BuildData[] buildDatas;    // 건축물 데이터들
     [SerializeField] Button buildButton;
     [SerializeField] Button exitButton;
 
@@ -38,8 +37,6 @@ public class BuildUI : MonoBehaviour
 
     private void Awake()
     {
-        //buildDatas = Resources.LoadAll<BuildData>("BuildData");    // Resources 폴더 안에 BuildData 폴더 만들어서 BuildData있는 ScriptableObject 넣어주기
-
         audioSource = gameObject.GetComponent<AudioSource>();
     }
 
@@ -56,20 +53,8 @@ public class BuildUI : MonoBehaviour
         exitButton.onClick.AddListener(OnClickExit);
     }
 
-    private void Update()
-    {
-        // 테스트용
-        if (gameObject.activeSelf)
-        {
-            if (Input.GetKeyDown(KeyCode.P))
-            {
-                OnClickBuild();
-            }
-        }
-    }
-
     // 테스트를 위해 public으로 변경, 이후에 private로 변경해야함
-    public void UpdateUI() // 처음에 UI 열때도 실행하기
+    void UpdateUI() // 처음에 UI 열때도 실행하기
     {
         if (selectedBuild == null)  // selectedBuild에 데이터가 없을 시 설정
         {
@@ -86,7 +71,6 @@ public class BuildUI : MonoBehaviour
         }
         else
         {
-            //buildButton.interactable = selectedBuild.CheckQuantity(currentQuantity);
             buildButton.interactable = CheckHasAllMaterials();  // 재료가 충분하면 Build 버튼 활성화
 
             // 건물 이름, 설명, 이미지
@@ -134,7 +118,7 @@ public class BuildUI : MonoBehaviour
         GameManager.Instance.SetCursorVisibility(false);
     }
 
-    public void OnClickCancel()
+    public void OnClickCancel() // 혹시나 생길 취소 버튼
     {
         build.CancelPreview();
         if (clickClip != null) audioSource.PlayOneShot(clickClip);
@@ -157,9 +141,10 @@ public class BuildUI : MonoBehaviour
         ToggleBuildUI();
     }
 
-    public void OnClickExit()   // 얘는 클릭 소리 넣어야되나 닫는 소리 넣어야되나 흠..
+    public void OnClickExit()
     {
         CloseBuildUI();
+        if (openCloseClip != null) audioSource.PlayOneShot(openCloseClip);
     }
 
     void InitBuildList()

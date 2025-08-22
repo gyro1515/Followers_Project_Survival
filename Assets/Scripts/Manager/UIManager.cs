@@ -70,25 +70,7 @@ public class UIManager : SingletonMono<UIManager>
         uiInventory.OnEquip += GameManager.Instance.PlayerEquipWeapon;
         uiInventory.UnEquipAction += GameManager.Instance.PlayerUnEquipWeapon;
     }
-    private void Update()
-    {
-        // 테스트
-        /*if(Input.GetKeyDown(KeyCode.Tab))
-        {
-            uiInventory?.Toggle();
-        }*/
-        // 테스트
-        /*if (Input.GetKeyDown(KeyCode.B))
-        {
-            buildUI?.ToggleBuildUI();
-        }*/
 
-        // 테스트
-        //if (Input.GetKeyDown(KeyCode.C))
-        //{
-        //    craftUI?.ToggleCraftUI();
-        //}
-    }
     public void InitializeHUD()
     {
         PlayerCharacter player = GameManager.Instance.GetPlayer(0);
@@ -155,7 +137,10 @@ public class UIManager : SingletonMono<UIManager>
     }
     public void SetRepairWindow(BuildObject buildObject)
     {
-        Debug.Log("UI매니저에서 실행");
         repairUI?.OpenRepairWindow(buildObject);
+    }
+    public void SetBuildTargetObject(BuildObject buildObject)
+    {
+        repairUI?.SetObjectTarget(buildObject);
     }
 }
