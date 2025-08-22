@@ -22,5 +22,5 @@ MonoBehaviour:
   maxDurability: 0
   materials:
   - materialData: {fileID: 11400000, guid: 9782025a5504601459795be8a989a2b3, type: 2}
-    requiredQuantity: 0
+    requiredQuantity: 5
   hasAllMaterials: 0

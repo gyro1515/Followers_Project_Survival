@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Door : MonoBehaviour, IInteractable
@@ -23,6 +24,7 @@ public class Door : MonoBehaviour, IInteractable
         // 문 열기
         collider.isTrigger = !collider.isTrigger;
         isOpen = collider.isTrigger;
+        SetInteractionText();
     }
 
     public void SetInteractionText()

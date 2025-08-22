@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class InteractionComponet : MonoBehaviour
+public class InteractionComponent : MonoBehaviour
 {
     [Header("상호작용 설정")]
     [SerializeField] float checkRate = 0.05f;    // 상호작용 오브젝트 체크 시간
@@ -76,6 +76,7 @@ public class InteractionComponet : MonoBehaviour
             // ui 켜주기
             //UIManager.Instance.SetRepairUIText();
             curRepairable.SetRepairText();
+            selectionOutlineController?.ApplyOutline(hit);
         }
         else
         {

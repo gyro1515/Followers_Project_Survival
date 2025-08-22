@@ -20,6 +20,6 @@ MonoBehaviour:
   buildImage: {fileID: 21300000, guid: 1409350d1989b0642a3c9479bb478bb8, type: 3}
   maxDurability: 0
   materials:
-  - materialData: {fileID: 11400000, guid: b7a642731ca423f4897e6102e9fc7afc, type: 2}
-    requiredQuantity: 0
+  - materialData: {fileID: 11400000, guid: 9782025a5504601459795be8a989a2b3, type: 2}
+    requiredQuantity: 10
   hasAllMaterials: 0

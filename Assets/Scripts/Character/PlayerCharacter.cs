@@ -127,7 +127,7 @@ public class PlayerCharacter : CharacterBase
             {
                 resource.Gather(gameObject.transform, equipmentController.GetQuantityPerHit()); // 한 번에 캘 수 있는 개수, 장비 장착시 달라지도록
             }
-            else if(hit.collider.TryGetComponent(out MonsterStatComponent monster))
+            else if(hit.transform.TryGetComponent(out MonsterStatComponent monster))
             {
                 // 적이라면 적에게 데미지
                 float weaponDamage = equipmentController.GetDamage();

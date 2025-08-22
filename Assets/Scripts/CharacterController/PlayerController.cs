@@ -12,7 +12,7 @@ public class PlayerController : ControllerBase
 {
     PlayerCharacter player;
     PlayerInputActions playerInputActions;
-    InteractionComponet interactionComponet;
+    InteractionComponent interactionComponet;
     public event Action OnInventotyAction;
     public event Action OnBuildAction;
     [Header("Camera")]
@@ -44,7 +44,7 @@ public class PlayerController : ControllerBase
         }
         if (interactionComponet == null)
         {
-            interactionComponet = GetComponent<InteractionComponet>();
+            interactionComponet = GetComponent<InteractionComponent>();
         }
 
         virtualCamera.Follow = cameraTarget;

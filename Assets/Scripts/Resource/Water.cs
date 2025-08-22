@@ -7,14 +7,14 @@ public class Water : MonoBehaviour, IInteractable
     [Header("물 세팅")]
     [SerializeField] float addThirstValue = 10f;
     BoxCollider col;
-    InteractionComponet interactionComponet;
+    InteractionComponent interactionComponet;
     private void Awake()
     {
         col = GetComponent<BoxCollider>();
     }
     private void Start()
     {
-        interactionComponet = GameManager.Instance.GetPlayer(0).GetComponent<InteractionComponet>();
+        interactionComponet = GameManager.Instance.GetPlayer(0).GetComponent<InteractionComponent>();
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -24,7 +24,7 @@ public class Water : MonoBehaviour, IInteractable
     }
     private void OnTriggerExit(Collider other)
     {
-        other.GetComponent<InteractionComponet>().CurInteractable = null;
+        other.GetComponent<InteractionComponent>().CurInteractable = null;
         interactionComponet.InWater(false, this);
         //Debug.Log("물 탈출");
     }

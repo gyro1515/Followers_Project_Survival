@@ -50,18 +50,18 @@ MonoBehaviour:
   - {fileID: 1483965241314802523, guid: bbc0c4dc4134cc848b04b9365dee01fa, type: 3}
   - {fileID: 2420118512973508116, guid: dc9766b90be17da41940837b33fbe52b, type: 3}
   - {fileID: 8689226824251896335, guid: b485eeb429838a04288200ef9dd1173d, type: 3}
-  maxTreeCnt: 20
+  maxTreeCnt: 10
   rockPrefabs:
   - {fileID: 3731775582616656056, guid: 4b90db9dceeceed479e32034b410439c, type: 3}
   - {fileID: 8633822570729487218, guid: d3cf66a52f0c52748964de72c5fb8273, type: 3}
   - {fileID: 4046644967367270652, guid: 77e8a04c9c593244ba51b6dbb64f130b, type: 3}
-  maxRockCnt: 20
+  maxRockCnt: 10
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
   spawnRadius: 40
-  minDistance: 7
-  respownTime: 0.01
+  minDistance: 10
+  respownTime: 0.05
   npcPrefabs:
   - {fileID: 3723790568139472377, guid: 28b7a85cefd2a5841bab7fa544b07d29, type: 3}
   - {fileID: 3090808834890356860, guid: 9e94c0043ea274d43a91bfb45447305c, type: 3}

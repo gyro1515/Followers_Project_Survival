@@ -24,7 +24,7 @@ public class InteractionUI : MonoBehaviour
     }
     public void SetText(string value)
     {
-        if (gameObject.activeSelf) return;
+        //if (gameObject.activeSelf) return;
         gameObject.SetActive(true);
         interactionText.text = $"[E] {value}";
         bG.sizeDelta = new Vector2(interactionText.preferredWidth, bG.sizeDelta.y);

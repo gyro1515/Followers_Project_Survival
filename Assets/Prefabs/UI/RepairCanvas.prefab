@@ -1248,11 +1248,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f2f9aee90a8abe499fb9baf32925dbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildData: {fileID: 0}
-  buildObject: {fileID: 0}
-  build: {fileID: 0}
   inventory: {fileID: 0}
-  requiredRatio: 0
+  requiredRatio: 0.5
   interaction: {fileID: 5684942241252826369}
   interactionText: {fileID: 1578687149455683522}
   interactionBG: {fileID: 8502267743055221268}
