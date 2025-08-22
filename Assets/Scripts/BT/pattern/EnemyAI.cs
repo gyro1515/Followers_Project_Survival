@@ -426,7 +426,6 @@ class EnemyAI : MonoBehaviour
             _navMeshAgent.isStopped = true;
             _navMeshAgent.enabled = false;
             _isDead = true;
-            BearCollider.SetActive(false); // 죽었을 때 콜라이더 비활성화
             return INode.ENodeState.Success;
         }
         return INode.ENodeState.Failure;
@@ -438,8 +437,11 @@ class EnemyAI : MonoBehaviour
         {
             _animator.SetBool("End", true); // 죽었을 때 애니메이션 종료
             if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime == 1f)
+            {
                 _animator.StopPlayback(); // 애니메이션이 끝났을 때 재생 중지
-            return INode.ENodeState.Success; // 죽었을 때는 더 이상 행동하지 않음
+                BearCollider.SetActive(false); // 죽었을 때 콜라이더 비활성화
+            }
+                return INode.ENodeState.Success; // 죽었을 때는 더 이상 행동하지 않음
         }
         return INode.ENodeState.Failure; // 죽지 않았을 때는 행동 트리 계속 진행
     }
