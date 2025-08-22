@@ -41,10 +41,7 @@ class EnemyAI : MonoBehaviour
     const string _RUN_ANIM_BOOL_NAME = "Run Forward";
     const string _WALK_ANIM_STATE_NAME = "Walk Forward";
     const string _WALK_ANIM_BOOL_NAME = "WalkForward";
-    const string _DAMAGE_ANIM_STATE_NAME = "HitFront";
-    const string _DAMAGE_ANIM_TRIGGER_NAME = "HitFront";
-    const string _DEATH_ANIM_STATE_NAME = "Death";
-    const string _DEATH_ANIM_BOOL_NAME = "Death";
+    const string _DEATH_ANIM_TRIGGER_NAME = "Death";
     #endregion
     private void Awake()
     {
@@ -422,7 +419,7 @@ class EnemyAI : MonoBehaviour
     {
         if (_enemy.statValues[StatType.Health].BaseValue <= 0)
         {
-            _animator.SetBool(_DEATH_ANIM_BOOL_NAME, true);
+            _animator.SetTrigger(_DEATH_ANIM_TRIGGER_NAME);
             _navMeshAgent.isStopped = true;
             _navMeshAgent.enabled = false;
             _isDead = true;
