@@ -844,6 +844,7 @@ MonoBehaviour:
   dropButton: {fileID: 1901433572185600755}
   clickClip: {fileID: 0}
   openCloseClip: {fileID: 0}
+  testItemData: {fileID: 11400000, guid: b7a642731ca423f4897e6102e9fc7afc, type: 2}
 --- !u!223 &5587879970534038421
 Canvas:
   m_ObjectHideFlags: 0

@@ -27,6 +27,9 @@ public class UIInventory : MonoBehaviour
     [Header("오디오 클립")]
     [SerializeField] AudioClip clickClip;
     [SerializeField] AudioClip openCloseClip;
+    // 영상용
+    [Header("촬영용 설정")]
+    [SerializeField] ItemData testItemData;
 
     private ItemSlot selectedItem;
     private int selectedItemIndex;
@@ -76,7 +79,8 @@ public class UIInventory : MonoBehaviour
 
         Toggle(); // 시작 시 Inventory 창 닫기
         dropPosition = GameManager.Instance.GetPlayer(0).GetDropTransform();
-
+        // 영상용 인벤토리 아이템 추가;
+        AddItem(testItemData, 10);
     }
     // 선택한 아이템 표시할 정보창 Clear 함수
     void ClearSelectedItemWindow()
