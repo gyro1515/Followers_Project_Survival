@@ -75,7 +75,7 @@ public class UIInventory : MonoBehaviour
     {
         build = FindObjectOfType<Build>();
         build.inventory = this;
-        Debug.Log(build.inventory);
+        //Debug.Log(build.inventory);
 
         Toggle(); // 시작 시 Inventory 창 닫기
         dropPosition = GameManager.Instance.GetPlayer(0).GetDropTransform();
