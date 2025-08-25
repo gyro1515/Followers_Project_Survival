@@ -5,10 +5,10 @@
 - Behavior Tree 기반 AI 시스템, 수집한 자원 기반 아이템 제작 및 건물 구축 시스템, 날씨와 환경에 영향받는 생존 스탯 시스템을 구현했습니다.
 
 
-### 📌 클래스 구조
+### 📌 클래스 구조도
 - 기존에 사용하던 방식에서 벗어나 의존성 역전을 고려했습니다.
 - 즉, 클래스에서 매니저를 직접 호출하는 구조가 아니라, 클래스가 이벤트를 발행하고 매니저가 이를 구독하는 구조로 구성했습니다.
-
+<img width="1509" height="615" alt="Image" src="https://github.com/user-attachments/assets/c1a4fa00-1f9d-4b21-9ce0-21ec0036b364" />
 
 ### 🎥 [게임 영상](https://www.youtube.com/watch?v=ae9UWftEu-c)
 
