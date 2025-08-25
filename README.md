@@ -10,7 +10,7 @@
 - 즉, 클래스에서 매니저를 직접 호출하는 구조가 아니라, 클래스가 이벤트를 발행하고 매니저가 이를 구독하는 구조로 구성했습니다.
 <img width="1509" height="615" alt="Image" src="https://github.com/user-attachments/assets/c1a4fa00-1f9d-4b21-9ce0-21ec0036b364" />
 
-### 🎥 [게임 영상](https://www.youtube.com/watch?v=ae9UWftEu-c)
+### 🎥 게임 영상 [링크(유튜브)](https://www.youtube.com/watch?v=ae9UWftEu-c)
 
 ### 📅 개발 기간
 - **2025.08.18 ~ 2025.08.22** 5일
